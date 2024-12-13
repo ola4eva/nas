@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_approval_notification_user","Approval Notification User","model_approval_notification","base.group_user",1,0,0,0
+"access_approval_notification_manager","Approval Notification Manager","model_approval_notification","purchase.group_purchase_manager",1,1,1,1

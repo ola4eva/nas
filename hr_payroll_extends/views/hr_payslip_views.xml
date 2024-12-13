@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_payslip_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.payslip.view.form.inherit</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <!-- Make the tree view editable at the bottom -->
+            <xpath expr="//page[@name='salary_computation']//tree" position="attributes">
+                <attribute name="editable">bottom</attribute>
+            </xpath>
+
+            <!-- Hide the 'total' column header and values -->
+            <xpath expr="//field[@name='total']" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+            <!-- Format the 'amount' field as float without currency -->
+            <xpath expr="//field[@name='amount']" position="attributes">
+                <attribute name="widget">float</attribute>
+                <attribute name="digits">[16, 2]</attribute>
+            </xpath>
+
+            <!-- Add Total Amount fields before the removed 'total' field -->
+            <xpath expr="//field[@name='total']" position="before">
+                <field name="total_primary_currency" 
+                       string="Total Amount (Primary Currency)"
+                       sum="Total Primary" 
+                       widget="float"
+                       digits="[16, 2]"/>
+                <field name="total_secondary_currency" 
+                       string="Total Amount (Secondary Currency)"
+                       sum="Total Secondary"
+                       widget="float"
+                       digits="[16, 2]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

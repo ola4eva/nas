@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_form_ext" model="ir.ui.view">
+        <field name="name">view.account.from.ext</field>
+        <field name="model">account.account</field>
+        <!-- <field name="inherit_id" ref="account.view_account_type_form"/> -->
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//field[@name='type']" position="after"> -->
+            <xpath expr="//field[@name='internal_group']" position="replace">
+            </xpath>
+            <xpath expr="//field[@name='account_type']" position="replace">
+                <field name="account_type" widget="custom_account_type_selection"/>
+            </xpath>
+            <xpath expr="//field[@name='account_type']" position="after">
+                <field name="internal_group" invisible="0" readonly="0"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

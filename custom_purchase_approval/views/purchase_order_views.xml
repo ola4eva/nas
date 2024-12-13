@@ -1,0 +1,38 @@
+<odoo>
+    <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,sent,first_approval,second_approval,third_approval,purchase</attribute>
+                <attribute name="selection">[('draft', 'Draft'),
+                    ('sent', 'RFQ Sent'),
+                    ('first_approval', 'First Level Approval'),
+                    ('second_approval', 'Second Level Approval'),
+                    ('third_approval', 'Third Level Approval'),
+                    ('purchase', 'Purchase Order')]</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='state'][@widget='statusbar']" position="after">
+                <button 
+                    name="action_first_approval" 
+                    string="Approve First Level" 
+                    type="object" 
+                    invisible="state != 'first_approval'" />
+
+                <button 
+                    name="action_second_approval" 
+                    string="Approve Second Level" 
+                    type="object" 
+                    invisible="state != 'second_approval'" />
+
+                <button 
+                    name="action_third_approval" 
+                    string="Approve Third Level" 
+                    type="object" 
+                    invisible="state != 'third_approval'" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

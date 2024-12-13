@@ -1,0 +1,29 @@
+<odoo>
+    <record id="approval_notification_email_template" model="mail.template">
+        <field name="name">Approval Notification Email</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="subject">Purchase Order Approval Notification</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear <t t-out="object.user_id.name or ''"/>
+,
+                <br/>
+                <br/>
+        The Purchase Order <a t-att-href="object.get_portal_url()" t-out="object.name or ''"/>
+        requires your approval.
+            <br/>
+            <br/>
+        Thank you,
+            <br/>
+            <t t-if="user.signature">
+                <br/>
+                <t t-out="user.signature or ''"/>
+            </t>
+        </p>
+    </div>
+</field>
+<field name="auto_delete" eval="True"/>
+<field name="lang">{{ object.partner_id.lang }}</field>
+</record>
+</odoo>

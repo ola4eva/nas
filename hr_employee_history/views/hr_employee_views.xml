@@ -1,0 +1,60 @@
+<odoo>
+    <record id="view_employee_form_custom" model="ir.ui.view">
+        <field name="name">hr.employee.form.custom</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="History">
+                    <!-- Main layout -->
+                    <group>
+                        <!-- First section: Joining and anniversary details -->
+                        <group string="Joining and Anniversary" colspan="2">
+                            <field name="join_date"/>
+                            <field name="next_anniversary_date" readonly="1"/>
+                            <field name="anniversary_notify_date" readonly="1"/>
+                        </group>
+
+                        <!-- Second section: Additional details -->
+                        <group string="Additional Details" colspan="2">
+                            <field name="car_allowance_date"/>
+                            <field name="full_13th_month"/>
+                            <field name="notification_date"/>
+                        </group>
+
+                        <!-- Third section: Exit details -->
+                        <group string="Exit Details" colspan="2">
+                            <field name="left_date"/>
+                            <field name="reason_for_leaving"/>
+                        </group>
+
+                        <!-- Fourth section: Confirmation details (now moved to the bottom) -->
+                        <group string="Confirmation Details" colspan="2">
+                            <field name="probation_period_days"/>
+                            <field name="confirmation_date"/>
+                            <field name="confirmation_period"/>
+                            <field name="confirmed"/>
+                            <button name="action_confirm_employee" string="Confirm Employee" type="object" class="btn-primary"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_employee_form_misc" model="ir.ui.view">
+        <field name="name">hr.employee.form.misc</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Miscellaneous">
+                    <group>
+                        <field name="NOD"/>
+                        <field name="misc_notes"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
