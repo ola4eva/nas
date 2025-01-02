@@ -15,7 +15,7 @@
         "views/requisition_category_views.xml",
         "views/analytic_account_views.xml",
     ],
-    "depends": ["account_accountant", "hr"],
+    "depends": ["account_accountant", "hr", "analytic"],
     "installable": True,
     "auto_install": False,
     "license": "LGPL-3",

@@ -11,12 +11,14 @@
             <field name="name">Department Manager</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
             <field name="category_id" ref="payment_requisition_category" />
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
         </record>
 
         <record id="inter_company_user" context="{'noadmin':True}" model="res.groups">
             <field name="name">Inter-Company Manager</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
             <field name="category_id" ref="payment_requisition_category" />
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
         </record>
         
         <record id="general_manager" context="{'noadmin':True}" model="res.groups">
@@ -27,16 +29,17 @@
             (4, ref('analytic.group_analytic_accounting')),
             ]" />
             <field name="category_id" ref="payment_requisition_category" />
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
         </record>
         
         <record id="managing_director" context="{'noadmin':True}" model="res.groups">
             <field name="name">Managing Director</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
             <field name="category_id" ref="payment_requisition_category" />
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
         </record>
 
         <!--  Security Rules -->
-
         <record id="property_rule_pr_employees" model="ir.rule">
             <field name="name">Cash Requisition - Employee</field>
             <field name="model_id" ref="model_payment_requisition" />

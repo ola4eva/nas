@@ -331,7 +331,7 @@ class payment_request(models.Model):
                 ]
             )
             for user in users:
-                if user.has_group(group) and user.id != 1:
+                if user.sudo().has_group(group) and user.id != 1:
                     post_msg.append(user.partner_id.id)
         else:
             post_msg = users
@@ -371,19 +371,13 @@ class payment_request_line(models.Model):
     _name = "payment.requisition.line"
     _description = "Cash Requisition Line"
 
-    @api.depends("payment_request_id")
-    def check_state(self):
-        self.dummy_state = self.payment_request_id.state
-
     name = fields.Char(
         "Description",
         required=True,
-        readonly=True,
     )
     request_amount = fields.Float(
         "Requested Amount",
         required=True,
-        readonly=True,
     )
     approved_amount = fields.Float("Approved Amount")
     payment_request_id = fields.Many2one(
@@ -396,18 +390,16 @@ class payment_request_line(models.Model):
     credit_account_id = fields.Many2one(
         comodel_name="account.account", string="Pay From"
     )
-    dummy_state = fields.Char(compute="check_state", string="Parent State")
     state = fields.Selection(string="State", related="payment_request_id.state")
     partner_id = fields.Many2one("res.partner", string="Customer/Vendor")
     category_id = fields.Many2one(
         "payment.requisition.category",
         string="Category",
         required=True,
-        readonly=True,
     )
 
     def unlink(self):
-        if self.dummy_state != "draft":
+        if self.state != "draft":
             raise UserError("Only draft records can be deleted!")
         return super().unlink()
 

@@ -82,15 +82,14 @@
                                 <field name="request_line"
                                     readonly="state in ('paid', 'cancelled')">
                                     <list string="Request Lines" editable="bottom">
-                                        <field name="dummy_state" invisible="1" />
-                                        <field name="state" invisible="1" />
+                                        <field name="state" column_invisible="1" invisible="1" />
                                         <field name="category_id" />
                                         <field name="name" />
                                         <field name="request_amount" sum="Total Requsted Amount" />
                                         <field name="partner_id" />
                                         <field name="approved_amount" sum="Total Approved Amount"
                                             groups="account.group_account_user,ng_payment_request.department_manager,ng_payment_request.general_manager,ng_payment_request.managing_director"
-                                            required="dummy_state == 'awaiting_approval'" />
+                                            required="state == 'awaiting_approval'" />
                                         <field name="expense_account_id"
                                             domain="[('account_type', 'in', ['expense', 'asset_cash'])]" />
                                         <field name="analytic_account_id"
