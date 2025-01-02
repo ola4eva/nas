@@ -119,6 +119,7 @@ class payment_request(models.Model):
         domain="[('move_type', '=', 'in_invoice')]",
         copy=False,
     )
+    bill_count = fields.Integer(string='Bill Count', compute="_compute_bill_count")
     payment_state = fields.Selection(
         [
             ("not_paid", "Not Paid"),
@@ -260,6 +261,9 @@ class payment_request(models.Model):
                         "state": "approved",
                     }
                 )
+
+    def _compute_bill_count(self):
+        self.bill_count = len(self.bill_ids)
 
     def action_md_approve(self):
         """Create Vendor Bill"""
