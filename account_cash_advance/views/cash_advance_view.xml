@@ -31,74 +31,71 @@
                         <field name="state" readonly="1" widget="statusbar" />
                     </header>
                     <sheet>
-                        <!--                        <div class="oe_title">-->
+                        <div class="oe_title">
+                            <label for="name"></label>
+                            <h3>
+                                <field name="name" placeholder="e.g. Trip to Abuja" />
+                            </h3>
+                        </div>
                         <group>
-                            <!--                            <label for="name" />-->
-                            <field name="name" placeholder="e.g. Trip to Abuja" />
-                            <!--                            <label for="emp_id"/>-->
-                            <field name="emp_id" />
-                            <!--                        </div>-->
-                        </group>
-                        <group>
-                            <group string="General">
-                                <group>
-                                    <field name="name" placeholder="e.g. Trip to Abuja" />
-                                    <field name="emp_id" />
-                                    <field name="department_id" />
-                                    <!--<field
-                                    name="expense_id" domain="[('employee_id', '=', emp_id),
-                                    ('state', '=', 'paid')]"/> -->
-                                    <field name="advance" readonly="0" />
-                                </group>
-                                <group>
-                                    <field name="currency_id" />
-                                    <field name="company_id" />
-                                    <field name="amount_total" />
-                                </group>
-                                <group>
-                                    <field name="ex_amount" readonly="1" invisible="1" />
-                                    <field name="balance" readonly="1" />
-                                </group>
-                                <group>
-                                    <field name="ret_amount" readonly="1" />
-                                    <field name="amount_open" readonly="1" />
-                                </group>
-                                <group>
-                                    <field name="date" />
-                                    <field name="manager_id" />
-                                </group>
-                                <group>
-                                    <field name="approval_date" />
-                                    <field name="user_id" />
-                                    <field name="company_id" widget="selection"
-                                        groups="base.group_multi_company" />
-                                </group>
-                            </group>
-                            <group string="Accounting Information">
-                                <field name="update_cash" groups="account.group_account_user"
-                                    invisible="state not in ('approve', 'paid')" />
-                                <field name="cash_id"
-                                    groups="account.group_account_user"
-                                    invisible="update_cash == False" required="update_cash == True"
-                                />
-                            </group>
-
                             <group>
-                                <field name="move" groups="account.group_account_user"
-                                    invisible="state not in ('approve', 'paid')"
-                                    required="state=='approve'" />
-                                <field name="journal_id" groups="account.group_account_user" />
-                            </group>
-                            <group>
-                                <field name="employee_account" groups="account.group_account_user" />
-                                <field name="move_id1" groups="account.group_account_user"
-                                    invisible="state not in ('approve', 'paid')" />
-                            </group>
-
-                            <group string="Notes">
-                                <field name="notes" nolabel="1" />
+                                <field name="emp_id" />
                             </group>
                         </group>
+                        <notebook>
+                            <page name="general" string="General">
+                                <group>
+                                    <group>
+                                        <field name="department_id" />
+                                        <field name="advance" readonly="0" />
+                                        <field name="currency_id" />
+                                        <field name="company_id" />
+                                        <field name="amount_total" />
+                                        <field name="ex_amount" readonly="1" invisible="1" />
+                                    </group>
+                                    <group>
+                                        <field name="balance" readonly="1" />
+                                        <field name="ret_amount" readonly="1" />
+                                        <field name="amount_open" readonly="1" />
+                                        <field name="date" />
+                                        <field name="manager_id" />
+                                    </group>
+                                    <group>
+                                        <field name="notes" string="Additional Information" />
+                                    </group>
+                                    <group>
+                                        <field name="approval_date" />
+                                        <field name="user_id" />
+                                        <field name="company_id" widget="selection"
+                                            groups="base.group_multi_company" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="accounting" string="Accounting Information">
+                                <group>
+                                    <group>
+                                        <field name="employee_account"
+                                            groups="account.group_account_user" />
+                                        <field name="update_cash"
+                                            groups="account.group_account_user"
+                                            invisible="state not in ('approve', 'paid')" />
+                                        <field name="cash_id"
+                                            groups="account.group_account_user"
+                                            invisible="update_cash == False"
+                                            required="update_cash == True"
+                                        />
+                                    </group>
+                                    <group>
+                                        <field name="journal_id" groups="account.group_account_user" />
+                                        <field name="move" groups="account.group_account_user"
+                                            invisible="state not in ('approve', 'paid')"
+                                            required="state=='approve'" />
+                                        <field name="move_id1" groups="account.group_account_user"
+                                            invisible="state not in ('approve', 'paid')" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                     <chatter />
                 </form>
