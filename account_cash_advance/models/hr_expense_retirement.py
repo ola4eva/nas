@@ -40,51 +40,47 @@ class hr_expense_expense_ret(models.Model):
 
     def create_move(self):
         move_obj = self.env["account.move"]
-        created_move_ids = []
-        for line in self:
-            if line.state == "paid":
+        for retirement in self:
+            if retirement.state == "paid":
                 raise ValidationError("Accounting Moves already created.")
-            if not line.journal_id:
+            if not retirement.journal_id:
                 raise ValidationError("Please specify journal.")
-            if not line.employee_account:
+            if not retirement.employee_account:
                 raise ValidationError("Please specify employee account.")
-            company_currency = line.company_id.currency_id
-            current_currency = line.currency_id
+            company_currency = retirement.company_id.currency_id
+            current_currency = retirement.currency_id
             flag = bool(current_currency and current_currency != company_currency)
             amount = current_currency._convert(
-                line.amount, company_currency, line.company_id, line.date
+                retirement.amount,
+                company_currency,
+                retirement.company_id,
+                retirement.date,
             )
-            sign = 1 if line.journal_id.type == "purchase" else -1
-            asset_name = line.name
-            reference = line.name
-            move_vals = {
-                "date": line.date,
-                "ref": reference,
-                "journal_id": line.journal_id.id,
-            }
-            move_id = move_obj.create(move_vals)
-            journal_id = line.journal_id.id
-
-            if not line.employee_id.address_home_id:
+            sign = 1 if retirement.journal_id.type == "purchase" else -1
+            asset_name = retirement.name
+            reference = retirement.name
+            journal_id = retirement.journal_id.id
+            if not retirement.employee_id.address_home_id:
                 raise ValidationError(
-                    f"There is no home address defined for employee: {line.employee_id.name}"
+                    f"There is no home address defined for employee: {retirement.employee_id.name}"
                 )
-            partner_id = line.employee_id.address_home_id.id
+            partner_id = retirement.employee_id.address_home_id.id
             if not partner_id:
                 raise ValidationError(
-                    f"There is no Home address defined for employee: {line.employee_id.name}"
+                    f"There is no Home address defined for employee: {retirement.employee_id.name}"
                 )
-            total_amount = sum(l.total_amount for l in line.line_ids)
+            total_amount = sum(l.total_amount for l in retirement.line_ids)
             t1 = current_currency._convert(
-                total_amount, company_currency, line.company_id, line.date
+                total_amount, company_currency, retirement.company_id, retirement.date
             )
             dr_line = []
-            for l in line.line_ids:
+            for l in retirement.line_ids:
                 amount1 = current_currency._convert(
-                    l.total_amount, company_currency, line.company_id, line.date
+                    l.total_amount,
+                    company_currency,
+                    retirement.company_id,
+                    retirement.date,
                 )
-                print(f"************** The total amount is {amount1} **************")
-                sign = -1 if amount1 < 0 else 1
                 dr_line.append(
                     (
                         0,
@@ -92,7 +88,6 @@ class hr_expense_expense_ret(models.Model):
                         {
                             "name": asset_name,
                             "ref": reference,
-                            "move_id": move_id.id,
                             "account_id": l.account_id.id,
                             "debit": amount1,
                             "credit": 0.0,
@@ -101,12 +96,10 @@ class hr_expense_expense_ret(models.Model):
                             "currency_id": (
                                 current_currency.id if flag else company_currency.id
                             ),
-                            "amount_currency": sign * l.total_amount if flag else 0.0,
-                            "date": line.date,
+                            "date": retirement.date,
                         },
                     )
                 )
-            sign = -1 if t1 < 0 else 1
             cr_line = [
                 (
                     0,
@@ -114,8 +107,7 @@ class hr_expense_expense_ret(models.Model):
                     {
                         "name": asset_name,
                         "ref": reference,
-                        "move_id": move_id.id,
-                        "account_id": line.employee_account.id,
+                        "account_id": retirement.employee_account.id,
                         "debit": 0.0,
                         "credit": t1,
                         "journal_id": journal_id,
@@ -123,17 +115,23 @@ class hr_expense_expense_ret(models.Model):
                         "currency_id": (
                             current_currency.id if flag else company_currency.id
                         ),
-                        "amount_currency": sign * total_amount if flag else 0.0,
-                        "date": line.date,
+                        "date": retirement.date,
                     },
                 )
             ]
             final_list = cr_line + dr_line
-            move_id.write({"line_ids": final_list})
-            created_move_ids.append(move_id)
-            line.write({"move_id1": move_id.id})
-            line.employee_id.write({"balance": line.employee_id.balance - amount})
-            for x in line.rec_line_ids:
+            move_vals = {
+                "date": retirement.date,
+                "ref": reference,
+                "journal_id": retirement.journal_id.id,
+                "line_ids": final_list,
+            }
+            move_id = move_obj.create(move_vals)
+            retirement.write({"move_id1": move_id.id})
+            retirement.employee_id.write(
+                {"balance": retirement.employee_id.balance - amount}
+            )
+            for x in retirement.rec_line_ids:
                 if x.allocate_amount > 0.0 and x.ret_id and x.ret_id.move_id1:
                     for j in x.ret_id.move_id1.line_ids:
                         if j.account_id.reconcile:
@@ -141,8 +139,8 @@ class hr_expense_expense_ret(models.Model):
                                 p = current_currency._convert(
                                     x.allocate_amount,
                                     company_currency,
-                                    line.company_id,
-                                    line.date,
+                                    retirement.company_id,
+                                    retirement.date,
                                 )
                             else:
                                 p = x.allocate_amount
@@ -150,7 +148,7 @@ class hr_expense_expense_ret(models.Model):
                             x.ret_id.write({"ret_amount": y})
                             if y == x.ret_id.amount_total:
                                 x.ret_id.write({"state": "rem"})
-            line.write({"state": "paid"})
+            retirement.write({"state": "paid"})
         return True
 
     @api.depends("line_ids")
