@@ -359,7 +359,7 @@ class hr_expense_expense_ret(models.Model):
         return {"value": {"department_id": department_id, "company_id": company_id}}
 
 
-class HrExpenseLineRetPay(models.Model):
+class HrExpenseRetReconcile(models.Model):
     _name = "ret.expense.reconcile"
     _description = "Retirements Expense Reconcile"
     _order = "approval_date desc"
@@ -394,7 +394,11 @@ class HrExpenseLineRetPay(models.Model):
         string="Open Balance", digits="Account", compute=compute_ret_id
     )
     allocate_amount = fields.Float(string="Allocation", digits="Account")
-    approval_date = fields.Date(string="Advance Date", compute=compute_ret_id)
+    approval_date = fields.Date(
+        string="Advance Date",
+        store=True, 
+        compute=compute_ret_id
+    )
 
 
 class HrExpenseLineRet(models.Model):
