@@ -19,6 +19,31 @@
             </field>
         </record>
 
+        <record id="ret_view_expenses_line_form" model="ir.ui.view">
+            <field name="name">ret.expense.line.form</field>
+            <field name="model">ret.expense.line</field>
+            <field name="arch" type="xml">
+                <form string="Expense Retirement Lines">
+                    <group>
+                        <group>
+                            <field name="sequence" invisible="True" />
+                            <field name="date_value" />
+                            <field name="name" />
+                            <field name="account_id" />
+                            <field name="ref" />
+                        </group>
+                        <group>
+                            <field name="analytic_account"
+                                groups="analytic.group_analytic_accounting" />
+                            <field name="unit_amount" />
+                            <field name="unit_quantity" />
+                            <field name="total_amount" sum="Total" />
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
         <record id="view_expenses_list_ret" model="ir.ui.view">
             <field name="name">ret.expense.list</field>
             <field name="model">ret.expense</field>
@@ -112,7 +137,6 @@
                             </group>
                             <notebook>
                                 <page string="Description">
-                                    <newline />
                                     <field name="line_ids" nolabel="1">
                                         <form string="Retirement Expenses Lines">
                                             <group>
@@ -132,7 +156,7 @@
                                             </group>
                                             <group groups="analytic.group_analytic_accounting">
                                                 <separator string="Customer Project" />
-                                                <!--                                                <field name="analytic_account" />-->
+                                                <field name="analytic_account" />
                                             </group>
                                             <group>
                                                 <separator string="References" />

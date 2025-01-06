@@ -40,8 +40,6 @@ class hr_expense_expense_ret(models.Model):
 
     def create_move(self):
         move_obj = self.env["account.move"]
-        currency_obj = self.env["res.currency"]
-
         created_move_ids = []
         for line in self:
             if line.state == "paid":
@@ -50,18 +48,15 @@ class hr_expense_expense_ret(models.Model):
                 raise ValidationError("Please specify journal.")
             if not line.employee_account:
                 raise ValidationError("Please specify employee account.")
-
             company_currency = line.company_id.currency_id
             current_currency = line.currency_id
             flag = bool(current_currency and current_currency != company_currency)
-
             amount = current_currency._convert(
                 line.amount, company_currency, line.company_id, line.date
             )
             sign = 1 if line.journal_id.type == "purchase" else -1
             asset_name = line.name
             reference = line.name
-
             move_vals = {
                 "date": line.date,
                 "ref": reference,
@@ -74,23 +69,21 @@ class hr_expense_expense_ret(models.Model):
                 raise ValidationError(
                     f"There is no home address defined for employee: {line.employee_id.name}"
                 )
-
             partner_id = line.employee_id.address_home_id.id
             if not partner_id:
                 raise ValidationError(
                     f"There is no Home address defined for employee: {line.employee_id.name}"
                 )
-
             total_amount = sum(l.total_amount for l in line.line_ids)
             t1 = current_currency._convert(
                 total_amount, company_currency, line.company_id, line.date
             )
-
             dr_line = []
             for l in line.line_ids:
                 amount1 = current_currency._convert(
                     l.total_amount, company_currency, line.company_id, line.date
                 )
+                print(f"************** The total amount is {amount1} **************")
                 sign = -1 if amount1 < 0 else 1
                 dr_line.append(
                     (
@@ -113,7 +106,6 @@ class hr_expense_expense_ret(models.Model):
                         },
                     )
                 )
-
             sign = -1 if t1 < 0 else 1
             cr_line = [
                 (
@@ -136,14 +128,11 @@ class hr_expense_expense_ret(models.Model):
                     },
                 )
             ]
-
             final_list = cr_line + dr_line
             move_id.write({"line_ids": final_list})
-
             created_move_ids.append(move_id)
             line.write({"move_id1": move_id.id})
             line.employee_id.write({"balance": line.employee_id.balance - amount})
-
             for x in line.rec_line_ids:
                 if x.allocate_amount > 0.0 and x.ret_id and x.ret_id.move_id1:
                     for j in x.ret_id.move_id1.line_ids:
@@ -157,14 +146,11 @@ class hr_expense_expense_ret(models.Model):
                                 )
                             else:
                                 p = x.allocate_amount
-
                             y = x.ret_id.ret_amount + p
                             x.ret_id.write({"ret_amount": y})
                             if y == x.ret_id.amount_total:
                                 x.ret_id.write({"state": "rem"})
-
             line.write({"state": "paid"})
-
         return True
 
     @api.depends("line_ids")
@@ -395,9 +381,7 @@ class HrExpenseRetReconcile(models.Model):
     )
     allocate_amount = fields.Float(string="Allocation", digits="Account")
     approval_date = fields.Date(
-        string="Advance Date",
-        store=True, 
-        compute=compute_ret_id
+        string="Advance Date", store=True, compute=compute_ret_id
     )
 
 
