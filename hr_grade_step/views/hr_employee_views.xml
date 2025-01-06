@@ -1,0 +1,19 @@
+<odoo>
+  <data>
+
+    <record id="view_employee_form" model="ir.ui.view">
+      <field name="name">hr.employee.view.form.inherit</field>
+      <field name="model">hr.employee</field>
+      <field name="inherit_id" ref="hr.view_employee_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//notebook//div[@id='o_work_employee_main']" position="inside">
+          <group name="grade_step" string="Grade &amp; Step">
+            <field name="grade_id" />
+            <field name="step_id" />
+          </group>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>
