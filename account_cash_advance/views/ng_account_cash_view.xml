@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_cash_head" groups="base.group_user" name="Staff Advances" sequence="100" />
+        <menuitem id="menu_cash_head" groups="base.group_user" name="Staff Advances" web_icon="account_cash_advance,static/description/icon.png" sequence="100" />
         <menuitem id="menu_cash_head_conf" groups="account_cash_advance.advance_manager"
             parent="menu_cash_head" name="Configuration" sequence="10000" />
 
