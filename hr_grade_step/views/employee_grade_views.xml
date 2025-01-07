@@ -35,7 +35,8 @@
                                         <list>
                                             <field name="name" />
                                             <field name="note" />
-                                            <field name="grade_id" invisible="1" />
+                                            <field name="basic" />
+                                            <field name="grade_id" column_invisible="1" />
                                         </list>
                                     </field>
                                 </group>

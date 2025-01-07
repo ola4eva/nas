@@ -27,6 +27,7 @@ class EmployeeStep(models.Model):
     name = fields.Char('Step')
     note = fields.Text('Description')
     grade_id = fields.Many2one('hr.employee.grade', string='Grade')
+    basic = fields.Float('Basic')
 
     def name_get(self):
         res = []

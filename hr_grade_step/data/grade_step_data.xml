@@ -3,363 +3,53 @@
 
     <data noupdate="1">
 
-        <record id="hr_employee_grade_a" model="hr.employee.grade">
-            <field name="name">A</field>
-            <field name="note">Grade A</field>
+        <record id="hr_employee_grade_level_one" model="hr.employee.grade">
+            <field name="name">GL01</field>
+            <field name="note">Grade Level 1</field>
+            <field name="step_ids"
+                eval="[
+                (0, 0, {'name': '1', 'note': 'Step 1'}), 
+                (0, 0, {'name': '2', 'note': 'Step 2'}), 
+                (0, 0, {'name': '3', 'note': 'Step 3'}), 
+                (0, 0, {'name': '4', 'note': 'Step 4'}), 
+                (0, 0, {'name': '5', 'note': 'Step 5'}),
+                (0, 0, {'name': '6', 'note': 'Step 6'}),
+                (0, 0, {'name': '7', 'note': 'Step 7'}),
+                (0, 0, {'name': '8', 'note': 'Step 8'}),
+                (0, 0, {'name': '9', 'note': 'Step 9'}),
+                (0, 0, {'name': '10', 'note': 'Step 10'}),
+                (0, 0, {'name': '11', 'note': 'Step 11'}),
+                (0, 0, {'name': '12', 'note': 'Step 12'}),
+                (0, 0, {'name': '13', 'note': 'Step 13'}),
+                (0, 0, {'name': '14', 'note': 'Step 14'}),
+                (0, 0, {'name': '15', 'note': 'Step 15'}),
+            ]">
+            </field>
         </record>
 
-        <record id="hr_employee_grade_b" model="hr.employee.grade">
-            <field name="name">B</field>
-            <field name="note">Grade B</field>
+        <record id="hr_employee_grade_level_two" model="hr.employee.grade">
+            <field name="name">GL02</field>
+            <field name="note">Grade Level 2</field>
             <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SB.01'}), 
-                (0, 0, {'name': '02', 'note': 'SB.02'}), 
-                (0, 0, {'name': '03', 'note': 'SB.03'}), 
-                (0, 0, {'name': '04', 'note': 'SB.04'}), 
-                (0, 0, {'name': '05', 'note': 'SB.05'})
+                (0, 0, {'name': '1', 'note': 'Step 1'}), 
+                (0, 0, {'name': '2', 'note': 'Step 2'}), 
+                (0, 0, {'name': '3', 'note': 'Step 3'}), 
+                (0, 0, {'name': '4', 'note': 'Step 4'}), 
+                (0, 0, {'name': '5', 'note': 'Step 5'}),
+                (0, 0, {'name': '6', 'note': 'Step 6'}),
+                (0, 0, {'name': '7', 'note': 'Step 7'}),
+                (0, 0, {'name': '8', 'note': 'Step 8'}),
+                (0, 0, {'name': '9', 'note': 'Step 9'}),
+                (0, 0, {'name': '10', 'note': 'Step 10'}),
+                (0, 0, {'name': '11', 'note': 'Step 11'}),
+                (0, 0, {'name': '12', 'note': 'Step 12'}),
+                (0, 0, {'name': '13', 'note': 'Step 13'}),
+                (0, 0, {'name': '14', 'note': 'Step 14'}),
+                (0, 0, {'name': '15', 'note': 'Step 15'}),
             ]">
             </field>
         </record>
 
-        <record id="hr_employee_grade_c" model="hr.employee.grade">
-            <field name="name">C</field>
-            <field name="note">Grade C</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SC.01'}), 
-                (0, 0, {'name': '02', 'note': 'SC.02'}), 
-                (0, 0, {'name': '03', 'note': 'SC.03'}), 
-                (0, 0, {'name': '04', 'note': 'SC.04'}), 
-                (0, 0, {'name': '05', 'note': 'SC.05'})
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_d" model="hr.employee.grade">
-            <field name="name">D</field>
-            <field name="note">Grade D</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SD.01'}), 
-                (0, 0, {'name': '02', 'note': 'SD.02'}), 
-                (0, 0, {'name': '03', 'note': 'SD.03'}), 
-                (0, 0, {'name': '04', 'note': 'SD.04'}), 
-                (0, 0, {'name': '05', 'note': 'SD.05'})
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_e" model="hr.employee.grade">
-            <field name="name">E</field>
-            <field name="note">Grade E</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SE.01'}),
-                (0, 0, {'name': '02', 'note': 'SE.02'}), 
-                (0, 0, {'name': '03', 'note': 'SE.03'}), 
-                (0, 0, {'name': '04', 'note': 'SE.04'}), 
-                (0, 0, {'name': '05', 'note': 'SE.05'})
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_f" model="hr.employee.grade">
-            <field name="name">F</field>
-            <field name="note">Grade F</field>
-        </record>
-
-        <record id="hr_employee_grade_g" model="hr.employee.grade">
-            <field name="name">G</field>
-            <field name="note">Grade G</field>
-        </record>
-
-        <record id="hr_employee_grade_h" model="hr.employee.grade">
-            <field name="name">H</field>
-            <field name="note">Grade H</field>
-            <field name="step_ids" eval="[ 
-                (0, 0, {'name': '01', 'note': 'SH.01'}), 
-                (0, 0, {'name': '02', 'note': 'SH.02'}), 
-                (0, 0, {'name': '03', 'note': 'SH.03'}), 
-                (0, 0, {'name': '04', 'note': 'SH.04'}), 
-                (0, 0, {'name': '05', 'note': 'SH.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_i" model="hr.employee.grade">
-            <field name="name">I</field>
-            <field name="note">Grade I</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SI.01'}), 
-                (0, 0, {'name': '02', 'note': 'SI.02'}), 
-                (0, 0, {'name': '03', 'note': 'SI.03'}), 
-                (0, 0, {'name': '04', 'note': 'SI.04'}), 
-                (0, 0, {'name': '05', 'note': 'SI.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_j" model="hr.employee.grade">
-            <field name="name">J</field>
-            <field name="note">Grade J</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SJ.01'}), 
-                (0, 0, {'name': '02', 'note': 'SJ.02'}), 
-                (0, 0, {'name': '03', 'note': 'SJ.03'}), 
-                (0, 0, {'name': '04', 'note': 'SJ.04'}), 
-                (0, 0, {'name': '05', 'note': 'SJ.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_k" model="hr.employee.grade">
-            <field name="name">K</field>
-            <field name="note">Grade K</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SK.01'}), 
-                (0, 0, {'name': '02', 'note': 'SK.02'}), 
-                (0, 0, {'name': '03', 'note': 'SK.03'}), 
-                (0, 0, {'name': '04', 'note': 'SK.04'}), 
-                (0, 0, {'name': '05', 'note': 'SK.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_l" model="hr.employee.grade">
-            <field name="name">L</field>
-            <field name="note">Grade L</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SL.01'}), 
-                (0, 0, {'name': '02', 'note': 'SL.02'}), 
-                (0, 0, {'name': '03', 'note': 'SL.03'}), 
-                (0, 0, {'name': '04', 'note': 'SL.04'}), 
-                (0, 0, {'name': '05', 'note': 'SL.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_m" model="hr.employee.grade">
-            <field name="name">M</field>
-            <field name="note">Grade M</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SM.01'}), 
-                (0, 0, {'name': '02', 'note': 'SM.02'}), 
-                (0, 0, {'name': '03', 'note': 'SM.03'}), 
-                (0, 0, {'name': '04', 'note': 'SM.04'}), 
-                (0, 0, {'name': '05', 'note': 'SM.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_n" model="hr.employee.grade">
-            <field name="name">N</field>
-            <field name="note">Grade N</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SN.01'}), 
-                (0, 0, {'name': '02', 'note': 'SN.02'}), 
-                (0, 0, {'name': '03', 'note': 'SN.03'}), 
-                (0, 0, {'name': '04', 'note': 'SN.04'}), 
-                (0, 0, {'name': '05', 'note': 'SN.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_o" model="hr.employee.grade">
-            <field name="name">O</field>
-            <field name="note">Grade O</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SO.01'}), 
-                (0, 0, {'name': '02', 'note': 'SO.02'}), 
-                (0, 0, {'name': '03', 'note': 'SO.03'}), 
-                (0, 0, {'name': '04', 'note': 'SO.04'}), 
-                (0, 0, {'name': '05', 'note': 'SO.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_p" model="hr.employee.grade">
-            <field name="name">P</field>
-            <field name="note">Grade P</field>
-            <field name="step_ids" eval="[ 
-                (0, 0, {'name': '01', 'note': 'SP.01'}), 
-                (0, 0, {'name': '02', 'note': 'SP.02'}), 
-                (0, 0, {'name': '03', 'note': 'SP.03'}), 
-                (0, 0, {'name': '04', 'note': 'SP.04'}), 
-                (0, 0, {'name': '05', 'note': 'SP.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_q" model="hr.employee.grade">
-            <field name="name">Q</field>
-            <field name="note">Grade Q</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SQ.01'}), 
-                (0, 0, {'name': '02', 'note': 'SQ.02'}), 
-                (0, 0, {'name': '03', 'note': 'SQ.03'}), 
-                (0, 0, {'name': '04', 'note': 'SQ.04'}), 
-                (0, 0, {'name': '05', 'note': 'SQ.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_r" model="hr.employee.grade">
-            <field name="name">R</field>
-            <field name="note">Grade R</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SR.01'}), 
-                (0, 0, {'name': '02', 'note': 'SR.02'}), 
-                (0, 0, {'name': '03', 'note': 'SR.03'}), 
-                (0, 0, {'name': '04', 'note': 'SR.04'}), 
-                (0, 0, {'name': '05', 'note': 'SR.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_s" model="hr.employee.grade">
-            <field name="name">S</field>
-            <field name="note">Grade S</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SS.01'}), 
-                (0, 0, {'name': '02', 'note': 'SS.02'}), 
-                (0, 0, {'name': '03', 'note': 'SS.03'}), 
-                (0, 0, {'name': '04', 'note': 'SS.04'}), 
-                (0, 0, {'name': '05', 'note': 'SS.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_t" model="hr.employee.grade">
-            <field name="name">T</field>
-            <field name="note">Grade T</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'ST.01'}), 
-                (0, 0, {'name': '02', 'note': 'ST.02'}), 
-                (0, 0, {'name': '03', 'note': 'ST.03'}), 
-                (0, 0, {'name': '04', 'note': 'ST.04'}), 
-                (0, 0, {'name': '05', 'note': 'ST.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_u" model="hr.employee.grade">
-            <field name="name">U</field>
-            <field name="note">Grade U</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SU.01'}), 
-                (0, 0, {'name': '02', 'note': 'SU.02'}), 
-                (0, 0, {'name': '03', 'note': 'SU.03'}), 
-                (0, 0, {'name': '04', 'note': 'SU.04'}), 
-                (0, 0, {'name': '05', 'note': 'SU.05'}) 
-            ]">
-            </field>
-        </record>
-
-        <record id="hr_employee_grade_v" model="hr.employee.grade">
-            <field name="name">V</field>
-            <field name="note">Grade V</field>
-            <field name="step_ids" eval="[
-                (0, 0, {'name': '01', 'note': 'SV.01'}), 
-                (0, 0, {'name': '02', 'note': 'SV.02'}),
-                (0, 0, {'name': '03', 'note': 'SV.03'}), 
-                (0, 0, {'name': '04', 'note': 'SV.04'}), 
-                (0, 0, {'name': '05', 'note': 'SV.05'}) 
-            ]">
-            </field>
-        </record>
-
-    </data>
-
-    <data noupdate="1">
-
-        <record id="hr_employee_grade_a_step_one" model="hr.employee.step">
-            <field name="name">01</field>
-            <field name="note">SA.01</field>
-            <field name="grade_id" ref="hr_employee_grade_a" />
-        </record>
-
-        <record id="hr_employee_grade_a_step_two" model="hr.employee.step">
-            <field name="name">02</field>
-            <field name="note">SA.02</field>
-            <field name="grade_id" ref="hr_employee_grade_a" />
-        </record>
-
-        <record id="hr_employee_grade_a_step_three" model="hr.employee.step">
-            <field name="name">03</field>
-            <field name="note">SA.03</field>
-            <field name="grade_id" ref="hr_employee_grade_a" />
-        </record>
-
-        <record id="hr_employee_grade_a_step_four" model="hr.employee.step">
-            <field name="name">04</field>
-            <field name="note">SA.04</field>
-            <field name="grade_id" ref="hr_employee_grade_a" />
-        </record>
-
-        <record id="hr_employee_grade_a_step_five" model="hr.employee.step">
-            <field name="name">05</field>
-            <field name="note">SA.05</field>
-            <field name="grade_id" ref="hr_employee_grade_a" />
-        </record>
-
-        <!-- For Grade F -->
-        <record id="hr_employee_step_one_grade_f" model="hr.employee.step">
-            <field name="name">01</field>
-            <field name="note">SF.01</field>
-            <field name="grade_id" ref="hr_employee_grade_f" />
-        </record>
-
-        <record id="hr_employee_step_two_grade_f" model="hr.employee.step">
-            <field name="name">02</field>
-            <field name="note">SF.02</field>
-            <field name="grade_id" ref="hr_employee_grade_f" />
-        </record>
-
-        <record id="hr_employee_step_three_grade_f" model="hr.employee.step">
-            <field name="name">03</field>
-            <field name="note">SF.03</field>
-            <field name="grade_id" ref="hr_employee_grade_f" />
-        </record>
-
-        <record id="hr_employee_step_four_grade_f" model="hr.employee.step">
-            <field name="name">04</field>
-            <field name="note">SF.04</field>
-            <field name="grade_id" ref="hr_employee_grade_f" />
-        </record>
-
-        <record id="hr_employee_step_five_grade_f" model="hr.employee.step">
-            <field name="name">05</field>
-            <field name="note">SF.05</field>
-            <field name="grade_id" ref="hr_employee_grade_f" />
-        </record>
-
-        <!-- For Grade G -->
-        <record id="hr_employee_step_one_grade_g" model="hr.employee.step">
-            <field name="name">01</field>
-            <field name="note">SG.01</field>
-            <field name="grade_id" ref="hr_employee_grade_g" />
-        </record>
-
-        <record id="hr_employee_step_two_grade_g" model="hr.employee.step">
-            <field name="name">02</field>
-            <field name="note">SG.02</field>
-            <field name="grade_id" ref="hr_employee_grade_g" />
-        </record>
-
-        <record id="hr_employee_step_three_grade_g" model="hr.employee.step">
-            <field name="name">03</field>
-            <field name="note">SG.03</field>
-            <field name="grade_id" ref="hr_employee_grade_g" />
-        </record>
-
-        <record id="hr_employee_step_four_grade_g" model="hr.employee.step">
-            <field name="name">04</field>
-            <field name="note">SG.04</field>
-            <field name="grade_id" ref="hr_employee_grade_g" />
-        </record>
-
-        <record id="hr_employee_step_five_grade_g" model="hr.employee.step">
-            <field name="name">05</field>
-            <field name="note">SG.05</field>
-            <field name="grade_id" ref="hr_employee_grade_g" />
-        </record>
     </data>
 
 </odoo>
