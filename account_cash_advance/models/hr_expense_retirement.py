@@ -56,7 +56,6 @@ class hr_expense_expense_ret(models.Model):
                 retirement.company_id,
                 retirement.date,
             )
-            sign = 1 if retirement.journal_id.type == "purchase" else -1
             asset_name = retirement.name
             reference = retirement.name
             journal_id = retirement.journal_id.id
@@ -381,12 +380,16 @@ class HrExpenseRetReconcile(models.Model):
     approval_date = fields.Date(
         string="Advance Date", store=True, compute=compute_ret_id
     )
+    state = fields.Selection(
+        related="ref_id.state"
+    )
 
 
 class HrExpenseLineRet(models.Model):
     _name = "ret.expense.line"
     _description = "Retirement Expense Line"
     _inherit = ["mail.thread"]
+    _order = "sequence, date_value desc"
 
     def _valid_field_parameter(self, field, name):
         return name == "ondelete" or super()._valid_field_parameter(field, name)
@@ -438,8 +441,7 @@ class HrExpenseLineRet(models.Model):
         string="Sequence",
         help="Gives the sequence order when displaying a list of expense lines.",
     )
-
-    _order = "sequence, date_value desc"
+    state = fields.Selection(related="expense_id.state")
 
     def onchange_product_id(self, product_id, uom_id, employee_id):
         res = {}

@@ -34,12 +34,13 @@
                         <div class="oe_title">
                             <label for="name"></label>
                             <h3>
-                                <field name="name" placeholder="e.g. Trip to Abuja" />
+                                <field name="name" placeholder="e.g. Trip to Abuja"
+                                    readonly="state != 'draft'" />
                             </h3>
                         </div>
                         <group>
                             <group>
-                                <field name="emp_id" />
+                                <field name="emp_id" readonly="state != 'draft'" />
                             </group>
                         </group>
                         <notebook>
@@ -47,26 +48,29 @@
                                 <group>
                                     <group>
                                         <field name="department_id" />
-                                        <field name="advance" readonly="0" />
-                                        <field name="currency_id" />
-                                        <field name="company_id" />
-                                        <field name="amount_total" />
+                                        <field name="advance" 
+                                            readonly="state != 'draft'" />
+                                        <field name="currency_id" readonly="state != 'draft'" />
+                                        <field name="company_id" readonly="state != 'draft'" />
+                                        <field name="amount_total" readonly="state != 'draft'" />
                                         <field name="ex_amount" readonly="1" invisible="1" />
                                     </group>
                                     <group>
                                         <field name="balance" readonly="1" />
                                         <field name="ret_amount" readonly="1" />
                                         <field name="amount_open" readonly="1" />
-                                        <field name="date" />
-                                        <field name="manager_id" />
+                                        <field name="date" readonly="state != 'draft'" />
+                                        <field name="manager_id" readonly="state != 'draft'" />
                                     </group>
                                     <group>
-                                        <field name="notes" string="Additional Information" />
+                                        <field name="notes" string="Additional Information"
+                                            readonly="state != 'draft'" />
                                     </group>
                                     <group>
-                                        <field name="approval_date" />
-                                        <field name="user_id" />
+                                        <field name="approval_date" readonly="state != 'draft'" />
+                                        <field name="user_id" readonly="state != 'draft'" />
                                         <field name="company_id" widget="selection"
+                                            readonly="state != 'draft'"
                                             groups="base.group_multi_company" />
                                     </group>
                                 </group>
@@ -75,8 +79,9 @@
                                 <group>
                                     <group>
                                         <field name="employee_account"
-                                            groups="account.group_account_user" />
-                                        <field name="update_cash"
+                                            groups="account.group_account_user"
+                                            readonly="state != 'draft'" />
+                                        <field name="update_cash" readonly="state != 'draft'"
                                             groups="account.group_account_user"
                                             invisible="state not in ('approve', 'paid')" />
                                         <field name="cash_id"
@@ -86,7 +91,8 @@
                                         />
                                     </group>
                                     <group>
-                                        <field name="journal_id" groups="account.group_account_user" />
+                                        <field name="journal_id" groups="account.group_account_user"
+                                            readonly="state != 'draft'" />
                                         <field name="move" groups="account.group_account_user"
                                             invisible="state not in ('approve', 'paid')"
                                             required="state=='approve'" />
