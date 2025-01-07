@@ -111,7 +111,8 @@
                         <button name="set_to_cancel" string="Cancel" type="object"
                             groups="hr.group_hr_user,account_cash_advance.advance_manager"
                             invisible="state != 'draft'" />
-                        <field name="state" readonly="True" widget="statusbar" />
+                        <field name="state" readonly="True" widget="statusbar"
+                            statusbar_visible="draft,open,approve,paid,rem" />
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -147,7 +148,7 @@
                                                         readonly="state != 'draft'" />
                                                     <field name="name" readonly="state != 'draft'" />
                                                     <field name="account_id"
-                                                        readonly="state != 'draft'"
+                                                        readonly="state in ('paid', 'rem', 'reject', 'cancel')"
                                                         on_change="onchange_account(account_id, parent.employee_id)" />
                                                 </group>
                                                 <group>
@@ -191,8 +192,9 @@
                                     <group>
                                         <separator string="Accounting data"
                                             readonly="state !='draft'" />
-                                        <field name="journal_id" readonly="state != 'draft'" />
-                                        <field name="employee_account" readonly="state != 'draft'" />
+                                        <field name="journal_id" readonly="state in ('paid', 'rem', 'reject', cancel')" />
+                                        <field name="employee_account"
+                                            readonly="state in ('paid', 'rem', 'reject', cancel')" />
                                         <field name="move_id1" readonly="True" />
                                     </group>
                                     <group>
