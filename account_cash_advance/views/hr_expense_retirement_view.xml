@@ -192,9 +192,9 @@
                                     <group>
                                         <separator string="Accounting data"
                                             readonly="state !='draft'" />
-                                        <field name="journal_id" readonly="state in ('paid', 'rem', 'reject', cancel')" />
+                                        <field name="journal_id" readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
                                         <field name="employee_account"
-                                            readonly="state in ('paid', 'rem', 'reject', cancel')" />
+                                            readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
                                         <field name="move_id1" readonly="True" />
                                     </group>
                                     <group>
