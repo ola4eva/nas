@@ -293,32 +293,29 @@ class hr_expense_expense_ret(models.Model):
         if res:
             self.amount = res[1]
 
-    def onchange_employee_id(self, employee_id, currency_id=False, date=False):
-        emp_obj = self.env["hr.employee"]
-        currecy_obj = self.env["res.currency"]
+    @api.onchange('employee_id')
+    def onchange_employee_id(self):
+
         department_id = False
         company_id = False
-        if employee_id:
-            employee = emp_obj.browse(employee_id)
-            department_id = employee.department_id.id
-            company_id = employee.company_id.id
+        if self.employee_id:
+            department_id = self.employee_id.department_id.id
+            company_id = self.employee_id.company_id.id
             adv = []
             adv_ids = self.env["cash.advance"].search(
-                [("emp_id", "=", employee_id), ("state", "=", "paid")]
+                [("emp_id", "=", self.employee_id.id), ("state", "=", "paid")]
             )
-            company_currency = employee.company_id.currency_id
-            current_currency = currecy_obj.browse(currency_id)
-
+            company_currency = self.employee_id.company_id.currency_id
             ctx = dict(self._context or {})
             ctx.update({"date": date})
             for a in adv_ids:  # sat
                 approval_date = False
-                if current_currency.id != company_currency.id:
+                if self.current_id.id != company_currency.id:
                     org_amount = company_currency.with_context(ctx).compute(
-                        a.amount_total, current_currency
+                        a.amount_total, self.current_currency
                     )
                     open_amount = company_currency.with_context(ctx).compute(
-                        a.amount_open, current_currency
+                        a.amount_open, self.current_currency
                     )
                 else:
                     org_amount = a.amount_total
@@ -429,7 +426,7 @@ class HrExpenseLineRet(models.Model):
     )
     unit_amount = fields.Float(string="Unit Price")
     unit_quantity = fields.Float(string="Quantities", default=1)
-    account_id = fields.Many2one("account.account", string="Account", required=True)
+    account_id = fields.Many2one("account.account", string="Account", required=True, domain="[('account_type', '=', 'expense')]")
     product_id = fields.Many2one("product.product", string="Product")
     uom_id = fields.Many2one("uom.uom", string="UoM")
     description = fields.Text(string="Description")
