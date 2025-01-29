@@ -403,7 +403,7 @@ class account_cash_advance(models.Model):
             self.amount_total - self.ret_amount - self.refund_amount
         )  # test
 
-    def _get_associated_retirements(self):
+    def _get_associated_reconcile_lines(self):
         """Check if the cash advance has any associated retirements.
 
         Returns
@@ -412,9 +412,12 @@ class account_cash_advance(models.Model):
                 True if the advance is has_retirements, False otherwise.
         """
         for record in self:
-            return self.env["ret.expense.reconcile"].search(
+            reconcile_lines = self.env["ret.expense.reconcile"].search(
                 [("ret_id", "=", record.id)]
             )
+            retirement_ids = reconcile_lines.mapped("ref_id")
+            retirement_ids.ensure_one()
+            return retirement_ids.line_ids
 
     def is_fully_retired(self):
         """
@@ -426,18 +429,15 @@ class account_cash_advance(models.Model):
             True if the advance is fully retired, False otherwise.
         """
         for rec in self:
-            if not rec._get_associated_retirements():
+            if not rec._get_associated_reconcile_lines():
                 return False
-            associated_retirements = rec._get_associated_retirements()
+            line_ids = rec._get_associated_reconcile_lines()
             # check if the total of the cash advance and the total retirements are equal
             # and all retirements are in done state
-            if float_compare(
-                rec.amount_total, (sum(associated_retirements.mapped("amount"))) == 0
-            ) and all(
-                [
-                    associated_requirement.state == "paid"
-                    for associated_requirement in associated_retirements
-                ]
+            if (
+                float_compare(rec.amount_total, sum(line_ids.mapped("total_amount")), 2)
+                == 0
+                and line_ids.mapped("expense_id").state == "paid"
             ):
                 return True
             return False
