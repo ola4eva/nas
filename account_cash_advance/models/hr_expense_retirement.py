@@ -293,7 +293,7 @@ class hr_expense_expense_ret(models.Model):
         if res:
             self.amount = res[1]
 
-    @api.onchange('employee_id')
+    @api.onchange("employee_id")
     def onchange_employee_id(self):
 
         department_id = False
@@ -377,9 +377,7 @@ class HrExpenseRetReconcile(models.Model):
     approval_date = fields.Date(
         string="Advance Date", store=True, compute=compute_ret_id
     )
-    state = fields.Selection(
-        related="ref_id.state"
-    )
+    state = fields.Selection(related="ref_id.state")
 
 
 class HrExpenseLineRet(models.Model):
@@ -426,7 +424,12 @@ class HrExpenseLineRet(models.Model):
     )
     unit_amount = fields.Float(string="Unit Price")
     unit_quantity = fields.Float(string="Quantities", default=1)
-    account_id = fields.Many2one("account.account", string="Account", required=True, domain="[('account_type', '=', 'expense')]")
+    account_id = fields.Many2one(
+        "account.account",
+        string="Account",
+        required=True,
+        domain="[('account_type', '=', 'expense')]",
+    )
     product_id = fields.Many2one("product.product", string="Product")
     uom_id = fields.Many2one("uom.uom", string="UoM")
     description = fields.Text(string="Description")

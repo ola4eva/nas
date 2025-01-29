@@ -18,6 +18,7 @@ Features
     "data": [
         "security/account_salary_security.xml",
         "security/ir.model.access.csv",
+        'data/cash_advance_cron.xml',
         'report/cash_advance_report_view.xml',
         'views/res_company_view.xml',
         'views/ng_account_cash_view.xml',

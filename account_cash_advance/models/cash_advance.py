@@ -1,7 +1,7 @@
 import time
 
 from odoo import models, fields, api, _
-
+from odoo.tools import float_compare
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -9,6 +9,199 @@ class account_cash_advance(models.Model):
     _name = "cash.advance"
     _inherit = ["mail.thread"]
     _description = "Cash Advance for expense later he will fill retirements.."
+    _order = "date desc, id desc"
+
+    @api.model
+    def _default_journal(self):
+        return (
+            self.env.user.company_id
+            and self.env.user.company_id.ex_employee_journal
+            and self.env.user.company_id.ex_employee_journal
+        )
+
+    @api.model
+    def _default_account(self):
+        return (
+            self.env.user.company_id
+            and self.env.user.company_id.ex_employee_account
+            and self.env.user.company_id.ex_employee_account
+        )
+
+    def _default_currency_id(self):
+        res = False
+        if self.env.user:
+            res = (
+                self.env.user
+                and self.env.user.company_id
+                and self.env.user.company_id.currency_id
+            )
+        return res
+
+    def _default_emp_id(self):
+        return self.env["hr.employee"].search(
+            [("user_id", "=", self.env.user.id)], limit=1
+        )
+
+    name = fields.Char(
+        string="Expense Description",
+        required=True,
+        readonly=False,
+        # states={"draft": [("readonly", False)]},
+    )
+    date = fields.Date(
+        string="Request Date",
+        required=True,
+        readonly=True,
+        # states={"draft": [("readonly", False)]},
+        default=time.strftime("%Y-%m-%d"),
+    )
+    approval_date = fields.Date(
+        string="Approve Date",
+        readonly=True,
+        # states={
+        #     "approve": [("readonly", True)],
+        #     "cancel": [("readonly", True)],
+        #     "reject": [("readonly", True)],
+        # },
+    )
+    emp_id = fields.Many2one(
+        "hr.employee",
+        string="Employee",
+        required=True,
+        # states={"draft": [("readonly", False)]},
+        default=_default_emp_id,
+    )
+    user_id = fields.Many2one(
+        related="emp_id.user_id",
+        readonly=True,
+        # states={"draft": [("readonly", False)]},
+        string="User",
+        store=True,
+    )
+    department_id = fields.Many2one(
+        related="emp_id.department_id", string="Department", readonly=True, store=True
+    )
+    advance = fields.Float(
+        string="Amount",
+        required=True,
+        readonly=True,
+        # states={"draft": [("readonly", False)]},
+    )
+    #        'rem_amount': fields.float('Retirements', digits_compute=dp.get_precision('Account'), required=False, readonly=True, states={'draft':[('readonly',False)]}),
+    ex_amount = fields.Float(
+        string="Extra Amount",
+        required=False,
+        readonly=True,
+        # states={"draft": [("readonly", False)]},
+    )
+    balance = fields.Float(
+        related="emp_id.balance", string="Expense Advance Balance", readonly=True
+    )
+    state = fields.Selection(
+        selection=[
+            ("draft", "New"),
+            ("open", "Confirmed"),
+            ("approve", "Approved"),
+            ("paid", "Paid"),
+            ("rem", "Retired"),
+            ("reject", "Rejected"),
+            ("cancel", "Cancelled"),
+        ],
+        string="State",
+        required=True,
+        help="When an Cash Advance is created, the state is 'New'.\n"
+        "If the Cash Advance is confirmed, the state goes in 'Confirmed' \n"
+        "If the Cash Advance is approved, the state goes in 'Approved' \n"
+        "If the Cash Advance is paid, the state goes in 'Paid' \n"
+        "If the Cash Advance Retired or reconciled with expense, the state goes in 'Retired' \n"
+        "If the Cash Advance is rejected, the state goes in 'Rejected' \n"
+        "If the Cash Advance is cancelled, the state goes in 'Cancelled' \n",
+        readonly=True,
+        default="draft",
+    )
+    manager_id = fields.Many2one(
+        "hr.employee",
+        string="Approval Manager",
+        readonly=True,
+        help="This area is automatically filled by the user who validate the cash advance",
+    )
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        required=True,
+        readonly=True,
+        # states={"draft": [("readonly", False)]},
+        default=lambda self: self.env["res.company"]._company_default_get(
+            "cash.advance"
+        ),
+    )
+    move = fields.Boolean(
+        string="Create Journal Entry?",
+        # states={"paid": [("readonly", True)]},
+        help="Tick if you want to raise journal entry when you click pay button",
+        default=True,
+    )
+    journal_id = fields.Many2one(
+        "account.journal",
+        string="Journal",
+        domain="['|', ('type','=','cash'), ('type','=','bank')]",
+        # states={"paid": [("readonly", True)]},
+        default=_default_journal,
+    )
+    #        'currency_id': fields.related('journal_id','currency', type='many2one', relation='res.currency',  help='Payment in Multiple currency.' ,string='Currency', readonly=True),
+    move_id1 = fields.Many2one("account.move", string="Journal Entry", readonly=True)
+    expense_id = fields.Many2one(
+        "ret.expense",
+        string="Expense",
+        # states={"paid": [("readonly", True)]},
+    )
+    employee_account = fields.Many2one(
+        comodel_name="account.account",
+        string="Ledger Account",
+        # states={"paid": [("readonly", True)]},
+        default=_default_account,
+    )
+    notes = fields.Text(
+        string="Description",
+        # states={
+        #     "paid": [("readonly", True)],
+        #     "approve": [("readonly", True)],
+        #     "cancel": [("readonly", True)],
+        #     "reject": [("readonly", True)],
+        # },
+    )
+
+    update_cash = fields.Boolean(
+        string="Update Cash Register?",
+        # states={"paid": [("readonly", True)]},
+        help="Tick if you want to update cash register by creating cash transaction line.",
+    )
+    cash_id = fields.Many2one(
+        "account.bank.statement",
+        string="Cash Register",
+        domain=[("journal_id.type", "in", ["cash"]), ("state", "=", "open")],
+        required=False,
+        # states={"paid": [("readonly", True)]},
+    )
+
+    currency_id = fields.Many2one(
+        "res.currency", string="Currency", required=True, default=_default_currency_id
+    )
+    amount_total = fields.Float(
+        compute="_amount_all",
+        help="Amount in company currency.",
+        string="Equivalent Amount",
+        store=True,
+    )
+    # sat
+    ret_amount = fields.Float(string="Retired Amount", readonly=True)
+    refund_amount = fields.Float(string="Refund Amount", readonly=True)  # #test
+    amount_open = fields.Float(
+        compute="_amount_all_open",
+        help="Open Balance Amount After Retirements",
+        string="Open Balance Amount",
+        store=True,
+    )  # need to call self.write when retirement fil and calcluate this fucntiona again
 
     def validate(self):
         cash = self
@@ -210,196 +403,53 @@ class account_cash_advance(models.Model):
             self.amount_total - self.ret_amount - self.refund_amount
         )  # test
 
-    @api.model
-    def _default_journal(self):
-        return (
-            self.env.user.company_id
-            and self.env.user.company_id.ex_employee_journal
-            and self.env.user.company_id.ex_employee_journal
-        )
+    def _get_associated_retirements(self):
+        """Check if the cash advance has any associated retirements.
 
-    @api.model
-    def _default_account(self):
-        return (
-            self.env.user.company_id
-            and self.env.user.company_id.ex_employee_account
-            and self.env.user.company_id.ex_employee_account
-        )
-
-    def _default_currency_id(self):
-        res = False
-        if self.env.user:
-            res = (
-                self.env.user
-                and self.env.user.company_id
-                and self.env.user.company_id.currency_id
+        Returns
+        -------
+            bool
+                True if the advance is has_retirements, False otherwise.
+        """
+        for record in self:
+            return self.env["ret.expense.reconcile"].search(
+                [("ret_id", "=", record.id)]
             )
-        return res
 
-    def _default_emp_id(self):
-        return self.env["hr.employee"].search(
-            [("user_id", "=", self.env.user.id)], limit=1
+    def is_fully_retired(self):
+        """
+        Check if the advance is fully retired.
+
+        Returns
+        -------
+        bool
+            True if the advance is fully retired, False otherwise.
+        """
+        for rec in self:
+            if not rec._get_associated_retirements():
+                return False
+            associated_retirements = rec._get_associated_retirements()
+            # check if the total of the cash advance and the total retirements are equal
+            # and all retirements are in done state
+            if float_compare(
+                rec.amount_total, (sum(associated_retirements.mapped("amount"))) == 0
+            ) and all(
+                [
+                    associated_requirement.state == "paid"
+                    for associated_requirement in associated_retirements
+                ]
+            ):
+                return True
+            return False
+
+    @api.model
+    def set_unretired_advances_to_retired(self):
+        """Check non-retired advances and set to 'retired'."""
+        non_retired_advances = self.search([("state", "!=", "rem")])
+        advances_valid_for_retirement = non_retired_advances.filtered(
+            lambda nra: nra.is_fully_retired()
         )
-
-    name = fields.Char(
-        string="Expense Description",
-        required=True,
-        readonly=False,
-        # states={"draft": [("readonly", False)]},
-    )
-    date = fields.Date(
-        string="Request Date",
-        required=True,
-        readonly=True,
-        # states={"draft": [("readonly", False)]},
-        default=time.strftime("%Y-%m-%d"),
-    )
-    approval_date = fields.Date(
-        string="Approve Date",
-        readonly=True,
-        # states={
-        #     "approve": [("readonly", True)],
-        #     "cancel": [("readonly", True)],
-        #     "reject": [("readonly", True)],
-        # },
-    )
-    emp_id = fields.Many2one(
-        "hr.employee",
-        string="Employee",
-        required=True,
-        # states={"draft": [("readonly", False)]},
-        default=_default_emp_id,
-    )
-    user_id = fields.Many2one(
-        related="emp_id.user_id",
-        readonly=True,
-        # states={"draft": [("readonly", False)]},
-        string="User",
-        store=True,
-    )
-    department_id = fields.Many2one(
-        related="emp_id.department_id", string="Department", readonly=True, store=True
-    )
-    advance = fields.Float(
-        string="Amount",
-        required=True,
-        readonly=True,
-        # states={"draft": [("readonly", False)]},
-    )
-    #        'rem_amount': fields.float('Retirements', digits_compute=dp.get_precision('Account'), required=False, readonly=True, states={'draft':[('readonly',False)]}),
-    ex_amount = fields.Float(
-        string="Extra Amount",
-        required=False,
-        readonly=True,
-        # states={"draft": [("readonly", False)]},
-    )
-    balance = fields.Float(
-        related="emp_id.balance", string="Expense Advance Balance", readonly=True
-    )
-    state = fields.Selection(
-        selection=[
-            ("draft", "New"),
-            ("open", "Confirmed"),
-            ("approve", "Approved"),
-            ("paid", "Paid"),
-            ("rem", "Retired"),
-            ("reject", "Rejected"),
-            ("cancel", "Cancelled"),
-        ],
-        string="State",
-        required=True,
-        help="When an Cash Advance is created, the state is 'New'.\n"
-        "If the Cash Advance is confirmed, the state goes in 'Confirmed' \n"
-        "If the Cash Advance is approved, the state goes in 'Approved' \n"
-        "If the Cash Advance is paid, the state goes in 'Paid' \n"
-        "If the Cash Advance Retired or reconciled with expense, the state goes in 'Retired' \n"
-        "If the Cash Advance is rejected, the state goes in 'Rejected' \n"
-        "If the Cash Advance is cancelled, the state goes in 'Cancelled' \n",
-        readonly=True,
-        default="draft",
-    )
-    manager_id = fields.Many2one(
-        "hr.employee",
-        string="Approval Manager",
-        readonly=True,
-        help="This area is automatically filled by the user who validate the cash advance",
-    )
-    company_id = fields.Many2one(
-        "res.company",
-        string="Company",
-        required=True,
-        readonly=True,
-        # states={"draft": [("readonly", False)]},
-        default=lambda self: self.env["res.company"]._company_default_get(
-            "cash.advance"
-        ),
-    )
-    move = fields.Boolean(
-        string="Create Journal Entry?",
-        # states={"paid": [("readonly", True)]},
-        help="Tick if you want to raise journal entry when you click pay button",
-        default=True,
-    )
-    journal_id = fields.Many2one(
-        "account.journal",
-        string="Journal",
-        domain="['|', ('type','=','cash'), ('type','=','bank')]",
-        # states={"paid": [("readonly", True)]},
-        default=_default_journal,
-    )
-    #        'currency_id': fields.related('journal_id','currency', type='many2one', relation='res.currency',  help='Payment in Multiple currency.' ,string='Currency', readonly=True),
-    move_id1 = fields.Many2one("account.move", string="Journal Entry", readonly=True)
-    expense_id = fields.Many2one(
-        "ret.expense",
-        string="Expense",
-        # states={"paid": [("readonly", True)]},
-    )
-    employee_account = fields.Many2one(
-        comodel_name="account.account",
-        string="Ledger Account",
-        # states={"paid": [("readonly", True)]},
-        default=_default_account,
-    )
-    notes = fields.Text(
-        string="Description",
-        # states={
-        #     "paid": [("readonly", True)],
-        #     "approve": [("readonly", True)],
-        #     "cancel": [("readonly", True)],
-        #     "reject": [("readonly", True)],
-        # },
-    )
-
-    update_cash = fields.Boolean(
-        string="Update Cash Register?",
-        # states={"paid": [("readonly", True)]},
-        help="Tick if you want to update cash register by creating cash transaction line.",
-    )
-    cash_id = fields.Many2one(
-        "account.bank.statement",
-        string="Cash Register",
-        domain=[("journal_id.type", "in", ["cash"]), ("state", "=", "open")],
-        required=False,
-        # states={"paid": [("readonly", True)]},
-    )
-
-    currency_id = fields.Many2one(
-        "res.currency", string="Currency", required=True, default=_default_currency_id
-    )
-    amount_total = fields.Float(
-        compute="_amount_all",
-        help="Amount in company currency.",
-        string="Equivalent Amount",
-        store=True,
-    )
-    # sat
-    ret_amount = fields.Float(string="Retired Amount", readonly=True)
-    refund_amount = fields.Float(string="Refund Amount", readonly=True)  # #test
-    amount_open = fields.Float(
-        compute="_amount_all_open",
-        help="Open Balance Amount After Retirements",
-        string="Open Balance Amount",
-        store=True,
-    )  # need to call self.write when retirement fil and calcluate this fucntiona again
-
-    _order = "date desc, id desc"
+        advances_valid_for_retirement and advances_valid_for_retirement.update(
+            {"state": "rem"}
+        )
+        return True
