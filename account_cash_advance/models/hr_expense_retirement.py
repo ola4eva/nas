@@ -310,7 +310,7 @@ class hr_expense_expense_ret(models.Model):
             ctx.update({"date": date})
             for a in adv_ids:  # sat
                 approval_date = False
-                if self.current_id.id != company_currency.id:
+                if self.currency_id.id != company_currency.id:
                     org_amount = company_currency.with_context(ctx).compute(
                         a.amount_total, self.current_currency
                     )
