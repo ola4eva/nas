@@ -146,7 +146,9 @@ class PayrollAdviceWizard(models.TransientModel):
         output.close()
 
         # Save and return file
-        filename = "Payroll Advice " + self.file_name if self.file_name else "Payroll Advice"
+        filename = (
+            "Payroll Advice " + self.file_name if self.file_name else "Payroll Advice"
+        )
         self.write({"file_name": f"{filename}.xlsx", "file_data": file_data})
 
         return {

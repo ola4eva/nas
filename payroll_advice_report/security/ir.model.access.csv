@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_payroll_advice_report_payroll_advice_report,payroll_advice_report.payroll_advice_report,model_payroll_advice_wizard,base.group_user,1,1,1,1
