@@ -1,0 +1,6 @@
+<odoo>
+    <menuitem id="menu_hr_payroll_advice_root" name="Pension Deduction"
+        action="action_pension_deduction_wizard"
+        parent="hr_payroll.menu_hr_payroll_report" />
+
+</odoo>
