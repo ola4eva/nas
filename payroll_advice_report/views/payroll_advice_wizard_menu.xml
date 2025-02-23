@@ -1,0 +1,9 @@
+<odoo>
+    <menuitem id="menu_hr_payroll_advice_root" name="Payroll Advice"
+        parent="hr_payroll.menu_hr_payroll_dashboard_root" />
+
+    <menuitem id="menu_hr_payroll_advice_wizard"
+        name="Generate Payroll Advice"
+        parent="menu_hr_payroll_advice_root"
+        action="action_payroll_advice_wizard" />
+</odoo>
