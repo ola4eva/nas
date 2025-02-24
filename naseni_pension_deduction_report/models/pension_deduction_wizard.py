@@ -18,7 +18,7 @@ class PayrollAdviceWizard(models.TransientModel):
         workbook = xlsxwriter.Workbook(output, {"in_memory": True})
 
         # Sheet1 - Pension Report
-        sheet1 = workbook.add_worksheet("Pension Report")
+        sheet1 = workbook.add_worksheet("Sheet1")
 
         # Set up formats
         title_format = workbook.add_format(
@@ -38,40 +38,87 @@ class PayrollAdviceWizard(models.TransientModel):
             f'PENSION DEDUCTION FOR THE MONTH OF {datetime.now().strftime("%B %Y")}',
             title_format,
         )
-
         headers = [
             "S/N",
-            "Employee Name",
-            "Bank Name",
-            "Account Number",
-            "Pension Amount",
+            "Pension Number",
+            "Staff No",
+            "Surname",
+            "Other Names",
+            "Gross Pay",
+            "Voluntary Contribution",
+            "Employee Contribution",
+            "Employer Contribution",
+            "Total",
         ]
         for col, header in enumerate(headers):
             sheet1.write(4, col, header, header_format)
 
         # Static data (10 rows)
         static_data = [
-            [1, "John Doe", "ABC Bank", "1234567890", 50000],
-            [2, "Jane Smith", "XYZ Bank", "0987654321", 45000],
-            [3, "Alice Johnson", "ABC Bank", "5678901234", 48000],
-            [4, "Bob Williams", "DEF Bank", "3456789012", 52000],
-            [5, "Charlie Brown", "XYZ Bank", "6789012345", 47000],
-            [6, "Daisy Adams", "ABC Bank", "7890123456", 51000],
-            [7, "Edward White", "DEF Bank", "8901234567", 49000],
-            [8, "Fiona Black", "XYZ Bank", "9012345678", 53000],
-            [9, "George Green", "ABC Bank", "0123456789", 46000],
-            [10, "Hannah Blue", "DEF Bank", "1234509876", 50000],
+            [
+                1,  # S/N
+                "ABC123",  # Pension Number
+                "EMP001",  # Staff No
+                "John",  # Surname
+                "Doe Bill",  # Other Names
+                50000.00,  # Gross Pay
+                50000,  # Voluntary Contribution
+                12345678,  # Employee Contribution
+                50000,  # Employer Contribution
+                500000,  # Total
+            ],
+            [
+                2,  # S/N
+                "ABC123",  # Pension Number
+                "EMP001",  # Staff No
+                "Jane",  # Surname
+                "Smith Jerome",  # Other Names
+                20000.00,  # Gross Pay
+                30000,  # Voluntary Contribution
+                500000,  # Employee Contribution
+                49999,  # Employer Contribution
+                89999,  # Total
+            ],
+            [
+                3,  # S/N
+                "123GB456",  # Pension Number
+                "EMP001",  # Staff No
+                "Edinburg",  # Surname
+                "Christie M.",  # Other Names
+                50000.00,  # Gross Pay
+                50000,  # Voluntary Contribution
+                12345678,  # Employee Contribution
+                50000,  # Employer Contribution
+                500000,  # Total
+            ],
+            [
+                4,  # S/N
+                "ABC123",  # Pension Number
+                "EMP001",  # Staff No
+                "John",  # Surname
+                "Doe Bill",  # Other Names
+                50000.00,  # Gross Pay
+                50000,  # Voluntary Contribution
+                12345678,  # Employee Contribution
+                50000,  # Employer Contribution
+                500000,  # Total
+            ],
         ]
 
         for row, data in enumerate(static_data, start=5):
             sheet1.write(row, 0, data[0])  # S/N
-            sheet1.write(row, 1, data[1])  # Employee Name
-            sheet1.write(row, 2, data[2])  # Bank Name
-            sheet1.write(row, 3, data[3])  # Account Number
-            sheet1.write(row, 4, data[4], money_format)  # Pension Amount
+            sheet1.write(row, 1, data[1])  # Pension No
+            sheet1.write(row, 2, data[2])  # Staff No
+            sheet1.write(row, 3, data[3])  # Surname
+            sheet1.write(row, 4, data[4], money_format)  # Other names
+            sheet1.write(row, 5, data[5], money_format)  # Gross Pay
+            sheet1.write(row, 6, data[6], money_format)  # Voluntary Contribution
+            sheet1.write(row, 7, data[7], money_format)  # Employee Contribution
+            sheet1.write(row, 8, data[8], money_format)  # Employer Contribution
+            sheet1.write(row, 9, data[9], money_format)  # Total
 
         # Sheet2 - Summary Report
-        sheet2 = workbook.add_worksheet("Summary Report")
+        sheet2 = workbook.add_worksheet("Sheet2")
 
         # Write headers for Sheet2
         sheet2.merge_range(
