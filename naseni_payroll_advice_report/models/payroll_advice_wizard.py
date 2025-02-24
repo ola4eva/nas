@@ -4,7 +4,78 @@ import io
 import xlsxwriter
 import base64
 
-
+PAYROLL_DATA = [
+    [
+        1, 
+        "STAFF001", 
+        "Clement Utom", 
+        "GL10", 
+        "Bank A", 
+        "1234567890", 
+        500000, 
+        "HR"
+    ],
+    [
+        2,
+        "STAFF002",
+        "Dauda Ibrahim",
+        "GL12",
+        "Bank B",
+        "0987654321",
+        600000,
+        "Finance",
+    ],
+    [
+        3,
+        "STAFF003",
+        "Ibrahim Yusuff",
+        "GL08",
+        "Bank C",
+        "1122334455",
+        450000,
+        "IT",
+    ],
+    [
+        4,
+        "STAFF004",
+        "Joshua Ofiwe",
+        "GL11",
+        "Bank D",
+        "2233445566",
+        550000,
+        "Admin",
+    ],
+    [
+        5,
+        "STAFF005",
+        "Lukman Olawale",
+        "GL09",
+        "Bank E",
+        "3344556677",
+        470000,
+        "Marketing",
+    ],
+    [
+        6,
+        "STAFF006",
+        "Olufe Adebusola",
+        "GL07",
+        "Bank F",
+        "4455667788",
+        400000,
+        "Sales",
+    ],
+    [
+        7,
+        "STAFF007",
+        "Yakubu Tanko",
+        "GL13",
+        "Bank G",
+        "5566778899",
+        650000,
+        "Legal",
+    ],
+]
 class PayrollAdviceWizard(models.TransientModel):
     _name = "payroll.advice.wizard"
     _description = "Generate Payroll Advice Spreadsheet"
@@ -14,99 +85,7 @@ class PayrollAdviceWizard(models.TransientModel):
 
     def generate_payroll_advice(self):
         # Fetch data (Replace this with actual payslip batch query)
-        payroll_data = [
-            [1, "STAFF001", "John Doe", "GL10", "Bank A", "1234567890", 500000, "HR"],
-            [
-                2,
-                "STAFF002",
-                "Jane Smith",
-                "GL12",
-                "Bank B",
-                "0987654321",
-                600000,
-                "Finance",
-            ],
-            [
-                3,
-                "STAFF003",
-                "Alice Johnson",
-                "GL08",
-                "Bank C",
-                "1122334455",
-                450000,
-                "IT",
-            ],
-            [
-                4,
-                "STAFF004",
-                "Bob Brown",
-                "GL11",
-                "Bank D",
-                "2233445566",
-                550000,
-                "Admin",
-            ],
-            [
-                5,
-                "STAFF005",
-                "Charlie White",
-                "GL09",
-                "Bank E",
-                "3344556677",
-                470000,
-                "Marketing",
-            ],
-            [
-                6,
-                "STAFF006",
-                "David Black",
-                "GL07",
-                "Bank F",
-                "4455667788",
-                400000,
-                "Sales",
-            ],
-            [
-                7,
-                "STAFF007",
-                "Eve Adams",
-                "GL13",
-                "Bank G",
-                "5566778899",
-                650000,
-                "Legal",
-            ],
-            [
-                8,
-                "STAFF008",
-                "Frank Harris",
-                "GL06",
-                "Bank H",
-                "6677889900",
-                380000,
-                "Support",
-            ],
-            [
-                9,
-                "STAFF009",
-                "Grace Lee",
-                "GL14",
-                "Bank I",
-                "7788990011",
-                700000,
-                "Operations",
-            ],
-            [
-                10,
-                "STAFF010",
-                "Henry Kim",
-                "GL05",
-                "Bank J",
-                "8899001122",
-                350000,
-                "Logistics",
-            ],
-        ]
+        
 
         # Create an in-memory Excel file
         output = io.BytesIO()
@@ -135,7 +114,7 @@ class PayrollAdviceWizard(models.TransientModel):
             sheet.write(5, col, header)
 
         # Write data
-        for row, data in enumerate(payroll_data, start=6):
+        for row, data in enumerate(PAYROLL_DATA, start=6):
             for col, value in enumerate(data):
                 sheet.write(row, col, value)
 
