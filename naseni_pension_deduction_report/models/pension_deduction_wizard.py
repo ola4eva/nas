@@ -59,8 +59,8 @@ class PayrollAdviceWizard(models.TransientModel):
                 1,  # S/N
                 "ABC123",  # Pension Number
                 "EMP001",  # Staff No
-                "John",  # Surname
-                "Doe Bill",  # Other Names
+                "Clement",  # Surname
+                "Utom",  # Other Names
                 50000.00,  # Gross Pay
                 50000,  # Voluntary Contribution
                 12345678,  # Employee Contribution
@@ -71,8 +71,8 @@ class PayrollAdviceWizard(models.TransientModel):
                 2,  # S/N
                 "ABC123",  # Pension Number
                 "EMP001",  # Staff No
-                "Jane",  # Surname
-                "Smith Jerome",  # Other Names
+                "Dauda",  # Surname
+                "Ibrahim",  # Other Names
                 20000.00,  # Gross Pay
                 30000,  # Voluntary Contribution
                 500000,  # Employee Contribution
@@ -83,8 +83,8 @@ class PayrollAdviceWizard(models.TransientModel):
                 3,  # S/N
                 "123GB456",  # Pension Number
                 "EMP001",  # Staff No
-                "Edinburg",  # Surname
-                "Christie M.",  # Other Names
+                "Ibrahim",  # Surname
+                "Yusuff",  # Other Names
                 50000.00,  # Gross Pay
                 50000,  # Voluntary Contribution
                 12345678,  # Employee Contribution
@@ -95,8 +95,44 @@ class PayrollAdviceWizard(models.TransientModel):
                 4,  # S/N
                 "ABC123",  # Pension Number
                 "EMP001",  # Staff No
-                "John",  # Surname
-                "Doe Bill",  # Other Names
+                "Joshua",  # Surname
+                "Ofiwe",  # Other Names
+                50000.00,  # Gross Pay
+                50000,  # Voluntary Contribution
+                12345678,  # Employee Contribution
+                50000,  # Employer Contribution
+                500000,  # Total
+            ],
+            [
+                5,  # S/N
+                "ABC123",  # Pension Number
+                "EMP001",  # Staff No
+                "Lukman",  # Surname
+                "Olawale",  # Other Names
+                50000.00,  # Gross Pay
+                50000,  # Voluntary Contribution
+                12345678,  # Employee Contribution
+                50000,  # Employer Contribution
+                500000,  # Total
+            ],
+            [
+                6,  # S/N
+                "ABC123",  # Pension Number
+                "EMP001",  # Staff No
+                "Olufe",  # Surname
+                "Adebusola",  # Other Names
+                50000.00,  # Gross Pay
+                50000,  # Voluntary Contribution
+                12345678,  # Employee Contribution
+                50000,  # Employer Contribution
+                500000,  # Total
+            ],
+            [
+                7,  # S/N
+                "ABC123",  # Pension Number
+                "EMP001",  # Staff No
+                "Yakubu",  # Surname
+                "Tanko",  # Other Names
                 50000.00,  # Gross Pay
                 50000,  # Voluntary Contribution
                 12345678,  # Employee Contribution
