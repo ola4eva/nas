@@ -1,6 +1,6 @@
 import time
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, SUPERUSER_ID
 from odoo.tools import float_compare
 from odoo.exceptions import UserError, ValidationError
 
@@ -204,7 +204,7 @@ class account_cash_advance(models.Model):
     )  # need to call self.write when retirement fil and calcluate this fucntiona again
 
     def validate(self):
-        cash = self
+        cash = self.with_user(user=SUPERUSER_ID)
         if not cash.advance:
             raise ValidationError(
                 "You can not confirm cash advance if advance is zero."
@@ -416,7 +416,6 @@ class account_cash_advance(models.Model):
                 [("ret_id", "=", record.id)]
             )
             retirement_ids = reconcile_lines.mapped("ref_id")
-            retirement_ids.ensure_one()
             return retirement_ids.line_ids
 
     def is_fully_retired(self):
