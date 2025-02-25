@@ -12,6 +12,7 @@
     "depends": ["hr_payroll"],
     "data": [
         # 'security/ir.model.access.csv',
+        'report/payslip_report.xml'
     ],
     "license": "LGPL-3",
 }

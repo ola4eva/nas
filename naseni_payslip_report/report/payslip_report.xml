@@ -1,0 +1,131 @@
+<odoo>
+  <data>
+
+
+    <template id="report_payslip">
+      <t t-call="web.external_layout">
+        <div class="page">
+          <h2 style="text-align: center;">Employee Payslip</h2>
+          <h3>Employee Information</h3>
+          <table class="table table-bordered">
+            <tr>
+              <td>
+                <strong>Employee Name:</strong>
+                <t t-esc="doc.employee_id.name or 'N/A'" />
+              </td>
+              <td>
+                <strong>IPPIS Number:</strong>
+                <t t-esc="doc.ippis_number or 'N/A'" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Designation:</strong>
+                <t t-esc="doc.designation or 'N/A'" />
+              </td>
+              <td>
+                <strong>Ministry:</strong>
+                <t t-esc="doc.ministry or 'N/A'" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Bank Name:</strong>
+                <t t-esc="doc.bank_name or 'N/A'" />
+              </td>
+              <td>
+                <strong>Bank Branch:</strong>
+                <t t-esc="doc.bank_branch or 'N/A'" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Account Number:</strong>
+                <t t-esc="doc.account_number or 'N/A'" />
+              </td>
+              <td>
+                <strong>PFA Name:</strong>
+                <t t-esc="doc.pfa_name or 'N/A'" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Pension PIN:</strong>
+                <t t-esc="doc.pension_pin or 'N/A'" />
+              </td>
+              <td>
+                <strong>Tax State:</strong>
+                <t t-esc="doc.tax_state or 'N/A'" />
+              </td>
+            </tr>
+          </table>
+          <h3>Gross Earnings Information</h3>
+          <table class="table table-striped">
+            <t t-foreach="doc.earning_lines" t-as="earning">
+              <tr>
+                <td>
+                  <t t-esc="earning.name" />
+                </td>
+                <td>
+                  <t t-esc="earning.amount" />
+                </td>
+              </tr>
+            </t>
+          </table>
+          <h3>Gross Deduction Information</h3>
+          <div>This is coming soon!</div>
+          <!-- <table class="table table-striped">
+            <t t-foreach="doc.deduction_lines" t-as="deduction">
+              <tr>
+                <td>
+                  <t t-esc="deduction.name" />
+                </td>
+                <td>
+                  <t t-esc="deduction.amount" />
+                </td>
+              </tr>
+            </t>
+          </table> -->
+          <h3>Contributory Pension Information</h3>
+          <div>This is coming soon</div>
+          <!-- <table class="table table-bordered">
+            <tr>
+              <td>
+                <strong>PFA Name:</strong>
+                <t t-esc="doc.pfa_name or 'N/A'" />
+              </td>
+              <td>
+                <strong>Pension PIN:</strong>
+                <t t-esc="doc.pension_pin or 'N/A'" />
+              </td>
+            </tr>
+          </table> -->
+          <h3>Total Net Earnings: <t t-esc="doc.net_earnings or 0.00" /></h3>
+        </div>
+      </t>
+    </template>
+
+    <record id="action_report_naseni_payslip1" model="ir.actions.report">
+      <field name="name">Naseni Payslip</field>
+      <field name="model">hr.payslip</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">naseni_payslip_report.report_payslip</field>
+      <field name="report_file">naseni_payslip_report.report_payslip</field>
+      <field name="print_report_name">'%s' % object.name</field>
+      <field name="binding_model_id" ref="hr_payroll.model_hr_payslip" />
+      <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_naseni" model="ir.actions.report">
+      <field name="name">NASENI</field>
+      <field name="model">hr.payslip</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">naseni_payslip_report.report_payslipxxx</field>
+      <field name="report_file">naseni_payslip_report.report_payslipxxx</field>
+      <field name="binding_model_id" ref="hr_payroll.model_hr_payslip" />
+      <field name="binding_type">report</field>
+    </record>
+    <!-- <field name="print_report_name">'%s' % object.name</field> -->
+
+  </data>
+</odoo>
