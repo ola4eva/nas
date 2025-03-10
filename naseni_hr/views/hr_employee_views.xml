@@ -6,16 +6,10 @@
       <field name="model">hr.employee</field>
       <field name="inherit_id" ref="hr.view_employee_form" />
       <field name="arch" type="xml">
-        <xpath expr="//notebook//div[@id='o_work_employee_main']" position="inside">
-          <group name="institute" string="Institute">
-            <field name="institute_id" />
-          </group>
-        </xpath>
-        <xpath expr="//notebook//page[@name='personal_information']/group" position="inside">
-          <group name="pension_details" string="Pension Details">
-            <field name="pfa_id" />
-            <field name="pension_pin" />
-          </group>
+        <xpath expr="//field[@name='coach_id']" position="after">
+          <field name="institute_id" />
+          <field name="pfa_id" />
+          <field name="pension_pin" />
         </xpath>
       </field>
     </record>
