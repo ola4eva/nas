@@ -1,0 +1,8 @@
+<odoo>
+  <data>
+
+    <menuitem name="Votebook" id="naseni_payment_voucher.votebook"
+      action="account_budget.act_budget_analytic_view" web_icon="naseni_payment_voucher,static/description/icon.png" />
+
+  </data>
+</odoo>
