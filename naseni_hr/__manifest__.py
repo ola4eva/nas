@@ -16,9 +16,12 @@
     'license': "LGPL-3",
     'data': [
         'security/ir.model.access.csv',
+        'security/retirement_groups.xml',
+        'data/ir_cron.xml',
         'views/pfa_views.xml',
         'views/institute_views.xml',
         'views/hr_employee_views.xml',
+        'views/res_config_settings_views.xml',
     ],
 }
 

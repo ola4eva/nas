@@ -10,6 +10,7 @@
           <field name="institute_id" />
           <field name="pfa_id" />
           <field name="pension_pin" />
+          <field name="date_join" />
         </xpath>
       </field>
     </record>
