@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_user_naseni_institute,naseni_hr.naseni_institute,model_naseni_hr_institute,base.group_user,1,1,1,1
+access_user_pfa,naseni_hr.pfa,model_naseni_hr_pfa,base.group_user,1,1,1,1
