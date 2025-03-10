@@ -23,7 +23,7 @@ class HrEmployee(models.Model):
         retiring_employees = self.search([]).filtered(
             lambda emp: has_three_months_to_retirement(emp.birthday, emp.date_join)
         )
-        _logger.info(f"Emoloyees to retire are: {retiring_employees.mapped("name")}")
+        _logger.info(f"Employees to retire are: {retiring_employees.mapped('name')}")
         # TODO: Create an email template to send a notification to the concerned party.
         self.send_retirement_notification_to_responsible(retiring_employees)
         return True
