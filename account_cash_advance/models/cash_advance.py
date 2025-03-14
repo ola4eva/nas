@@ -7,7 +7,7 @@ from odoo.exceptions import UserError, ValidationError
 class account_cash_advance(models.Model):
     _name = "cash.advance"
     _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Cash Advance for expense later he will fill retirements.."
+    _description = "Advances Request which requires retirements.."
     _order = "date desc, id desc"
 
     @api.model
@@ -42,7 +42,7 @@ class account_cash_advance(models.Model):
         )
 
     name = fields.Char(
-        string="Expense Description",
+        string="Adance Description",
         required=True,
         readonly=False,
     )
@@ -82,7 +82,7 @@ class account_cash_advance(models.Model):
         readonly=True,
     )
     balance = fields.Float(
-        related="emp_id.balance", string="Expense Advance Balance", readonly=True
+        related="emp_id.balance", string="Advance Balance", readonly=True
     )
     state = fields.Selection(
         selection=[
@@ -96,13 +96,13 @@ class account_cash_advance(models.Model):
         ],
         string="State",
         required=True,
-        help="When an Cash Advance is created, the state is 'New'.\n"
-        "If the Cash Advance is confirmed, the state goes in 'Confirmed' \n"
-        "If the Cash Advance is approved, the state goes in 'Approved' \n"
-        "If the Cash Advance is paid, the state goes in 'Paid' \n"
-        "If the Cash Advance Retired or reconciled with expense, the state goes in 'Retired' \n"
-        "If the Cash Advance is rejected, the state goes in 'Rejected' \n"
-        "If the Cash Advance is cancelled, the state goes in 'Cancelled' \n",
+        help="When an Advance Request is created, the state is 'New'.\n"
+        "If the Advance Request is confirmed, the state goes in 'Confirmed' \n"
+        "If the Advance Request is approved, the state goes in 'Approved' \n"
+        "If the Advance Request is paid, the state goes in 'Paid' \n"
+        "If the Advance Request Retired or reconciled with expense, the state goes in 'Retired' \n"
+        "If the Advance Request is rejected, the state goes in 'Rejected' \n"
+        "If the Advance Request is cancelled, the state goes in 'Cancelled' \n",
         readonly=True,
         default="draft",
     )
