@@ -4,7 +4,7 @@
             <field name="name">cash.advance.form</field>
             <field name="model">cash.advance</field>
             <field name="arch" type="xml">
-                <form string="Cash Advances">
+                <form string="Advances Request">
                     <header>
                         <button name="validate" string="Confirm" type="object" class="oe_highlight"
                             invisible="state != 'draft'" />
@@ -114,7 +114,7 @@
             <field name="name">cash.advance.list</field>
             <field name="model">cash.advance</field>
             <field name="arch" type="xml">
-                <list string="Cash Advances">
+                <list string="Advances Requests">
                     <field name="name" />
                     <field name="emp_id" />
                     <field name="user_id" invisible="1" />
@@ -135,13 +135,13 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_account_cash_advance">
-            <field name="name">Expense Advances Request</field>
+            <field name="name">Advances Request</field>
             <field name="res_model">cash.advance</field>
             <field name="view_mode">list,form</field>
         </record>
 
         <record model="ir.actions.act_window" id="action_account_cash_advance1">
-            <field name="name">Expense Advances to Approve</field>
+            <field name="name">Advances to Approve</field>
             <field name="res_model">cash.advance</field>
             <field name="view_mode">list,form</field>
         </record>
@@ -163,7 +163,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_account_cash_advance_paid">
-            <field name="name">Expense Advances to Disburse</field>
+            <field name="name">Advances to Disburse</field>
             <field name="res_model">cash.advance</field>
             <field name="view_mode">list,form</field>
         </record>
