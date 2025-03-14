@@ -1,5 +1,4 @@
 import time
-
 from odoo import models, fields, api, _, SUPERUSER_ID
 from odoo.tools import float_compare
 from odoo.exceptions import UserError, ValidationError
@@ -146,7 +145,6 @@ class account_cash_advance(models.Model):
     notes = fields.Text(
         string="Description",
     )
-
     update_cash = fields.Boolean(
         string="Update Cash Register?",
         help="Tick if you want to update cash register by creating cash transaction line.",
@@ -157,7 +155,6 @@ class account_cash_advance(models.Model):
         domain=[("journal_id.type", "in", ["cash"]), ("state", "=", "open")],
         required=False,
     )
-
     currency_id = fields.Many2one(
         "res.currency", string="Currency", required=True, default=_default_currency_id
     )
@@ -167,7 +164,6 @@ class account_cash_advance(models.Model):
         string="Equivalent Amount",
         store=True,
     )
-    # sat
     ret_amount = fields.Float(string="Retired Amount", readonly=True)
     refund_amount = fields.Float(string="Refund Amount", readonly=True)  # #test
     amount_open = fields.Float(
@@ -252,18 +248,11 @@ class account_cash_advance(models.Model):
 
             company_currency = line.company_id.currency_id
             current_currency = line.currency_id
-            flag = bool(current_currency)
 
             if not current_currency:
                 current_currency = company_currency
 
             # Compute the amount in company currency
-            amount_currency = 0.0
-            if flag and current_currency != company_currency:
-                amount_currency = company_currency._convert(
-                    line.advance, current_currency, line.company_id, line.date
-                )
-
             move_vals = {
                 "date": line.date,
                 "ref": line.name,
@@ -285,7 +274,6 @@ class account_cash_advance(models.Model):
 
             if line.update_cash:
                 type = "general"
-                amt = -(line.advance)
                 statement_line_obj.create(
                     {
                         "name": line.name or "?",
@@ -340,7 +328,6 @@ class account_cash_advance(models.Model):
             ]
             final_list = cr_line + dr_line
             move_id.write({"line_ids": final_list})
-
             created_move_ids.append(move_id)
             line.write({"move_id1": move_id.id, "state": "paid"})
             rem = 0.0
