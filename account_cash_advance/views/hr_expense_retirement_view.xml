@@ -48,7 +48,7 @@
             <field name="name">ret.expense.list</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <list string="Retirement Advances">
+                <list string="Advances Retirement">
                     <field name="employee_id" />
                     <field name="date" />
                     <field name="user_id" invisible="True" />
@@ -67,7 +67,7 @@
             <field name="name">ret.expense.list</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <list string="Retirement Advances">
+                <list string=" Advances Retirement">
                     <field name="employee_id" />
                     <field name="date" />
                     <field name="journal_id" invisible="True" />
@@ -87,7 +87,7 @@
             <field name="name">hr.expense.form.ret</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <form string="Retirement Advances Sheet">
+                <form string="Advances Retirement Sheet">
                     <header>
                         <button name="validate" string="Confirm" type="object" class="oe_highlight"
                             invisible="state != 'draft'" />
