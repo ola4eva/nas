@@ -5,7 +5,7 @@
             <field name="name">ret.expense.line.list</field>
             <field name="model">ret.expense.line</field>
             <field name="arch" type="xml">
-                <list string="Expense Retirement Lines">
+                <list string="Advances Retirement Lines">
                     <field name="sequence" invisible="True" />
                     <field name="date_value" />
                     <field name="name" />
@@ -23,7 +23,7 @@
             <field name="name">ret.expense.line.form</field>
             <field name="model">ret.expense.line</field>
             <field name="arch" type="xml">
-                <form string="Expense Retirement Lines">
+                <form string="Advances Retirement Lines">
                     <group>
                         <group>
                             <field name="sequence" invisible="True" />
@@ -48,7 +48,7 @@
             <field name="name">ret.expense.list</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <list string="Retirement Expenses">
+                <list string="Retirement Advances">
                     <field name="employee_id" />
                     <field name="date" />
                     <field name="user_id" invisible="True" />
@@ -67,7 +67,7 @@
             <field name="name">ret.expense.list</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <list string="Retirement Expenses">
+                <list string="Retirement Advances">
                     <field name="employee_id" />
                     <field name="date" />
                     <field name="journal_id" invisible="True" />
@@ -87,7 +87,7 @@
             <field name="name">hr.expense.form.ret</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <form string="Retirement Expenses Sheet">
+                <form string="Retirement Advances Sheet">
                     <header>
                         <button name="validate" string="Confirm" type="object" class="oe_highlight"
                             invisible="state != 'draft'" />
@@ -152,7 +152,7 @@
                                 </page>
                                 <page string="Description">
                                     <field name="line_ids" nolabel="1">
-                                        <form string="Retirement Expenses Lines">
+                                        <form string="Retirement Advances Lines">
                                             <group>
                                                 <group>
                                                     <field name="state" invisible="1" />
@@ -217,20 +217,20 @@
         </record>
 
         <record id="expense_all_ret" model="ir.actions.act_window">
-            <field name="name">Expense Retirement</field>
+            <field name="name">Advances Retirement</field>
             <field name="res_model">ret.expense</field>
             <field name="view_mode">list,form</field>
             <field name="view_id" ref="view_expenses_list_ret" />
         </record>
 
         <record id="expense_all_ret" model="ir.actions.act_window">
-            <field name="name">Expense Retirement</field>
+            <field name="name">Advances Retirement</field>
             <field name="res_model">ret.expense</field>
         </record>
 
         <menuitem id="next_id_49" name="Expenses" sequence="4" parent="hr.menu_hr_root" />
         <menuitem action="expense_all_ret" id="menu_expense_all_ret" sequence="4000000"
-            name="Expense Retirement" parent="menu_open_salary_cash_advance_child" />
+            name="Advances Retirement" parent="menu_open_salary_cash_advance_child" />
 
         <record model="ir.actions.act_window" id="action_account_expense_advance_paid">
             <field name="name">Expenses to Journal</field>
@@ -240,7 +240,7 @@
 
         <menuitem id="menu_finance_exp_advance_salary_main" name="Staff Expenses"
             parent="accountant.menu_accounting" sequence="4" />
-        <menuitem action="expense_all_ret" id="menu_expense_all_ret00" name="Expense Retirements"
+        <menuitem action="expense_all_ret" id="menu_expense_all_ret00" name="Advances Retirements"
             parent="menu_finance_exp_advance_salary_main" />
         <menuitem id="menu_finance_exp_advance_salary" action="action_account_expense_advance_paid"
             parent="menu_finance_exp_advance_salary_main" sequence="1000" />
