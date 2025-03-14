@@ -42,7 +42,7 @@ class account_cash_advance(models.Model):
         )
 
     name = fields.Char(
-        string="Adance Description",
+        string="Advance Description",
         required=True,
         readonly=False,
     )
