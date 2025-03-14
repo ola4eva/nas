@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 class hr_expense_expense_ret(models.Model):
 
     _name = "ret.expense"
-    _description = "Retirements Expense"
+    _description = "Advance Retirements"
     _order = "date desc, id desc"
     _inherit = ["mail.thread"]
 
