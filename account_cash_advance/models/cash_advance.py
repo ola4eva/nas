@@ -7,7 +7,7 @@ from odoo.exceptions import UserError, ValidationError
 
 class account_cash_advance(models.Model):
     _name = "cash.advance"
-    _inherit = ["mail.thread"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Cash Advance for expense later he will fill retirements.."
     _order = "date desc, id desc"
 
@@ -46,35 +46,26 @@ class account_cash_advance(models.Model):
         string="Expense Description",
         required=True,
         readonly=False,
-        # states={"draft": [("readonly", False)]},
     )
     date = fields.Date(
         string="Request Date",
         required=True,
         readonly=True,
-        # states={"draft": [("readonly", False)]},
         default=time.strftime("%Y-%m-%d"),
     )
     approval_date = fields.Date(
         string="Approve Date",
         readonly=True,
-        # states={
-        #     "approve": [("readonly", True)],
-        #     "cancel": [("readonly", True)],
-        #     "reject": [("readonly", True)],
-        # },
     )
     emp_id = fields.Many2one(
         "hr.employee",
         string="Employee",
         required=True,
-        # states={"draft": [("readonly", False)]},
         default=_default_emp_id,
     )
     user_id = fields.Many2one(
         related="emp_id.user_id",
         readonly=True,
-        # states={"draft": [("readonly", False)]},
         string="User",
         store=True,
     )
@@ -85,14 +76,11 @@ class account_cash_advance(models.Model):
         string="Amount",
         required=True,
         readonly=True,
-        # states={"draft": [("readonly", False)]},
     )
-    #        'rem_amount': fields.float('Retirements', digits_compute=dp.get_precision('Account'), required=False, readonly=True, states={'draft':[('readonly',False)]}),
     ex_amount = fields.Float(
         string="Extra Amount",
         required=False,
         readonly=True,
-        # states={"draft": [("readonly", False)]},
     )
     balance = fields.Float(
         related="emp_id.balance", string="Expense Advance Balance", readonly=True
@@ -130,14 +118,12 @@ class account_cash_advance(models.Model):
         string="Company",
         required=True,
         readonly=True,
-        # states={"draft": [("readonly", False)]},
         default=lambda self: self.env["res.company"]._company_default_get(
             "cash.advance"
         ),
     )
     move = fields.Boolean(
         string="Create Journal Entry?",
-        # states={"paid": [("readonly", True)]},
         help="Tick if you want to raise journal entry when you click pay button",
         default=True,
     )
@@ -145,35 +131,24 @@ class account_cash_advance(models.Model):
         "account.journal",
         string="Journal",
         domain="['|', ('type','=','cash'), ('type','=','bank')]",
-        # states={"paid": [("readonly", True)]},
         default=_default_journal,
     )
-    #        'currency_id': fields.related('journal_id','currency', type='many2one', relation='res.currency',  help='Payment in Multiple currency.' ,string='Currency', readonly=True),
     move_id1 = fields.Many2one("account.move", string="Journal Entry", readonly=True)
     expense_id = fields.Many2one(
         "ret.expense",
         string="Expense",
-        # states={"paid": [("readonly", True)]},
     )
     employee_account = fields.Many2one(
         comodel_name="account.account",
         string="Ledger Account",
-        # states={"paid": [("readonly", True)]},
         default=_default_account,
     )
     notes = fields.Text(
         string="Description",
-        # states={
-        #     "paid": [("readonly", True)],
-        #     "approve": [("readonly", True)],
-        #     "cancel": [("readonly", True)],
-        #     "reject": [("readonly", True)],
-        # },
     )
 
     update_cash = fields.Boolean(
         string="Update Cash Register?",
-        # states={"paid": [("readonly", True)]},
         help="Tick if you want to update cash register by creating cash transaction line.",
     )
     cash_id = fields.Many2one(
@@ -181,7 +156,6 @@ class account_cash_advance(models.Model):
         string="Cash Register",
         domain=[("journal_id.type", "in", ["cash"]), ("state", "=", "open")],
         required=False,
-        # states={"paid": [("readonly", True)]},
     )
 
     currency_id = fields.Many2one(

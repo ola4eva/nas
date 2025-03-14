@@ -8,8 +8,8 @@ from odoo.addons.naseni_hr.utils.main import (
 _logger = logging.getLogger(__name__)
 
 
-class HrEmployee(models.Model):
-    _inherit = "hr.employee"
+class HrEmployee(models.AbstractModel):
+    _inherit = "hr.employee.base" # private employee model
 
     institute_id = fields.Many2one(
         comodel_name="naseni_hr.institute", string="Institute"
@@ -38,7 +38,10 @@ class HrEmployee(models.Model):
         """
         # TODO: create a new group for the retirement reminders
         notification_group = self.env.ref("naseni_hr.group_employee_retirement")
-        recipients = [partner.email_formatted for partner in notification_group.users.mapped("partner_id")]
+        recipients = [
+            partner.email_formatted
+            for partner in notification_group.users.mapped("partner_id")
+        ]
         user = self.env.ref("base.user_admin")
         if retiring_employees is None:
             return False
@@ -49,14 +52,10 @@ class HrEmployee(models.Model):
             "employee_retirement_reminder_name"
         ]
         reminder_email = self.env["res.config.settings"].get_values()[
-            "employee_retirement_reminder_email"]
+            "employee_retirement_reminder_email"
+        ]
         if sender_dict:
-            sender = (
-                reminder_name
-                + " <"
-                + reminder_email
-                + ">"
-            )
+            sender = reminder_name + " <" + reminder_email + ">"
         if not sender:
             _logger.warning("No sender email configured in system parameters")
             return
