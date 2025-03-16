@@ -295,7 +295,6 @@ class hr_expense_expense_ret(models.Model):
 
     @api.onchange("employee_id")
     def onchange_employee_id(self):
-
         department_id = False
         company_id = False
         if self.employee_id:
@@ -321,12 +320,12 @@ class hr_expense_expense_ret(models.Model):
                     org_amount = a.amount_total
                     open_amount = a.amount_open
                     approval_date = a.approval_date
-                r = {
+                r = (0, 0, {
                     "ret_id": a.id,
                     "org_amount": org_amount,
                     "open_amount": open_amount,
                     "approval_date": approval_date,
-                }
+                })
                 adv.append(r)
             if adv_ids:
                 return {
