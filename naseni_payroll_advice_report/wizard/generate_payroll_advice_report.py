@@ -3,18 +3,12 @@ from odoo import models, fields
 import io
 import xlsxwriter
 import base64
+from odoo import models, fields, api
+import calendar
+import datetime
 
 PAYROLL_DATA = [
-    [
-        1, 
-        "STAFF001", 
-        "Clement Utom", 
-        "GL10", 
-        "Bank A", 
-        "1234567890", 
-        500000, 
-        "HR"
-    ],
+    [1, "STAFF001", "Clement Utom", "GL10", "Bank A", "1234567890", 500000, "HR"],
     [
         2,
         "STAFF002",
@@ -76,16 +70,44 @@ PAYROLL_DATA = [
         "Legal",
     ],
 ]
-class PayrollAdviceWizard(models.TransientModel):
-    _name = "payroll.advice.wizard"
-    _description = "Generate Payroll Advice Spreadsheet"
 
+
+class GeneratePayrollAdviceReport(models.TransientModel):
+    _name = "payroll.advice.generate"
+    _description = "Generate Payroll Advice Report"
+
+    year = fields.Selection(
+        [
+            (str(year), str(year))
+            for year in range(
+                datetime.datetime.now().year - 50, datetime.datetime.now().year + 1
+            )
+        ],
+        string="Year",
+        default=str(datetime.datetime.now().year),
+        required=True,
+    )
+
+    month = fields.Selection(
+        [
+            (str(index), month)
+            for index, month in enumerate(calendar.month_name)
+            if month
+        ],
+        string="Month",
+        required=True,
+    )
+
+    employee_ids = fields.Many2many(
+        "hr.employee",
+        string="Employees",
+        default=lambda self: self.env["hr.employee"].search([]),
+    )
     file_name = fields.Char(string="File Name")
     file_data = fields.Binary(string="File", readonly=True)
 
     def generate_payroll_advice(self):
         # Fetch data (Replace this with actual payslip batch query)
-        
 
         # Create an in-memory Excel file
         output = io.BytesIO()
@@ -114,6 +136,7 @@ class PayrollAdviceWizard(models.TransientModel):
             sheet.write(5, col, header)
 
         # Write data
+        
         for row, data in enumerate(PAYROLL_DATA, start=6):
             for col, value in enumerate(data):
                 sheet.write(row, col, value)
@@ -132,6 +155,6 @@ class PayrollAdviceWizard(models.TransientModel):
 
         return {
             "type": "ir.actions.act_url",
-            "url": f"/web/content/?model=payroll.advice.wizard&id={self.id}&field=file_data&filename_field=file_name&download=true",
+            "url": f"/web/content/?model=payroll.advice.generate&id={self.id}&field=file_data&filename_field=file_name&download=true",
             "target": "self",
         }

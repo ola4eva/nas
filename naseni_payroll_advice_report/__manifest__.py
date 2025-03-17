@@ -15,8 +15,6 @@ Payment Advice Report
     "depends": ["hr_payroll"],
     "data": [
         "security/ir.model.access.csv",
-        "views/payroll_advice_wizard_view.xml",
-        "views/payroll_advice_wizard_action.xml",
-        "views/payroll_advice_wizard_menu.xml",
+        "wizard/generate_payroll_advice_report_views.xml",
     ],
 }

@@ -17,6 +17,7 @@ class HrEmployee(models.AbstractModel):
     pfa_id = fields.Many2one(comodel_name="naseni_hr.pfa", string="PFA")
     pension_pin = fields.Char("Pension PIN")
     date_join = fields.Date("Date Joined")
+    staff_id = fields.Char('Staff ID')
 
     @api.model
     def process_retirment_notification(self):
