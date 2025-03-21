@@ -30,6 +30,7 @@
                                     <field name="lga_ids" nolabel="1">
                                         <list>
                                             <field name="name" />
+                                            <field name="country_id" column_invisible="1" />
                                             <field name="state_id" column_invisible="1" />
                                         </list>
                                     </field>
