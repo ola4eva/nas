@@ -26,10 +26,10 @@
     'data': [
         'data/ir_sequence.xml',
         'data/store_request_data.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'security/store_request_security.xml',
         'views/stock_move_views.xml',
-        # 'views/stock_picking_rejection_views.xml',
-        # 'views/stock_picking_views.xml',
+        'views/stock_picking_rejection_views.xml',
+        'views/stock_picking_views.xml',
     ],
 }

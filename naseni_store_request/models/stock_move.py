@@ -4,7 +4,8 @@ from odoo import api, fields, models, _
 class StockMove(models.Model):
     _inherit = "stock.move"
 
-    state = fields.Selection([
+    state = fields.Selection(
+        selection=[
         ('draft', 'New'), ('cancel', 'Cancelled'),
         ('submit', 'Submitted'),
         ('approve', 'Approved'),

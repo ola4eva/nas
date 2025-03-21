@@ -24,7 +24,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.picking.rejected</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="topline_store_request.stock_picking_rejection_view_form"/>
+            <field name="view_id" ref="naseni_store_request.stock_picking_rejection_view_form"/>
             <field name="target">new</field>
         </record>
 

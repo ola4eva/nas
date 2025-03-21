@@ -1,4 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_brand_type,brand.type,model_brand_type,base.group_user,1,1,1,1
 access_stock_picking_rejected,stock.picking.rejected,model_stock_picking_rejected,base.group_user,1,1,1,1
 access_stock_rejection_reason,stock.rejection.reason,model_stock_rejection_reason,base.group_user,1,1,1,1

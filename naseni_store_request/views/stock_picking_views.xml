@@ -2,9 +2,9 @@
     <data>
 
         <record id="store_req_view_tree" model="ir.ui.view">
-            <field name="name">store.req.view.tree</field>
+            <field name="name">store.req.view.list</field>
             <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="inherit_id" ref="stock.vpicktree" />
             <field name="mode" eval="'primary'" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="after">
@@ -18,36 +18,46 @@
         <record id="topline_stock_form_view" model="ir.ui.view">
             <field name="name">stock.picking.view.form.inherit</field>
             <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="inherit_id" ref="stock.view_picking_form" />
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <field name="picking_type_name" invisible="1"/>
-                    <button name="button_submit" attrs="{'invisible': ['|', ('picking_type_name','!=','Staff Store Requests'), ('state', '!=', 'draft')]}" string="Submit To Manager" type="object" class="oe_highlight" groups="base.group_user"/>
-                    <button name="action_line_manager_approval" attrs="{'invisible': ['|', ('picking_type_name','!=','Staff Store Requests'), ('state', '!=', 'submit')]}" string="Approve" type="object" class="oe_highlight" groups="topline.group_hr_line_manager"/>
-                    <button name="action_qa_qc_approval" attrs="{'invisible': ['|', ('picking_type_name','!=','Staff Store Requests'), ('state', '!=', 'approve')]}" string="Approve" type="object" class="oe_highlight" groups="topline.group_qa"/>
-                    <button name="action_confirm2" string="Mark As Todo" type="object" states="qa_qc_approve" class="oe_highlight" />
-                    <button name="button_validate2" string="Validate" type="object" states="assigned,confirmed" class="oe_highlight" />
-                    <button name="%(topline_store_request.stock_rejection_action)d" attrs="{'invisible': ['|', ('picking_type_name','!=','Staff Store Requests'), ('state', 'not in', ('submit', 'approve', 'qa_qc_approve'))]}" string="REJECT" class="btn btn-danger" groups="topline.group_hr_line_manager,stock.group_stock_manager" type="action"/>
-                    <button name="create_atp_order" attrs="{'invisible': ['|', ('picking_type_name','!=','Staff Store Requests'), ('state', 'not in', ('qa_qc_approve', 'confirmed'))]}" string="Generate ATP" type="object" class="oe_highlight" groups="stock.group_stock_manager"/>
+                    <field name="picking_type_name" invisible="1" />
+                    <button name="button_submit"
+                        invisible="picking_type_name != 'Staff Store Requests' or state != 'draft'"
+                        string="Submit To Manager" type="object" class="oe_highlight"
+                        groups="base.group_user" />
+                    <button name="action_line_manager_approval"
+                        invisible="picking_type_name != 'Staff Store Requests' or state != 'submit'"
+                        string="Approve" type="object" class="oe_highlight"
+                        groups="naseni_store_request.group_hr_line_manager" />
+                    <button name="action_qa_qc_approval"
+                        invisible="picking_type_name != 'Staff Store Requests' or state != 'approve'"
+                        string="Approve" type="object" class="oe_highlight"
+                        groups="naseni_store_request.group_qa" />
+                    <button name="action_confirm2" string="Mark As Todo" type="object"
+                        invisible="state == 'qa_qc_approve'" class="oe_highlight" />
+                    <button name="button_validate2" string="Validate" type="object"
+                        invisible="state in ('assigned','confirmed')" class="oe_highlight" />
+                    <button name="%(naseni_store_request.stock_rejection_action)d"
+                        invisible="picking_type_name != 'Staff Store Requests' or state not in ('submit', 'approve', 'qa_qc_approve')"
+                        string="REJECT" class="btn btn-danger"
+                        groups="naseni_store_request.group_hr_line_manager,stock.group_stock_manager"
+                        type="action" />
+                    <button name="create_atp_order"
+                        invisible="picking_type_name != 'Staff Store Requests' or state not in ('qa_qc_approve', 'confirmed')"
+                        string="Generate ATP" type="object" class="oe_highlight"
+                        groups="stock.group_stock_manager" />
                 </xpath>
                 <xpath expr="//header/button[@name='action_confirm']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//header//button[@name='action_toggle_is_locked']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//header//button[@name='button_scrap']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//header//button[@name='action_open_label_type']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//header/button[@name='button_validate']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='state']" position="replace">
-                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve,qa_qc_approve,confirmed,partially_available,assigned,done"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,submit,approve,qa_qc_approve,confirmed,partially_available,assigned,done" />
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -59,35 +69,30 @@
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//page[@name='extra']//group/group" position="inside">
-                    <field name="picking_type_id" readonly="1"/>
+                    <field name="picking_type_id" readonly="1" />
                 </xpath>
                 <xpath expr="//group/group/field[@name='backorder_id']" position="before">
-                    <field name="client_id" attrs="{'readonly': [('state', '!=', 'draft')]}" />
-                    <field name="project_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                    <field name="request_date" attrs="{'readonly': [('state', '!=', 'draft')]}" />
-                    <field name="project_description" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="client_id" readonly="state != 'draft'" />
+                    <field name="project_id" readonly="state != 'draft'" />
+                    <field name="request_date" readonly="state != 'draft'" />
+                    <field name="project_description"
+                        readonly="state != 'draft'" />
                 </xpath>
                 <field name="origin" position="after">
-                    <field name="owner_id"/>
+                    <field name="owner_id" />
                     <field name="employee_id" />
                     <field name="department_id" />
                     <div groups="stock.group_tracking_owner" colspan="2" col="2">
-                        <button name="action_assign_owner" string="Assign Owner" type="object" attrs="{'invisible': ['|',('move_line_exist', '=', False),('state', 'not in', ('draft','assigned','confirmed'))]}" class="oe_link"/>
+                        <button name="action_assign_owner" string="Assign Owner" type="object"
+                            invisible="move_line_exist == False or state not in ('draft','assigned','confirmed')"
+                            class="oe_link" />
                     </div>
                 </field>
-                <xpath expr="//notebook/page[@name='operations']" position="after">
-                    <xpath expr="//notebook/page[@name='detailed_operations']" position="move"/>
-                </xpath>
-                <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']//tree//field[@name='product_id']" position="after">
-                    <field name="store_request_size" />
-                    <field name="brand_id" />
-                    <field name="certificate_required" />
-                </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page name="rejection_reason" string="Rejection">
                         <group>
-                            <label for="rejection_reason"/>
-                            <field name="rejection_reason" readonly="1" nolabel="1"/>
+                            <label for="rejection_reason" />
+                            <field name="rejection_reason" readonly="1" nolabel="1" />
                         </group>
                     </page>
                 </xpath>
@@ -100,11 +105,11 @@
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
                 <search string="Material requests">
-                    <field name="name"/>
-                    <field name="department_id"/>
-                    <field name="employee_id"/>
-                    <field name="project_description"/>
-                    <field name="request_date"/>
+                    <field name="name" />
+                    <field name="department_id" />
+                    <field name="employee_id" />
+                    <field name="project_description" />
+                    <field name="request_date" />
                 </search>
             </field>
         </record>
@@ -112,33 +117,36 @@
         <record model="ir.actions.act_window" id="store_req_action_window">
             <field name="name">Store Request</field>
             <field name="res_model">stock.picking</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="search_tpl_stock_picking"/>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="search_tpl_stock_picking" />
             <field name="domain">[('picking_type_id.name','=','Staff Store Requests')]</field>
-            <field name="context" eval='{
+            <field name="context"
+                eval='{
                 "default_is_locked": False,
                 "default_additional": True,
-                "default_picking_type_id": ref("topline_store_request.stock_picking_type_emp")
-            }'/>
+                "default_picking_type_id": ref("naseni_store_request.stock_picking_type_emp")
+            }' />
         </record>
 
         <record id="store_req_action_tree" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="store_req_view_tree"/>
-            <field name="act_window_id" ref="store_req_action_window"/>
+            <field eval="1" name="sequence" />
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="store_req_view_tree" />
+            <field name="act_window_id" ref="store_req_action_window" />
         </record>
 
         <record id="store_req_action_form" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
+            <field eval="2" name="sequence" />
             <field name="view_mode">form</field>
-            <field name="view_id" ref="topline_stock_form_view"/>
-            <field name="act_window_id" ref="store_req_action_window"/>
+            <field name="view_id" ref="topline_stock_form_view" />
+            <field name="act_window_id" ref="store_req_action_window" />
         </record>
 
-        <menuitem name="Material requisition / Store Request" id="store_request" parent="stock.menu_stock_root" action="store_req_action_window"/>
+        <menuitem name="Store Request" id="store_request"
+            parent="stock.menu_stock_root" action="store_req_action_window" />
 
-        <menuitem name="Inventory" id="stock.menu_stock_root" sequence="30" groups="base.group_user" web_icon="stock,static/description/icon.png"/>
+        <menuitem name="Inventory" id="stock.menu_stock_root" sequence="30" groups="base.group_user"
+            web_icon="stock,static/description/icon.png" />
 
     </data>
 </odoo>
