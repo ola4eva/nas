@@ -3,5 +3,4 @@ access_user_naseni_institute,naseni_hr.naseni_institute,model_naseni_hr_institut
 access_user_pfa,naseni_hr.pfa,model_naseni_hr_pfa,base.group_user,1,1,1,1
 access_user_directorate,naseni_hr.directorate,model_naseni_hr_directorate,base.group_user,1,1,1,1
 access_user_cadre,naseni_hr.cadre,model_naseni_hr_cadre,base.group_user,1,1,1,1
-access_user_state,naseni_hr.state,model_naseni_hr_state,base.group_user,1,1,1,1
-access_user_lga,naseni_hr.lga,model_naseni_hr_lga,base.group_user,1,1,1,1
+naseni_hr.access_res_country_lga,access_res_country_lga,model_res_country_state_lga,base.group_user,1,1,1,1

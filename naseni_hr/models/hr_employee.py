@@ -25,7 +25,7 @@ class HrEmployee(models.AbstractModel):
     staff_id = fields.Char('Staff ID')
     dir_id = fields.Many2one(comodel_name="naseni_hr.directorate", string="Directorate")
     cadre_id = fields.Many2one(comodel_name="naseni_hr.cadre", string="Cadre")
-    state_id = fields.Many2one('naseni_hr.state', string='State')
+    state_id = fields.Many2one('res.country.state', string='State')
     lga_id = fields.Many2one('res.country.state.lga', string='Lga', domain="[('state_id', '=', state_id)]")
     geo = fields.Selection([
         ('nw', 'NORTH WEST'),

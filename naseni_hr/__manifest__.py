@@ -24,7 +24,7 @@
         'views/res_config_settings_views.xml',
         'views/directorate_views.xml',
         'views/cadre_views.xml',
-        'views/hr_state_views.xml',
+        'views/res_state_views.xml',
     ],
 }
 

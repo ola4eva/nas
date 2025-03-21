@@ -5,7 +5,7 @@
 
         <record id="naseni_hr_state_view_list" model="ir.ui.view">
             <field name="name">naseni_hr_state.view.list</field>
-            <field name="model">naseni_hr.state</field>
+            <field name="model">res.country.state</field>
             <field name="arch" type="xml">
                 <list string="State">
                     <field name="name"/>
@@ -15,7 +15,7 @@
 
         <record id="naseni_hr_state_view_form" model="ir.ui.view">
             <field name="name">naseni_hr_state.view.form</field>
-            <field name="model">naseni_hr.state</field>
+            <field name="model">res.country.state</field>
             <field name="arch" type="xml">
                 <form string="">
                     <sheet>
@@ -43,7 +43,7 @@
 
         <record id="naseni_hr_state_view_search" model="ir.ui.view">
             <field name="name">naseni_hr_state.view.search</field>
-            <field name="model">naseni_hr.state</field>
+            <field name="model">res.country.state</field>
             <field name="arch" type="xml">
                 <search string="State">
                     <field name="name"/>
@@ -53,7 +53,7 @@
 
         <record id="naseni_hr_state_action" model="ir.actions.act_window">
             <field name="name">State</field>
-            <field name="res_model">naseni_hr.state</field>
+            <field name="res_model">res.country.state</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[]</field>
             <field name="context">{}</field>
@@ -63,7 +63,7 @@
         </record>
 
         <menuitem
-        id="naseni_hr.state_menu"
+        id="res_country_state_menu"
         name="State"
         action="naseni_hr_state_action"
         parent="hr.menu_human_resources_configuration"
