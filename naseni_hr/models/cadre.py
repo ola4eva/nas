@@ -1,8 +1,8 @@
 from odoo import models, fields, api
 
-class PensionFundAdministrator(models.Model):
-    _name = 'naseni_hr.pfa'
+class HrCadre(models.Model):
+    _name = 'naseni_hr.cadre'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _description = 'Pension Fund Administrator'
+    _description = 'Cadre'
 
     name = fields.Char('Name')

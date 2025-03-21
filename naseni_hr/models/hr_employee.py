@@ -10,14 +10,32 @@ _logger = logging.getLogger(__name__)
 
 class HrEmployee(models.AbstractModel):
     _inherit = "hr.employee.base" # private employee model
-
+    _sql_constraints = [
+    ('name_uniq', 'UNIQUE (staff_id)', 'You can not have two employees with the same Staff Number !')
+]
     institute_id = fields.Many2one(
         comodel_name="naseni_hr.institute", string="Institute"
     )
     pfa_id = fields.Many2one(comodel_name="naseni_hr.pfa", string="PFA")
     pension_pin = fields.Char("Pension PIN")
+    date_appointment = fields.Date("Date of Appointment")
+    date_confirm = fields.Date("Date of Confirmation")
+    date_present = fields.Date("Present Appointment Date")
     date_join = fields.Date("Joined Date")
     staff_id = fields.Char('Staff ID')
+    dir_id = fields.Many2one(comodel_name="naseni_hr.directorate", string="Directorate")
+    cadre_id = fields.Many2one(comodel_name="naseni_hr.cadre", string="Cadre")
+    state_id = fields.Many2one('naseni_hr.state', string='State')
+    lga_id = fields.Many2one('naseni_hr.lga', string='Lga', domain="[('state_id', '=', state_id)]")
+    geo = fields.Selection([
+        ('nw', 'NORTH WEST'),
+        ('ne', 'NORTH EAST'),
+        ('nc', 'NORTH CENTRAL'),
+        ('sw', 'SOUTH WEST'),
+        ('se', 'SOUTH EAST'),
+        ('ss', 'SOUTH SOUTH')
+    ], groups="hr.group_hr_user", tracking=True, string='Geo Political Zone',)
+
 
     @api.model
     def process_retirment_notification(self):
