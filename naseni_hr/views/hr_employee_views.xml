@@ -6,22 +6,30 @@
       <field name="inherit_id" ref="hr.view_employee_form" />
       <field name="arch" type="xml">
         <xpath expr="//field[@name='work_email']" position="before">
+          <field name="title_id"/>
           <field name="staff_id"/>
           <field name="dir_id"/>
           <field name="cadre_id"/>
+          <field name="acc_qual"/>
+          <field name="prof_qual"/>
           </xpath>
           <xpath expr="//field[@name='work_email']" position="before">
           <field name="institute_id"/>
           <field name="geo"/>
-           <field name="state_id"/>
-            <field name="lga_id"/></xpath>
+            <field name="pfa_id"/>
+          <field name="pension_pin"/>
+           </xpath>
           <xpath expr="//field[@name='coach_id']" position="after">
+            <field name="tin"/>
+          <field name="nhf"/>
+          <field name="nin"/>
+            <field name="state_id"/>
+            <field name="lga_id"/>
             <field name="date_appointment"/>
             <field name="date_confirm"/>
             <field name="date_present"/>
             <field name="date_join"/>
-          <field name="pfa_id"/>
-          <field name="pension_pin"/>
+
         </xpath>
       </field>
     </record>

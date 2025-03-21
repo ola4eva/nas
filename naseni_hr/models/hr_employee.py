@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 
 class HrEmployee(models.AbstractModel):
-    _inherit = "hr.employee.base" # private employee model
+    _inherit = "hr.employee.base"
     _sql_constraints = [
     ('name_uniq', 'UNIQUE (staff_id)', 'You can not have two employees with the same Staff Number !')
 ]
@@ -35,6 +35,14 @@ class HrEmployee(models.AbstractModel):
         ('se', 'SOUTH EAST'),
         ('ss', 'SOUTH SOUTH')
     ], groups="hr.group_hr_user", tracking=True, string='Geo Political Zone',)
+    acc_qual = fields.Char('Academic Qualification')
+    prof_qual = fields.Char('Professional Qualification')
+    tin = fields.Char('Tax Idetification No.')
+    nhf = fields.Char('National Housing Fund')
+    nin = fields.Char('National Identity No.')
+    title_id = fields.Many2one(
+            comodel_name="res.partner.title", string="Title"
+        )
 
 
     @api.model
