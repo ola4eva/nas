@@ -12,10 +12,10 @@ class HrEmployeeCategory(models.Model):
         "policy_id",
         string="Salary Advance Policies",
     )
-    account_ids = fields.Many2many(
-        "account.account",
-        "employee_category_account_rel",
-        "category_id",
-        "account_id",
-        string="Account Codes",
-    )
+    # account_ids = fields.Many2many(
+    #     "account.account",
+    #     "employee_category_account_rel",
+    #     "category_id",
+    #     "account_id",
+    #     string="Account Codes",
+    # )

@@ -1,7 +1,7 @@
 <odoo>
     <data>
 
-        <record id="employee_categ_form_exp" model="ir.ui.view">
+        <!-- <record id="employee_categ_form_exp" model="ir.ui.view">
             <field name="name">employee.form.expense</field>
             <field name="model">hr.employee.category</field>
             <field name="inherit_id" ref="hr.view_employee_category_form" />
@@ -11,7 +11,7 @@
                     <field name="account_ids" nolabel="1" />
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
         <record id="employee_extd_form_advance_cash" model="ir.ui.view">
             <field name="name">cash.advance.employee.form</field>
@@ -25,9 +25,9 @@
                                 options="{'no_create': True, 'no_create_edit': True}" />
                         </group>
                     </page>
-                    <page string="Allowed Accounts in expense">
+                    <!-- <page string="Allowed Accounts in expense">
                         <field name="account_ids" nolabel="1" />
-                    </page>
+                    </page> -->
                 </xpath>
                 <xpath expr="//page[@name='hr_settings']" position="inside">
                     <group string="Expense Limit Settings">

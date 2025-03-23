@@ -63,14 +63,13 @@ class HrEmployeeBase(models.AbstractModel):
         "policy_id",
         string="Salary Advance Policies",
     )
-
-    account_ids = fields.Many2many(
-        "account.account",
-        "employee_account_rel",
-        "emp_id",
-        "account_id",
-        string="Account Codes",
-    )
+    # account_ids = fields.Many2many(
+    #     "account.account",
+    #     "employee_account_rel",
+    #     "emp_id",
+    #     "account_id",
+    #     string="Account Codes",
+    # )
     address_home_id = fields.Many2one("res.partner", "Home Address")
     cash_ids = fields.One2many(
         "cash.advance",
