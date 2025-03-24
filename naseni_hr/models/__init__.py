@@ -7,3 +7,4 @@ from . import res_config_settings
 from . import directorate
 from . import cadre
 from . import res_state
+from . import next_of_kin
