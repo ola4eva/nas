@@ -3,11 +3,12 @@ import base64
 import xlsxwriter
 import calendar
 import datetime
-from odoo import models, fields, api
+from odoo import models, fields
 
 
 class PayrollAdvice(models.Model):
     _name = "payroll.advice.generate"
+    _description = "Payroll Advice Wizard"
 
     file_name = fields.Char()
     file_data = fields.Binary()
@@ -52,7 +53,7 @@ class PayrollAdvice(models.Model):
 
         PAYROLL_DATA = [
             (
-                index + 1,
+                index,
                 rec.employee_id.staff_id or "N/A",
                 rec.employee_id.name,
                 rec.employee_id.grade_id.name if rec.employee_id.grade_id else "N/A",
@@ -65,7 +66,7 @@ class PayrollAdvice(models.Model):
                 rec.net_wage,
                 rec.department_id.name if rec.department_id else "N/A",
             )
-            for index, rec in enumerate(payroll_records)
+            for index, rec in enumerate(payroll_records, start=1)
         ]
 
         # Create an in-memory Excel file

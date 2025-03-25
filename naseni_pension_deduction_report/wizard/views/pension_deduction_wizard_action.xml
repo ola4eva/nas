@@ -3,7 +3,6 @@
         <field name="name">Generate Pension Deduction</field>
         <field name="res_model">pension.deduction.wizard</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_pension_deduction_wizard_form" />
         <field name="target">new</field>
     </record>
 </odoo>

@@ -5,14 +5,18 @@
         <field name="arch" type="xml">
             <form string="Generate Pension Deduction Spreadsheet">
                 <group>
+                    <field name="year" />
+                    <field name="month" />
+                    <field name="employee_ids" widget="many2many_tags" />
+                </group>
+                <group>
                     <field name="file_name" readonly="0" />
                     <field name="file_data" filename="file_name" widget="binary" invisible="1" />
                 </group>
                 <footer>
-                    <button name="generate_excel_report" string="Generate" type="object"
+                    <button name="generate_excel_report" string="Generate Excel" type="object"
                         class="btn-primary" />
-                    <button
-                        string="Cancel" class="btn-secondary" special="cancel" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>
         </field>
