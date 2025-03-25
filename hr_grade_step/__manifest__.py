@@ -25,6 +25,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/grade_step_data.xml',
+        'data/server_action.xml',
         'views/employee_grade_views.xml',
         'views/hr_employee_views.xml',
     ],
