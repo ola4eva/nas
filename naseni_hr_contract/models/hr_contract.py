@@ -5,7 +5,7 @@ _logger = logging.getLogger(__name__)
 
 
 class HrContract(models.Model):
-    _inherit = "hr_contract.contract"
+    _inherit = "hr.contract"
 
     skip_from_progress_action = fields.Boolean("Skip From Server Action")
 
