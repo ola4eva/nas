@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+
+        <record model="ir.actions.server" id="action_start_contracts">
+            <field name="name">Start Contracts</field>
+            <field name="model_id" ref="hr_contract.model_hr_contract" />
+            <field name="state">code</field>
+            <field name="code">
+                if record:
+                    record.start_contracts_except_skipped()
+            </field>
+        </record>
+    
+    </data>
+
+</odoo>
