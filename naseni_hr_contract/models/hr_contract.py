@@ -21,3 +21,40 @@ class HrContract(models.Model):
         )
         _logger.info(f"After: Contracts to be set to running... {contracts_to_start}")
         return True
+
+    @api.model
+    def _cron_update_contract_start_date(self, step=50):
+        def splittor(rs):
+            for idx in range(0, len(rs)):
+                sub = rs[idx : idx + step]
+                for rec in sub:
+                    yield rec
+                self._invalidate_cache(ids=sub.ids)
+
+        contracts_to_update = self.search([("state", "=", "draft")]).filtered(
+            lambda contract: contract.date_start != contract.employee_id.date_join
+            and contract.employee_id.date_join != False
+        )
+        contracts_to_update = self.search([]).filtered(
+            lambda contract: contract.date_start != contract.employee_id.date_join
+            and contract.employee_id.date_join != False
+        )
+        for contract in splittor(contracts_to_update):
+            contract._update_contract_start_date()
+        return True
+
+    def _update_contract_start_date(self):
+        """Update the contract start date for single record"""
+        for contract in self:
+            if not contract.employee_id.date_join:
+                continue
+            _logger.info(
+                f"Start Date Before Updating: Contracts to be set to running... {contract.date_start}"
+            )
+            try:
+                contract.update({"date_start": contract.employee_id.date_join})
+            except Exception as e:
+                _logger.error("Unable to update the start date")
+            _logger.info(
+                f"After: Contracts to be set to running... {contract.date_start}"
+            )
