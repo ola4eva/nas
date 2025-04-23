@@ -75,9 +75,15 @@ class PayrollAdviceWizard(models.TransientModel):
         # Get last valid day of the month
         last_day = calendar.monthrange(selected_year, selected_month)[1]
         # Fetch payroll data for the selected month, year, and employees
+        # domain = [
+        #     ("date_from", ">=", f"{selected_year}-{selected_month:02d}-01"),
+        #     ("date_to", "<=", f"{selected_year}-{selected_month:02d}-{last_day}"),
+        #     ("employee_id", "in", self.employee_ids.ids),
+        #     ("state", "in", ["done", "paid"]),  # Only include processed payslips
+        # ]
         domain = [
-            ("date_from", ">=", f"{selected_year}-{selected_month:02d}-01"),
-            ("date_to", "<=", f"{selected_year}-{selected_month:02d}-{last_day}"),
+            ("date_from", ">=", "{}-{:02d}-01".format(selected_year, selected_month)),
+            ("date_to", "<=", "{}-{:02d}-{}".format(selected_year, selected_month, last_day)),
             ("employee_id", "in", self.employee_ids.ids),
             ("state", "in", ["done", "paid"]),  # Only include processed payslips
         ]
@@ -107,9 +113,16 @@ class PayrollAdviceWizard(models.TransientModel):
             "NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE",
             title_format,
         )
+        # sheet1.merge_range(
+        #     "A3:E3",
+        #     f"PENSION DEDUCTION FOR THE MONTH OF {calendar.month_name[int(self.month)]}, {self.year}",
+        #     title_format,
+        # )
         sheet1.merge_range(
             "A3:E3",
-            f"PENSION DEDUCTION FOR THE MONTH OF {calendar.month_name[int(self.month)]}, {self.year}",
+            "PENSION DEDUCTION FOR THE MONTH OF {}, {}".format(
+                calendar.month_name[int(self.month)], self.year
+            ),
             title_format,
         )
 
@@ -156,9 +169,16 @@ class PayrollAdviceWizard(models.TransientModel):
             title_format,
         )
         sheet2.merge_range("B4:G4", "PENSION DEDUCTION SUMMARY", title_format)
+        # sheet2.write(
+        #     "F6",
+        #     f"Report as at: {datetime.datetime.now().strftime("%d/%m/%Y")}",
+        #     header_format,
+        # )
         sheet2.write(
             "F6",
-            f"Report as at: {datetime.datetime.now().strftime("%d/%m/%Y")}",
+            "Report as at: {}".format(
+                datetime.datetime.now().strftime("%d/%m/%Y")
+            ),
             header_format,
         )
 
@@ -190,8 +210,13 @@ class PayrollAdviceWizard(models.TransientModel):
             }
         )
 
+        # return {
+        #     "type": "ir.actions.act_url",
+        #     "url": f"/web/content/{attachment.id}?download=true",
+        #     "target": "self",
+        # }
         return {
             "type": "ir.actions.act_url",
-            "url": f"/web/content/{attachment.id}?download=true",
+            "url": "/web/content/{}?download=true".format(attachment.id),
             "target": "self",
         }
