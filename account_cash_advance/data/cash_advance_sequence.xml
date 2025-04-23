@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="seq_cash_advance" model="ir.sequence">
+            <field name="name">Cash Advance Sequence</field>
+            <field name="code">cash.advance</field>
+            <field name="prefix">PVC/%(year)s/</field>
+            <field name="padding">3</field>
+        </record>
+
+    </data>
+
+</odoo>
