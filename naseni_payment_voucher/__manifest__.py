@@ -12,8 +12,6 @@
     'depends': ['account_budget'],
     'license': "LGPL-3",
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/votebook_views.xml',
         'views/report_payment_voucher_views.xml',
     ],
 }
