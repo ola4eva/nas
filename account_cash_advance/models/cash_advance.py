@@ -42,7 +42,13 @@ class account_cash_advance(models.Model):
         )
 
     name = fields.Char(
-        string="Advance Description",
+        string="Number",
+        default="/",
+        required=True,
+        readonly=True
+    )
+    description = fields.Char(
+        string="Description",
         required=True,
         readonly=False,
     )
@@ -181,7 +187,8 @@ class account_cash_advance(models.Model):
             )
         if cash.amount_total + cash.emp_id.balance > cash.emp_id.limit:
             raise UserError(_("This advance request is over your allowed limit."))
-        return self.write({"state": "open"})
+        seq = self.env['ir.sequence'].next_by_code("cash.advance")
+        return self.write({"state": "open", "name": seq})
 
     def approve(self):
         cash = self
