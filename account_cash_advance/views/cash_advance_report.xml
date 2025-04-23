@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- views/payment_voucher_report.xml -->
+    <template id="report_cash_advance">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h3 style="text-align:center">NATIONAL AGENCY FOR SCIENCE AND ENGINEERING
+                        INFRASTRUCTURE<br />THE PRESIDENCY</h3>
+                    <p style="text-align:center">Idu Industrial Layout, PMB 391, Garki Abuja<br />nasenihq@naseni.org
+                        | www.naseni.gov.ng</p>
+                    <h2 style="text-align:center">PAYMENT VOUCHER</h2>
+
+                    <p><strong>PAY:</strong> _____________________</p>
+                    <p>
+                        <strong>P.V NO:</strong>
+                        <t t-esc="doc.name" />
+                    </p>
+                    <p>
+                        <strong>DATE:</strong>
+                        <t t-esc="doc.date" />
+                    </p>
+                    <!-- <p>
+                        <strong>BL NO:</strong>
+                        <t t-esc="doc.bl_no" />
+                    </p> -->
+
+                    <!-- <table class="table table-bordered" style="width:100%; margin-top:10px">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description Of Payment</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>K</th>
+                                <th>N</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.payment_lines" t-as="line">
+                                <td></td>
+                                <td>
+                                    <t t-esc="line.description" />
+                                </td>
+                                <td>
+                                    <t t-esc="line.debit" />
+                                </td>
+                                <td>
+                                    <t t-esc="line.credit" />
+                                </td>
+                                <td>
+                                    <t t-esc="line.amount_k" />
+                                </td>
+                                <td>
+                                    <t t-esc="line.amount_n" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>
+                        <strong>Total:</strong>
+                        <t t-esc="doc.amount_total" />
+                    </p>
+                    <p>
+                        <strong>Amount in words:</strong>
+                        <t t-esc="doc.amount_words" />
+                    </p>
+
+                    <p>
+                        <strong>File No:</strong>
+                        <t t-esc="doc.file_no" />
+                    </p>
+                    <p><strong>Prepared by:</strong> <t t-esc="doc.prepared_by" /> — <t
+                            t-esc="doc.prepared_date" /></p>
+                    <p>
+                        <strong>Recorded in Vote Book:</strong>
+                        <t t-esc="doc.vote_book_date" />
+                    </p>
+                    <p>
+                        <strong>Internal Audit:</strong>
+                        <t t-esc="doc.internal_audit_date" />
+                    </p>
+                    <p><strong>Checked by:</strong> <t t-esc="doc.checked_by" /> — <t
+                            t-esc="doc.checked_date" /></p>
+                    <p><strong>Passed by:</strong> <t t-esc="doc.passed_by" /> — <t
+                            t-esc="doc.passed_date" /></p>
+                    <p><strong>Approved by:</strong> <t t-esc="doc.approved_by" /> — <t
+                            t-esc="doc.approved_date" /></p> -->
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_payment_voucher" model="ir.actions.report">
+        <field name="name">Payment Voucher</field>
+        <field name="model">cash.advance</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_cash_advance.report_cash_advance</field>
+        <field name="report_file">account_cash_advance.report_cash_advance</field>
+        <field name="print_report_name">"'Payment Voucher - %s' % (object.name)"</field>
+        <field name="attachment" />
+        <field name="binding_model_id" ref="account_cash_advance.model_cash_advance" />
+    </record>
+
+</odoo>

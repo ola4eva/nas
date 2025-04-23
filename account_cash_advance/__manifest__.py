@@ -26,6 +26,7 @@ Features
         'views/hr_employee_view.xml',
         "views/hr_expense_retirement_view.xml",
         "views/ng_refund_advance_view.xml",
+        "views/cash_advance_report.xml",
     ],
     "auto_install": False,
     "license": "LGPL-3",
