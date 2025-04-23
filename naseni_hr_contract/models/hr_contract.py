@@ -32,12 +32,12 @@ class HrContract(models.Model):
                 self._invalidate_cache(ids=sub.ids)
 
         contracts_to_update = self.search([("state", "=", "draft")]).filtered(
-            lambda contract: contract.date_start != contract.employee_id.date_join
-            and contract.employee_id.date_join != False
+            lambda contract: contract.date_start != contract.employee_id.date_present
+            and contract.employee_id.date_present != False
         )
         contracts_to_update = self.search([]).filtered(
-            lambda contract: contract.date_start != contract.employee_id.date_join
-            and contract.employee_id.date_join != False
+            lambda contract: contract.date_start != contract.employee_id.date_present
+            and contract.employee_id.date_present != False
         )
         for contract in splittor(contracts_to_update):
             contract._update_contract_start_date()
@@ -46,13 +46,13 @@ class HrContract(models.Model):
     def _update_contract_start_date(self):
         """Update the contract start date for single record"""
         for contract in self:
-            if not contract.employee_id.date_join:
+            if not contract.employee_id.date_present:
                 continue
             _logger.info(
                 f"Start Date Before Updating: Contracts to be set to running... {contract.date_start}"
             )
             try:
-                contract.update({"date_start": contract.employee_id.date_join})
+                contract.update({"date_start": contract.employee_id.date_present})
             except Exception as e:
                 _logger.error("Unable to update the start date")
             _logger.info(
