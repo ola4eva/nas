@@ -14,6 +14,7 @@
     'data': [
         # 'security/ir.model.access.csv',
         'views/votebook_views.xml',
+        'views/report_payment_voucher_views.xml',
     ],
 }
 
