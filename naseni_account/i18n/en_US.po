@@ -73,7 +73,7 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_payment__reconciled_invoices_count
 msgid "# Reconciled Invoices"
-msgstr "# Reconciled Votebooks"
+msgstr "# Reconciled payment Vouchers"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_payment__reconciled_statement_lines_count
@@ -4183,7 +4183,7 @@ msgstr ""
 #. module: account
 #: model:account.journal,name:account.1_sale
 msgid "Client Invoices"
-msgstr "Client Votebooks"
+msgstr "Client payment Vouchers"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_terms_conditions_setting_banner
@@ -4679,7 +4679,7 @@ msgstr ""
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
 msgid "Create Invoices upon Emails"
-msgstr "Create Votebooks upon Emails"
+msgstr "Create payment Vouchers upon Emails"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_automatic_entry_wizard_form
@@ -5256,17 +5256,17 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account.res_partner_view_search
 #: model_terms:ir.ui.view,arch_db:account.view_partner_property_form
 msgid "Client Invoices"
-msgstr "Votebooks"
+msgstr "payment Vouchers"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_res_config_settings__account_discount_expense_allocation_id
 msgid "Client Invoices Discounts Account"
-msgstr "Votebook Discounts Account"
+msgstr "payment Voucher Discounts Account"
 
 #. module: account
 #: model:ir.model.fields.selection,name:account.selection__res_company__quick_edit_mode__out_and_in_invoices
 msgid "Client Invoices and Contractor Bills"
-msgstr "Votebook and Contractor Bills"
+msgstr "payment Voucher and Contractor Bills"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -6122,12 +6122,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:account.field_account_tax__invoice_repartition_line_ids
 #: model_terms:ir.ui.view,arch_db:account.view_tax_form
 msgid "Distribution for Invoices"
-msgstr "Distribution for Votebooks"
+msgstr "Distribution for payment Vouchers"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_tax__refund_repartition_line_ids
 msgid "Distribution for Refund Invoices"
-msgstr "Distribution for Refund Votebooks"
+msgstr "Distribution for Refund payment Vouchers"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_tax_form
@@ -6262,7 +6262,7 @@ msgstr ""
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
 msgid "Draft Invoices"
-msgstr "Draft Votebooks"
+msgstr "Draft payment Vouchers"
 
 #. module: account
 #. odoo-python
@@ -7322,7 +7322,7 @@ msgid ""
 "reports and so, match this analysis to your needs."
 msgstr ""
 "From this report, you can have an overview of the amount invoiced from your "
-"vendors. The search tool can also be used to personalise your Votebooks "
+"vendors. The search tool can also be used to personalise your payment Vouchers "
 "reports and so, match this analysis to your needs."
 
 #. module: account
@@ -7333,7 +7333,7 @@ msgid ""
 "reports and so, match this analysis to your needs."
 msgstr ""
 "From this report, you can have an overview of the amount invoiced to your "
-"customers. The search tool can also be used to personalise your Votebooks "
+"customers. The search tool can also be used to personalise your payment Vouchers "
 "reports and so, match this analysis to your needs."
 
 #. module: account
@@ -8642,12 +8642,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account.view_account_payment_graph
 #: model_terms:ir.ui.view,arch_db:account.view_invoice_tree
 msgid "Invoices"
-msgstr "Votebooks"
+msgstr "payment Vouchers"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_my_home_menu_invoice
 msgid "Invoices &amp; Bills"
-msgstr "Votebooks &amp; Bills"
+msgstr "payment Vouchers &amp; Bills"
 
 #. module: account
 #: model:ir.actions.act_window,name:account.action_account_invoice_report_all
@@ -8658,72 +8658,72 @@ msgstr "Votebooks &amp; Bills"
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_pivot
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
 msgid "Invoices Analysis"
-msgstr "Votebooks Analysis"
+msgstr "payment Vouchers Analysis"
 
 #. module: account
 #: model:ir.model,name:account.model_account_invoice_report
 msgid "Invoices Statistics"
-msgstr "Votebooks Statistics"
+msgstr "payment Vouchers Statistics"
 
 #. module: account
 #. odoo-python
 #: code:addons/account/wizard/account_move_send_batch_wizard.py:0
 msgid "Invoices are being sent in the background."
-msgstr "Votebooks are being sent in the background."
+msgstr "payment Vouchers are being sent in the background."
 
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
 msgid "Invoices in error"
-msgstr "Votebooks in error"
+msgstr "payment Vouchers in error"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "Invoices late"
-msgstr "Votebooks late"
+msgstr "payment Vouchers late"
 
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_journal_dashboard.py:0
 msgid "Invoices owed to you"
-msgstr "Votebooks owed to you"
+msgstr "payment Vouchers owed to you"
 
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
 msgid "Invoices sent"
-msgstr "Votebooks sent"
+msgstr "payment Vouchers sent"
 
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
 msgid "Invoices sent successfully."
-msgstr "Votebooks sent successfully"
+msgstr "payment Vouchers sent successfully"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "Invoices to Validate"
-msgstr "Votebooks to Validate"
+msgstr "payment Vouchers to Validate"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_payment__reconciled_bill_ids
 #: model:ir.model.fields,help:account.field_account_payment__reconciled_invoice_ids
 msgid "Invoices whose journal items have been reconciled with these payments."
-msgstr "Votebooks whose journal items have been reconciled with these payments."
+msgstr "payment Vouchers whose journal items have been reconciled with these payments."
 
 #. module: account
 #. odoo-python
 #: code:addons/account/models/chart_template.py:0
 #: model:account.reconcile.model,name:account.1_reconcile_partial_underpaid
 msgid "Invoices/Bills Partial Match if Underpaid"
-msgstr "Votebooks/Bills Partial Match if Underpaid"
+msgstr "payment Vouchers/Bills Partial Match if Underpaid"
 
 #. module: account
 #. odoo-python
 #: code:addons/account/models/chart_template.py:0
 #: model:account.reconcile.model,name:account.1_reconcile_perfect_match
 msgid "Invoices/Bills Perfect Match"
-msgstr "Votebooks/Bills Perfect Match"
+msgstr "payment Vouchers/Bills Perfect Match"
 
 #. module: account
 #: model:ir.ui.menu,name:account.account_invoicing_menu
@@ -8733,7 +8733,7 @@ msgstr "Votebooks/Bills Perfect Match"
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
 #: model_terms:ir.ui.view,arch_db:account.view_partner_property_form
 msgid "Invoicing"
-msgstr "Votebooks"
+msgstr "payment Vouchers"
 
 #. module: account
 #: model:res.groups,name:account.group_account_basic
@@ -8745,7 +8745,7 @@ msgstr "votebooks & Banks"
 #: model:ir.model.fields.selection,name:account.selection__account_move__payment_state__invoicing_legacy
 #: model:ir.model.fields.selection,name:account.selection__account_move__status_in_payment__invoicing_legacy
 msgid "Invoicing App Legacy"
-msgstr "Votebook App Legacy"
+msgstr "payment Voucher App Legacy"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -9249,7 +9249,7 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_tax__invoice_label
 msgid "Label on Invoices"
-msgstr "Label on Votebooks"
+msgstr "Label on payment Vouchers"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_tax_group_form
@@ -10129,7 +10129,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
 msgid "My Invoices"
-msgstr "My Votebooks"
+msgstr "My payment Vouchers"
 
 #. module: account
 #: model:account.account,name:account.1_l10n_ng_expense_rd
@@ -10983,7 +10983,7 @@ msgstr ""
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_my_home_invoice
 msgid "Our Invoices"
-msgstr "Our Votebooks"
+msgstr "Our payment Vouchers"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_default_terms_and_conditions
@@ -11182,7 +11182,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account/models/account_payment.py:0
 msgid "Paid Invoices"
-msgstr "Paid Votebooks"
+msgstr "Paid payment Vouchers"
 
 #. module: account
 #. odoo-javascript
@@ -12300,12 +12300,12 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_payment__reconciled_invoice_ids
 msgid "Reconciled Invoices"
-msgstr "Reconciled Votebooks"
+msgstr "Reconciled payment Vouchers"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_payment__reconciled_invoices_type
 msgid "Reconciled Invoices Type"
-msgstr "Reconciled Votebooks Type"
+msgstr "Reconciled payment Vouchers Type"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_payment__reconciled_statement_line_ids
@@ -15243,7 +15243,7 @@ msgid ""
 "The sequences of this journal are different for Invoices and Refunds but you"
 " selected some of both types."
 msgstr ""
-"The sequences of this journal are different for Votebooks and Refunds but you"
+"The sequences of this journal are different for payment Vouchers and Refunds but you"
 " selected some of both types."
 
 #. module: account
@@ -16090,7 +16090,7 @@ msgid ""
 "Trigger alerts when creating Invoices and Sales Orders for Partners with a "
 "Total Receivable amount exceeding a limit."
 msgstr ""
-"Trigger alerts when creating Votebooks and Sales Orders for Partners with a "
+"Trigger alerts when creating payment Vouchers and Sales Orders for Partners with a "
 "Total Receivable amount exceeding a limit."
 
 #. module: account
@@ -16400,7 +16400,7 @@ msgstr ""
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "Upload Invoices"
-msgstr "Upload Votebooks"
+msgstr "Upload payment Vouchers"
 
 #. module: account
 #. odoo-javascript
@@ -16802,7 +16802,7 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,field_description:account.field_res_config_settings__group_warning_account
 msgid "Warnings in Invoices"
-msgstr "Warnings in Votebooks"
+msgstr "Warnings in payment Vouchers"
 
 #. module: account
 #. odoo-python
@@ -17670,7 +17670,7 @@ msgstr ""
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_my_home_invoice
 msgid "Your Invoices"
-msgstr "Your Votebooks"
+msgstr "Your payment Vouchers"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_company_form_view_onboarding
@@ -17853,7 +17853,7 @@ msgstr ""
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
 msgid "e.g. Client Invoices"
-msgstr "e.g. Votebook"
+msgstr "e.g. payment Voucher"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_journal_group_form
