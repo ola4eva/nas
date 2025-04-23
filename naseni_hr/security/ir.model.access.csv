@@ -1,3 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_user_naseni_institute,naseni_hr.naseni_institute,model_naseni_hr_institute,base.group_user,1,1,1,1
 access_user_pfa,naseni_hr.pfa,model_naseni_hr_pfa,base.group_user,1,1,1,1
+access_user_directorate,naseni_hr.directorate,model_naseni_hr_directorate,base.group_user,1,1,1,1
+access_user_cadre,naseni_hr.cadre,model_naseni_hr_cadre,base.group_user,1,1,1,1
+naseni_hr.access_res_country_lga,access_res_country_lga,model_res_country_state_lga,base.group_user,1,1,1,1
+naseni_hr.access_next_of_kin,access_next_of_kin,model_naseni_hr_next_of_kin,base.group_user,1,1,1,1

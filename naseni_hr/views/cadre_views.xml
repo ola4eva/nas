@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="naseni_hr_cadre_view_list" model="ir.ui.view">
+        <field name="name">naseni.hr.cadre.view.list</field>
+        <field name="model">naseni_hr.cadre</field>
+        <field name="arch" type="xml">
+            <list string="Cadre">
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="naseni_hr.cadre_view_form" model="ir.ui.view">
+        <field name="name">naseni_hr.cadre.view.form</field>
+        <field name="model">naseni_hr.cadre</field>
+        <field name="arch" type="xml">
+            <form string="Cadre">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <h3>
+                                <field name="name" placeholder="CONSOLIDATED, etc..." required="1" />
+                            </h3>
+                        </div>
+                        </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="naseni_hr_cadre_action" model="ir.actions.act_window">
+        <field name="name">Cadre</field>
+        <field name="res_model">naseni_hr.cadre</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_no_content_create">Click to create a new Cadre.</p>
+        </field>
+    </record>
+
+    <menuitem
+        id="naseni_hr.cadre_menu"
+        name="Cadre"
+        action="naseni_hr_cadre_action"
+        parent="hr.menu_human_resources_configuration"
+        sequence="13" />
+</odoo>

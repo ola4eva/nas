@@ -5,13 +5,13 @@
             <field name="name">ret.expense.line.list</field>
             <field name="model">ret.expense.line</field>
             <field name="arch" type="xml">
-                <list string="Expense Retirement Lines">
+                <list string="Advances Retirement Lines">
                     <field name="sequence" invisible="True" />
                     <field name="date_value" />
                     <field name="name" />
                     <field name="account_id" />
                     <field name="ref" />
-                    <field name="analytic_account" groups="analytic.group_analytic_accounting" />
+                    <field name="analytic_account" groups="analytic.group_analytic_accounting" string="Votebook" />
                     <field name="unit_amount" />
                     <field name="unit_quantity" />
                     <field name="total_amount" sum="Total" />
@@ -23,7 +23,7 @@
             <field name="name">ret.expense.line.form</field>
             <field name="model">ret.expense.line</field>
             <field name="arch" type="xml">
-                <form string="Expense Retirement Lines">
+                <form string="Advances Retirement Lines">
                     <group>
                         <group>
                             <field name="sequence" invisible="True" />
@@ -33,7 +33,7 @@
                             <field name="ref" />
                         </group>
                         <group>
-                            <field name="analytic_account"
+                            <field name="analytic_account" string="Votebook"
                                 groups="analytic.group_analytic_accounting" />
                             <field name="unit_amount" />
                             <field name="unit_quantity" />
@@ -48,7 +48,7 @@
             <field name="name">ret.expense.list</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <list string="Retirement Expenses">
+                <list string="Advances Retirement">
                     <field name="employee_id" />
                     <field name="date" />
                     <field name="user_id" invisible="True" />
@@ -67,7 +67,7 @@
             <field name="name">ret.expense.list</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <list string="Retirement Expenses">
+                <list string=" Advances Retirement">
                     <field name="employee_id" />
                     <field name="date" />
                     <field name="journal_id" invisible="True" />
@@ -87,7 +87,7 @@
             <field name="name">hr.expense.form.ret</field>
             <field name="model">ret.expense</field>
             <field name="arch" type="xml">
-                <form string="Retirement Expenses Sheet">
+                <form string="Advances Retirement Sheet">
                     <header>
                         <button name="validate" string="Confirm" type="object" class="oe_highlight"
                             invisible="state != 'draft'" />
@@ -152,13 +152,13 @@
                                 </page>
                                 <page string="Description">
                                     <field name="line_ids" nolabel="1">
-                                        <form string="Retirement Expenses Lines">
+                                        <form string="Retirement Advances Lines">
                                             <group>
                                                 <group>
                                                     <field name="state" invisible="1" />
                                                     <field name="product_id"
                                                         on_change="onchange_product_id(product_id, uom_id, parent.employee_id)"
-                                                        readonly="state != 'draft'" />
+                                                        readonly="state != 'draft'" invisible="1" />
                                                     <field name="name" readonly="state != 'draft'" />
                                                     <field name="account_id"
                                                         readonly="state in ('paid', 'rem', 'reject', 'cancel')"
@@ -170,12 +170,12 @@
                                                     <field name="unit_quantity"
                                                         readonly="state != 'draft'" />
                                                     <field name="uom_id" readonly="state != 'draft'"
-                                                        on_change="onchange_product_id(product_id, uom_id, parent.employee_id)" />
+                                                        on_change="onchange_product_id(product_id, uom_id, parent.employee_id)" invisible="1"/>
                                                 </group>
                                             </group>
                                             <group groups="analytic.group_analytic_accounting">
                                                 <separator string="Customer Project" />
-                                                <field name="analytic_account"
+                                                <field name="analytic_account" string="Votebook"
                                                     readonly="state != 'draft'" />
                                             </group>
                                             <group>
@@ -217,20 +217,20 @@
         </record>
 
         <record id="expense_all_ret" model="ir.actions.act_window">
-            <field name="name">Expense Retirement</field>
+            <field name="name">Advances Retirement</field>
             <field name="res_model">ret.expense</field>
             <field name="view_mode">list,form</field>
             <field name="view_id" ref="view_expenses_list_ret" />
         </record>
 
         <record id="expense_all_ret" model="ir.actions.act_window">
-            <field name="name">Expense Retirement</field>
+            <field name="name">Advances Retirement</field>
             <field name="res_model">ret.expense</field>
         </record>
 
         <menuitem id="next_id_49" name="Expenses" sequence="4" parent="hr.menu_hr_root" />
         <menuitem action="expense_all_ret" id="menu_expense_all_ret" sequence="4000000"
-            name="Expense Retirement" parent="menu_open_salary_cash_advance_child" />
+            name="Advances Retirement" parent="menu_open_salary_cash_advance_child" />
 
         <record model="ir.actions.act_window" id="action_account_expense_advance_paid">
             <field name="name">Expenses to Journal</field>
@@ -240,7 +240,7 @@
 
         <menuitem id="menu_finance_exp_advance_salary_main" name="Staff Expenses"
             parent="accountant.menu_accounting" sequence="4" />
-        <menuitem action="expense_all_ret" id="menu_expense_all_ret00" name="Expense Retirements"
+        <menuitem action="expense_all_ret" id="menu_expense_all_ret00" name="Advances Retirements"
             parent="menu_finance_exp_advance_salary_main" />
         <menuitem id="menu_finance_exp_advance_salary" action="action_account_expense_advance_paid"
             parent="menu_finance_exp_advance_salary_main" sequence="1000" />

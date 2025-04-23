@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 class hr_expense_expense_ret(models.Model):
 
     _name = "ret.expense"
-    _description = "Retirements Expense"
+    _description = "Advance Retirements"
     _order = "date desc, id desc"
     _inherit = ["mail.thread"]
 
@@ -295,7 +295,6 @@ class hr_expense_expense_ret(models.Model):
 
     @api.onchange("employee_id")
     def onchange_employee_id(self):
-
         department_id = False
         company_id = False
         if self.employee_id:
@@ -321,12 +320,16 @@ class hr_expense_expense_ret(models.Model):
                     org_amount = a.amount_total
                     open_amount = a.amount_open
                     approval_date = a.approval_date
-                r = {
-                    "ret_id": a.id,
-                    "org_amount": org_amount,
-                    "open_amount": open_amount,
-                    "approval_date": approval_date,
-                }
+                r = (
+                    0,
+                    0,
+                    {
+                        "ret_id": a.id,
+                        "org_amount": org_amount,
+                        "open_amount": open_amount,
+                        "approval_date": approval_date,
+                    },
+                )
                 adv.append(r)
             if adv_ids:
                 return {
@@ -394,27 +397,28 @@ class HrExpenseLineRet(models.Model):
         for con in self:
             con.total_amount = con.unit_quantity * con.unit_amount
 
-    @api.constrains("account_id")
-    def _check_accounts(self):
-        accounts_c = []
-        accounts_e = []
-        if self.expense_id.employee_id:
-            emp = self.expense_id.employee_id
-            for c in emp.category_ids:
-                if c.account_ids:
-                    accounts_c += map(lambda x: x.id, c.account_ids)
-            if emp.account_ids:
-                accounts_e = map(lambda x: x.id, emp.account_ids)
-            if self.account_id.id in accounts_c:
-                return True
-            elif self.account_id.id in accounts_e:
-                return True
-            else:
-                raise ValidationError(
-                    "It seems you have selected the account which you are not allowed "
-                    "to fill/request the retirments of expense"
-                )
-        return True
+    # Remove account constraints
+    # @api.constrains("account_id")
+    # def _check_accounts(self):
+    #     accounts_c = []
+    #     accounts_e = []
+    #     if self.expense_id.employee_id:
+    #         emp = self.expense_id.employee_id
+    #         for c in emp.category_ids:
+    #             if c.account_ids:
+    #                 accounts_c += map(lambda x: x.id, c.account_ids)
+    #         if emp.account_ids:
+    #             accounts_e = map(lambda x: x.id, emp.account_ids)
+    #         if self.account_id.id in accounts_c:
+    #             return True
+    #         elif self.account_id.id in accounts_e:
+    #             return True
+    #         else:
+    #             raise ValidationError(
+    #                 "It seems you have selected the account which you are not allowed "
+    #                 "to fill/request the retirments of expense"
+    #             )
+    #     return True
 
     name = fields.Char(string="Expense Note", required=True)
     date_value = fields.Date(string="Date", required=True, default=date.today())
@@ -454,25 +458,26 @@ class HrExpenseLineRet(models.Model):
                 res["uom_id"] = product.uom_id.id
         return {"value": res}
 
-    def onchange_account(self, account_id, employee_id):
-        res = {}
-        if not account_id:
-            return {}
-        if not employee_id:
-            return {}
-        accounts_c = []
-        accounts_e = []
-        emp = self.env["hr.employee"].browse(employee_id)
-        for c in emp.category_ids:
-            if c.account_ids:
-                accounts_c += map(lambda x: x.id, c.account_ids)
-        if emp.account_ids:
-            accounts_e = map(lambda x: x.id, emp.account_ids)
-        if account_id in accounts_c:
-            return {}
-        elif account_id in accounts_e:
-            return {}
-        else:
-            return ValidationError(
-                "It seems you have selected the account which you are not allowed to fill/request the retirement of expense."
-            )
+    # remove code based on requirement
+    # def onchange_account(self, account_id, employee_id):
+    #     res = {}
+    #     if not account_id:
+    #         return {}
+    #     if not employee_id:
+    #         return {}
+    #     accounts_c = []
+    #     accounts_e = []
+    #     emp = self.env["hr.employee"].browse(employee_id)
+    #     for c in emp.category_ids:
+    #         if c.account_ids:
+    #             accounts_c += map(lambda x: x.id, c.account_ids)
+    #     if emp.account_ids:
+    #         accounts_e = map(lambda x: x.id, emp.account_ids)
+    #     if account_id in accounts_c:
+    #         return {}
+    #     elif account_id in accounts_e:
+    #         return {}
+    #     else:
+    #         return ValidationError(
+    #             "It seems you have selected the account which you are not allowed to fill/request the retirement of expense."
+    #         )

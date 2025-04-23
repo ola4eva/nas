@@ -6,13 +6,14 @@
             <form string="Approval Notification">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="state"/>
-                        <field name="approvers" widget="many2many_tags" string="Approvers"/>
+                        <field name="name" />
+                        <field name="state" />
+                        <field name="approvers" widget="many2many_tags" string="Approvers" />
                     </group>
                     <group>
-                        <field name="user_ids" widget="many2many_tags" string="Users to Notify"/>
-                        <field name="partner_ids" widget="many2many_tags" string="Partners to Notify"/>
+                        <field name="user_ids" widget="many2many_tags" string="Users to Notify" />
+                        <field name="partner_ids" widget="many2many_tags"
+                            string="Partners to Notify" />
                     </group>
                 </sheet>
             </form>
@@ -20,27 +21,27 @@
     </record>
 
     <record id="view_approval_notification_tree" model="ir.ui.view">
-        <field name="name">approval.notification.tree</field>
+        <field name="name">approval.notification.list</field>
         <field name="model">approval.notification</field>
         <field name="arch" type="xml">
-            <tree string="Approval Notifications">
-                <field name="name"/>
-                <field name="state"/>
-                <field name="approvers" widget="many2many_tags" string="Approvers"/>
-                <field name="user_ids" widget="many2many_tags" string="Users to Notify"/>
-                <field name="partner_ids" widget="many2many_tags" string="Partners to Notify"/>
-            </tree>
+            <list string="Approval Notifications">
+                <field name="name" />
+                <field name="state" />
+                <field name="approvers" widget="many2many_tags" string="Approvers" />
+                <field name="user_ids" widget="many2many_tags" string="Users to Notify" />
+                <field name="partner_ids" widget="many2many_tags" string="Partners to Notify" />
+            </list>
         </field>
     </record>
 
     <record id="action_approval_notification" model="ir.actions.act_window">
         <field name="name">Approval Notifications</field>
         <field name="res_model">approval.notification</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="menu_approval_notification" 
-              name="Approval Notifications" 
-              parent="purchase.menu_purchase_root" 
-              action="action_approval_notification"/>
+    <menuitem id="menu_approval_notification"
+        name="Approval Notifications"
+        parent="purchase.menu_purchase_root"
+        action="action_approval_notification" />
 </odoo>

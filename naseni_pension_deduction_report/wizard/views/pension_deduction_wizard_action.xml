@@ -1,0 +1,8 @@
+<odoo>
+    <record id="action_pension_deduction_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Pension Deduction</field>
+        <field name="res_model">pension.deduction.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

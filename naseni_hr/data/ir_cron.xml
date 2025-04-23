@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="cron_employee_three_month_retirement" model="ir.cron">
+            <field name="name">Get Employees Retiring In 3 Months</field>
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="state">code</field>
+            <field name="code">model.process_retirment_notification()</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+
+    </data>
+
+</odoo>
