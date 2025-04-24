@@ -12,6 +12,7 @@
     'depends': ['account_budget'],
     'license': "LGPL-3",
     'data': [
+        'views/votebook_views.xml',
         'views/report_payment_voucher_views.xml',
     ],
 }
