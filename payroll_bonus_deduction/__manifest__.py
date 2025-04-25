@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "Payroll Bonuses and Deductions",
+
+    'summary': """
+        Manage bonuses and deductions for employees.""",
+
+    'description': """
+        Manage bonuses and deductions for employees.
+        - Add PayrollOtherInputType model
+        - Add PayrollOtherInput model
+        - Add PayrollBonusDeduction model
+        - Add function on employee model to compute the deductions or bonuses for the employee
+    """,
+
+    'author': "HyperIT Consultants",
+    'website': "https://",
+
+    'category': 'Uncategorized',
+    'version': '0.1',
+
+    'depends': ['hr_payroll'],
+
+    'license': 'LGPL-3',
+
+    'data': [
+        'security/payroll_bonus_deduction_groups.xml',
+        'security/ir.model.access.csv',
+        'data/other_input_data.xml',
+        'views/payroll_otherinput_type_views.xml',
+        'views/payroll_bonus_deduction_views.xml',
+    ],
+    'demo': [
+        'demo/demo.xml',
+    ],
+}

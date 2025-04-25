@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <!-- Payroll bonuses and deductions category -->
+        <record id="category_payroll_bonus_deduction" model="ir.module.category">
+            <field name="name">Payroll Bonus / Deduction</field>
+        </record>
+
+        <!-- User -->
+        <record id="group_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="category_payroll_bonus_deduction" />
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+        </record>
+
+        <!-- Manager -->
+        <record id="group_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="category_payroll_bonus_deduction" />
+            <field name="implied_ids" eval="[(4, ref('payroll_bonus_deduction.group_user'))]" />
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+        </record>
+    
+    </data>
+    
+</odoo>

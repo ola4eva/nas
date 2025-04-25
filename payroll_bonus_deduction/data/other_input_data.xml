@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+
+        <record id="other_input_lateness" model="payroll.otherinput.type">
+            <field name="name">Lateness</field>
+            <field name="code">LTNS</field>
+            <field name="internal_type">deduction</field>
+            <field name="state">draft</field>
+            <field name="note">This is the penalty for lateness to work/official duty.</field>
+        </record>
+
+        <record id="other_input_damages" model="payroll.otherinput.type">
+            <field name="name">Damages</field>
+            <field name="code">DMGS</field>
+            <field name="internal_type">deduction</field>
+            <field name="state">draft</field>
+            <field name="note">This is the penalty for damaging company property.</field>
+        </record>
+
+        <record id="other_input_outstanding_performance" model="payroll.otherinput.type">
+            <field name="name">Outstanding Performance</field>
+            <field name="code">OSPF</field>
+            <field name="internal_type">bonus</field>
+            <field name="state">draft</field>
+            <field name="note">This is reward for outstanding performance at duty.</field>
+        </record>
+
+        <record id="other_input_punctuality" model="payroll.otherinput.type">
+            <field name="name">Punctuality</field>
+            <field name="code">PUTY</field>
+            <field name="internal_type">bonus</field>
+            <field name="state">draft</field>
+            <field name="note">This is reward for being punctual most of the time to work / other official functions.</field>
+        </record>
+
+    </data>
+
+</odoo>

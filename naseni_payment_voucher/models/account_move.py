@@ -103,4 +103,4 @@ class AccountMove(models.Model):
             users = groups.mapped("users")
         else:
             users = self.env['res.users'].browse(user_ids)
-        return template.with_context(recipients=users).send_mail(self.id, force_send=False)
+        return template.with_context(recipients=users).send_mail(self.id, force_send=True)
