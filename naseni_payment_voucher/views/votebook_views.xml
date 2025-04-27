@@ -17,6 +17,9 @@
         <xpath expr="//header//button[@name='action_post'][1]" position="attributes">
           <attribute name="invisible">state != 'audit' or hide_post_button or move_type != 'entry'</attribute>
         </xpath>
+        <xpath expr="//header//field[@name='state']" position="attributes">
+          <attribute name="statusbar_visible">draft,posted,submit,checking,audit</attribute>
+        </xpath>
         <xpath expr="//header//button[@name='action_post'][last()]" position="attributes">
           <attribute name="invisible">(state != 'audit' or hide_post_button or move_type == 'entry' or display_inactive_currency_warning)</attribute>
         </xpath>

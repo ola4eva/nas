@@ -31,7 +31,7 @@ def has_three_months_to_retirement(date_of_birth: date, date_of_joining: date) -
     if not date_of_birth and not date_of_joining:
         return False
     if not date_of_birth:
-        ret
+        return False
     td = date.today()
     date_of_retirement = safe_retirement_date(date_of_birth, date_of_joining)
     if not date_of_retirement:
