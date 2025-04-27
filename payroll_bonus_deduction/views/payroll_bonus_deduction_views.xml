@@ -10,7 +10,8 @@
                 <list string="Payroll Other Inputs">
                     <field name="name" />
                     <field name="employee_id" />
-                    <field name="input_type_id" />
+                    <field name="other_input_id" />
+                    <field name="amount" />
                     <field name="date" />
                     <field name="state" />
                 </list>
@@ -33,7 +34,9 @@
                                 <field name="employee_id" required="1" readonly="state != 'draft'" />
                             </group>
                             <group>
-                                <field name="input_type_id" required="1" readonly="state != 'draft'" />
+                                <field name="input_type_id" invisible="1" />
+                                <field name="other_input_id" />
+                                <field name="amount" />
                                 <field name="date" required="1" readonly="state != 'draft'" />
                             </group>
                         </group>

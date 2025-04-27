@@ -26,11 +26,6 @@
     'data': [
         'security/payroll_bonus_deduction_groups.xml',
         'security/ir.model.access.csv',
-        'data/other_input_data.xml',
-        'views/payroll_otherinput_type_views.xml',
         'views/payroll_bonus_deduction_views.xml',
-    ],
-    'demo': [
-        'demo/demo.xml',
     ],
 }

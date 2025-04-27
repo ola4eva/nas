@@ -15,6 +15,8 @@ class PayrollBonusDeduction(models.Model):
     input_type_id = fields.Many2one(
         comodel_name="payroll.otherinput.type", string="Type")
     date = fields.Date(string='Date', default=date.today())
+    other_input_id = fields.Many2one('hr.payslip.input.type', string='Other Input')
+    amount = fields.Float('Amount', default=0.0)
     state = fields.Selection([
         ('draft', 'New'),
         ('confirm', 'Confirmed')
