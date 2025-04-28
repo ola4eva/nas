@@ -24,10 +24,7 @@ class PayrollBonusDeduction(models.Model):
         return self.write({'state': "confirm"})
 
     def unlink(self):
-        for record in self:
-            if record.state != 'draft':
-                self -= record
-        return super(PayrollBonusDeduction, self).unlink()
+        return super(PayrollBonusDeduction, self - self.filtered(lambda r: r.state != "draft")).unlink()
 
     def action_confirm(self):
         """Confirm entries in batch"""
