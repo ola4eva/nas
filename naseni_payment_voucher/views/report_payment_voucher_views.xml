@@ -70,14 +70,14 @@
                             <tr>
                                 <td>
                                     <strong>
-                                        <div>Prepared By: <t t-t-esc="doc.preparer_id" /></div>
+                                        <div>Prepared By: <span t-field="doc.preparer_id" /></div>
                                         <div>Date: <t t-esc="doc.prepared_on" /></div>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <div>Checked By: <t t-t-esc="doc.preparer_id" /></div>
-                                        <div>Date: <t t-t-esc="doc.checked_on" /></div>
+                                        <div>Checked By: <span t-field="doc.checker_id" /></div>
+                                        <div>Date: <t t-esc="doc.checked_on" /></div>
                                     </strong>
                                 </td>
                             </tr>
@@ -90,16 +90,16 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <div>Passed By: <t t-t-esc="doc.checker_id" /></div>
-                                        <div>Date: <t t-t-esc="doc.checked_on" /></div>
+                                        <div>Passed By: <span t-field="doc.checker_id" /></div>
+                                        <div>Date: <t t-esc="doc.checked_on" /></div>
                                     </strong>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <strong>
-                                        <div>Internal Audit: <t t-t-esc="doc.auditor_id" /></div>
-                                        <div>Date: <t t-t-esc="doc.audited_on" /></div>
+                                        <div>Internal Audit: <span t-field="doc.auditor_id" /></div>
+                                        <div>Date: <t t-esc="doc.audited_on" /></div>
                                     </strong>
                                 </td>
                                 <td>
