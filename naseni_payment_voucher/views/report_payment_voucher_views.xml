@@ -6,66 +6,79 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <h3 style="text-align:center">NATIONAL AGENCY FOR SCIENCE AND ENGINEERING
-                            INFRASTRUCTURE<br />THE PRESIDENCY</h3>
+                        <div style="text-align:center">
+                            <h4>NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE</h4>
+                            <h5>THE PRESIDENCY</h5>
+                        </div>
                         <br />
-                        <h2 style="text-align:center">PAYMENT VOUCHER</h2>
-
-                        <p><strong>PAY:</strong> _____________________</p>
-                        <p>
-                            <strong>P.V NO:</strong>
-                            <t t-esc="doc.name" />
-                        </p>
-                        <p>
-                            <strong>DATE:</strong>
-                            <t t-esc="doc.invoice_date" />
-                        </p>
+                        <h2 class="bg-blue text-white" style="text-align:center">PAYMENT VOUCHER</h2>
+                        <div class="row">
+                            <div class="border border-dark oe_inline col-6 m-1">
+                                <p><strong>PAY:</strong> _____________________</p>
+                                <p>_________________________</p>
+                                <p>_________________________</p>
+                            </div>
+                            <div class="oe_inline col-6 m-1">
+                                <p>
+                                    <strong>P.V NO: </strong>
+                                    <t t-esc="doc.name" />
+                                </p>
+                                <p>
+                                    <strong>DATE: </strong>
+                                    <t t-esc="doc.invoice_date" />
+                                </p>
+                                <p>
+                                    <strong>BL NO: </strong>
+                                </p>
+                            </div>
+                        </div>
                         <p>
                             <strong>Payment Status:</strong>
                             <t t-esc="(doc.status_in_payment.replace('_', ' ')).capitalize()" />
                         </p>
-                        <!-- <p>
-                            <strong>BL NO:</strong>
-                            <span>12345</span>
-                        </p> -->
 
-                        <!-- <t t-esc="doc.bl_no" /> -->
-                        <table class="table table-bordered"
-                            style="width:100%;
-                        margin-top:10px">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Description Of Payment</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr t-foreach="doc.invoice_line_ids" t-as="line">
-                                    <td>
-                                        <t t-esc="doc.invoice_date" />
-                                    </td>
-                                    <td>
-                                        <t t-esc="line.product_id.name" />
-                                    </td>
-                                    <td>
-                                        <t t-esc="line.price_subtotal" />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p>
-                            <strong>Total:</strong>
-                            <t t-esc="doc.amount_total" />
+                        <div class="border border-dark my-2">
+                            <table class="table table-bordered"
+                                style="width:100%; margin-top:10px">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description Of Payment</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                                        <td>
+                                            <t t-esc="doc.invoice_date" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.product_id.name" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.price_subtotal" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <span class="col-9">
+                                <strong>Amount in words:</strong>
+                                <!-- <t t-esc="doc.amount_words" /> -->
+                            </span>
+                            <span class="col-3">
+                                <strong>Total:</strong>
+                                <t t-esc="doc.amount_total" />
+                            </span>
+                        </div>
+                        <p class="mb-2">
+                            <strong>
+
+                                CERTIFICATION: I Certify that the basis of this payment is true and
+                                correct,
+                                and in the best
+                                interest of the Agency.
+                            </strong>
                         </p>
-                        <!-- <p>
-                        <strong>Amount in words:</strong>
-                        <t t-esc="doc.amount_words" />
-                    </p> -->
-                        <!-- <p>
-                            <strong>File No:</strong>
-                            <t t-esc="doc.file_no" />
-                        </p> -->
                         <table class="table table-bordered" style="width:100%; margin-top:10px">
                             <tr>
                                 <td>
@@ -85,7 +98,7 @@
                                 <td>
                                     <strong>
                                         <div>Recorded In Votebook: </div>
-                                        <div>Date: </div>
+                                        <div>Date: <t t-esc="doc.date_confirmed" /></div>
                                     </strong>
                                 </td>
                                 <td>

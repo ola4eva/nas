@@ -10,13 +10,13 @@ class AccountMove(models.Model):
 
     state = fields.Selection(selection_add=[
         ('submit', "Submitted"),
-        ('checking', "To Check"),
+        ('checked', "Checked"),
         ('audit', "Audit"),
         ('posted',)
     ],
     ondelete={
         'submit': 'set default',
-        'checking': 'set default',
+        'checked': 'set default',
         'audit': 'set default',
         } 
     )
@@ -26,11 +26,12 @@ class AccountMove(models.Model):
     checked_on = fields.Datetime(string='Checked On')
     auditor_id = fields.Many2one(comodel_name='res.users', string='Audited By')
     audited_on = fields.Datetime(string='Audited On')
+    date_confirmed = fields.Date('Confirmation Date')
 
     @api.depends('date', 'auto_post')
     def _compute_hide_post_button(self):
         for record in self:
-            record.hide_post_button = record.state not in ('draft', 'submit', "checking", 'audit') \
+            record.hide_post_button = record.state not in ('draft', 'submit', "checked", 'audit') \
                 or record.auto_post != 'no' and record.date > fields.Date.context_today(record)
 
     def action_submit(self):
@@ -44,7 +45,7 @@ class AccountMove(models.Model):
                 return None
             employee_id.department_id and employee_id.department_id.manager_id \
                 or employee_id.parent_id
-        
+
         # Notify the checker
         employee_id = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
         get_employee_hod
@@ -57,17 +58,17 @@ class AccountMove(models.Model):
             "state": "submit"
         })
 
-    def action_checking(self):
+    def action_checked(self):
         """Perform Checking..."""
         self.ensure_one()
         # Notify the auditor
         audit_group = self.env.ref(GROUP_AUDIT)
-        
+
         self.send_notification(group_ids=audit_group.ids, template_id=TEMPLATE_AUDIT)
         return self.write({
             "checker_id": self.env.uid,
             "checked_on": fields.Datetime.now(),
-            "state": "checking"
+            "state": "checked"
         })
 
     def action_audit(self):
@@ -104,3 +105,7 @@ class AccountMove(models.Model):
         else:
             users = self.env['res.users'].browse(user_ids)
         return template.with_context(recipients=users).send_mail(self.id, force_send=True)
+
+    def action_post(self):
+        super(AccountMove, self).action_post()
+        self.date_confirmed = fields.Date.today()
