@@ -8,7 +8,7 @@
                     <div class="page">
                         <h3 style="text-align:center">NATIONAL AGENCY FOR SCIENCE AND ENGINEERING
                             INFRASTRUCTURE<br />THE PRESIDENCY</h3>
-                            <br/>
+                        <br />
                         <h2 style="text-align:center">PAYMENT VOUCHER</h2>
 
                         <p><strong>PAY:</strong> _____________________</p>
@@ -19,6 +19,10 @@
                         <p>
                             <strong>DATE:</strong>
                             <t t-esc="doc.invoice_date" />
+                        </p>
+                        <p>
+                            <strong>Payment Status:</strong>
+                            <t t-esc="(doc.status_in_payment.replace('_', ' ')).capitalize()" />
                         </p>
                         <!-- <p>
                             <strong>BL NO:</strong>
@@ -58,27 +62,54 @@
                         <strong>Amount in words:</strong>
                         <t t-esc="doc.amount_words" />
                     </p> -->
-
                         <!-- <p>
-                        <strong>File No:</strong>
-                        <t t-esc="doc.file_no" />
-                    </p>
-                    <p><strong>Prepared by:</strong> <t t-esc="doc.prepared_by" /> — <t
-                            t-esc="doc.prepared_date" /></p>
-                    <p>
-                        <strong>Recorded in Vote Book:</strong>
-                        <t t-esc="doc.vote_book_date" />
-                    </p> -->
-                        <!-- <p>
-                        <strong>Internal Audit:</strong>
-                        <t t-esc="doc.internal_audit_date" />
-                    </p>
-                    <p><strong>Checked by:</strong> <t t-esc="doc.checked_by" /> — <t
-                            t-esc="doc.checked_date" /></p>
-                    <p><strong>Passed by:</strong> <t t-esc="doc.passed_by" /> — <t
-                            t-esc="doc.passed_date" /></p>
-                    <p><strong>Approved by:</strong> <t t-esc="doc.approved_by" /> — <t
-                            t-esc="doc.approved_date" /></p> -->
+                            <strong>File No:</strong>
+                            <t t-esc="doc.file_no" />
+                        </p> -->
+                        <table class="table table-bordered" style="width:100%; margin-top:10px">
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <div>Prepared By: <t t-t-esc="doc.preparer_id" /></div>
+                                        <div>Date: <t t-esc="doc.prepared_on" /></div>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <div>Checked By: <t t-t-esc="doc.preparer_id" /></div>
+                                        <div>Date: <t t-t-esc="doc.checked_on" /></div>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <div>Recorded In Votebook: </div>
+                                        <div>Date: </div>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <div>Passed By: <t t-t-esc="doc.checker_id" /></div>
+                                        <div>Date: <t t-t-esc="doc.checked_on" /></div>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <div>Internal Audit: <t t-t-esc="doc.auditor_id" /></div>
+                                        <div>Date: <t t-t-esc="doc.audited_on" /></div>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <div>Approved By: </div>
+                                        <div>Date: </div>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </t>
             </t>
