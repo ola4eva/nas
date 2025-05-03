@@ -387,7 +387,7 @@ class CashAdvance(models.Model):
             final_list = cr_line + dr_line
             move_id.write({"line_ids": final_list})
             created_move_ids.append(move_id)
-            advance.write({"move_id1": move_id.id, "state": "paid"})
+            advance.write({"move_id1": move_id.id, "state": "paid", "date_confirmed": fields.Date.today()})
             rem = 0.0
             a = advance.emp_id.balance
             advance.emp_id.write({"balance": advance.emp_id.balance + advance.amount_total})
