@@ -24,7 +24,7 @@
           <attribute name="invisible">(state != 'audit' or hide_post_button or move_type == 'entry' or display_inactive_currency_warning)</attribute>
         </xpath>
         <xpath expr="//sheet//group" position="inside">
-          <group name="prepare_info" invisible="preparer_id == False" readonly="True">
+          <group name="preparer_info" invisible="preparer_id == False" readonly="True">
             <field name="preparer_id" readonly="1"/>
             <field name="prepared_on" readonly="1" />
           </group>

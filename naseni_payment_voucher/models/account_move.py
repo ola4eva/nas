@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
-GROUP_CHECKER = "naseni_payment_voucher.group_voucher_checker"
-GROUP_AUDIT = "naseni_payment_voucher.group_voucher_audit"
+GROUP_CHECKER = "naseni_base.group_voucher_checker"
+GROUP_AUDIT = "naseni_base.group_voucher_audit"
 TEMPLATE_PREPARER = "naseni_payment_voucher.preparer_notification_template"
 TEMPLATE_CHECKER = "naseni_payment_voucher.checker_notification_template"
 TEMPLATE_AUDIT = "naseni_payment_voucher.audit_notification_template"
@@ -28,6 +28,13 @@ class AccountMove(models.Model):
     audited_on = fields.Datetime(string='Audited On')
     date_confirmed = fields.Date('Confirmation Date')
 
+    def unlink(self):
+        """Override the unlink method to prevent deletion of records in certain states."""
+        for record in self:
+            if record.state != 'draft':
+                raise models.ValidationError("You cannot delete a record that is not in draft, submitted, checked or audit state.")
+        return super(AccountMove, self).unlink()
+
     @api.depends('date', 'auto_post')
     def _compute_hide_post_button(self):
         for record in self:
@@ -48,10 +55,9 @@ class AccountMove(models.Model):
 
         # Notify the checker
         employee_id = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
-        get_employee_hod
         HOD = get_employee_hod(employee_id)
-        # TODO: get the hod user id
         self.send_notification(user_ids=[HOD and HOD.id or 0], template_id=TEMPLATE_CHECKER)
+        
         return self.write({
             "preparer_id": self.env.uid,
             "prepared_on": fields.Datetime.now(),
@@ -61,10 +67,11 @@ class AccountMove(models.Model):
     def action_checked(self):
         """Perform Checking..."""
         self.ensure_one()
+        
         # Notify the auditor
         audit_group = self.env.ref(GROUP_AUDIT)
-
         self.send_notification(group_ids=audit_group.ids, template_id=TEMPLATE_AUDIT)
+        
         return self.write({
             "checker_id": self.env.uid,
             "checked_on": fields.Datetime.now(),

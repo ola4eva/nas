@@ -3,8 +3,12 @@ from odoo import models, fields, api, _, SUPERUSER_ID
 from odoo.tools import float_compare
 from odoo.exceptions import UserError, ValidationError
 
-
-class account_cash_advance(models.Model):
+GROUP_CHECKER = "naseni_base.group_voucher_checker"
+GROUP_AUDIT = "naseni_base.group_voucher_audit"
+TEMPLATE_PREPARER = "account_cash_advance.preparer_notification_template"
+TEMPLATE_CHECKER = "account_cash_advance.checker_notification_template"
+TEMPLATE_AUDIT = "account_cash_advance.audit_notification_template"
+class CashAdvance(models.Model):
     _name = "cash.advance"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Advances Request which requires retirements.."
@@ -61,6 +65,7 @@ class account_cash_advance(models.Model):
     approval_date = fields.Date(
         string="Approve Date",
         readonly=True,
+        copy=False,
     )
     emp_id = fields.Many2one(
         "hr.employee",
@@ -92,10 +97,11 @@ class account_cash_advance(models.Model):
     )
     state = fields.Selection(
         selection=[
-            ("draft", "New"),
-            ("open", "Confirmed"),
-            ("approve", "Approved"),
-            ("paid", "Paid"),
+            ("draft", "Draft"),
+            ("open", "Submitted"),
+            ("checked", "Checked"),
+            ("audit", "Audit"),
+            ("paid", "Posted"),
             ("rem", "Retired"),
             ("reject", "Rejected"),
             ("cancel", "Cancelled"),
@@ -110,12 +116,14 @@ class account_cash_advance(models.Model):
         "If the Advance Request is rejected, the state goes in 'Rejected' \n"
         "If the Advance Request is cancelled, the state goes in 'Cancelled' \n",
         readonly=True,
+        copy=False,
         default="draft",
     )
     manager_id = fields.Many2one(
         "hr.employee",
         string="Approval Manager",
         readonly=True,
+        copy=False,
         help="This area is automatically filled by the user who validate the cash advance",
     )
     company_id = fields.Many2one(
@@ -138,7 +146,7 @@ class account_cash_advance(models.Model):
         domain="['|', ('type','=','cash'), ('type','=','bank')]",
         default=_default_journal,
     )
-    move_id1 = fields.Many2one("account.move", string="Journal Entry", readonly=True)
+    move_id1 = fields.Many2one("account.move", string="Journal Entry", readonly=True, copy=False)
     expense_id = fields.Many2one(
         "ret.expense",
         string="Expense",
@@ -178,6 +186,13 @@ class account_cash_advance(models.Model):
         string="Open Balance Amount",
         store=True,
     )  # need to call self.write when retirement fil and calcluate this fucntiona again
+    prepared_by = fields.Many2one(comodel_name="res.users", string="Prepared By")
+    prepared_on = fields.Datetime(string="Prepared On")
+    checker_id = fields.Many2one(comodel_name="res.users", string="Checked By")
+    checked_on = fields.Datetime(string="Checked On")
+    auditor_id = fields.Many2one(comodel_name="res.users", string="Audited By")
+    audited_on = fields.Datetime(string="Audited On")
+    date_confirmed = fields.Date("Confirmation Date")
 
     def validate(self):
         cash = self.with_user(user=SUPERUSER_ID)
@@ -188,9 +203,27 @@ class account_cash_advance(models.Model):
         if cash.amount_total + cash.emp_id.balance > cash.emp_id.limit:
             raise UserError(_("This advance request is over your allowed limit."))
         seq = self.env['ir.sequence'].next_by_code("cash.advance")
-        return self.write({"state": "open", "name": seq})
 
-    def approve(self):
+        # Notify the checker
+        employee_id = self.env["hr.employee"].search(
+            [("user_id", "=", self.env.uid)], limit=1
+        )
+        checker_group = self.env.ref(GROUP_CHECKER)
+        self.send_notification(
+            group_ids=checker_group.ids, template_id=TEMPLATE_CHECKER
+        )
+
+        return self.write(
+            {
+                "state": "open",
+                "name": seq,
+                "prepared_on": fields.Datetime.now(),
+                "prepared_by": self._uid,
+            }
+        )
+
+    def action_check(self):
+        """Perform Checking..."""
         cash = self
         if cash.amount_total + cash.emp_id.balance > cash.emp_id.limit:
             raise ValidationError("This advance request is over your allowed limit.")
@@ -198,14 +231,45 @@ class account_cash_advance(models.Model):
         obj_emp = self.env["hr.employee"]
         ids2 = obj_emp.search([("user_id", "=", self.env.user.id)], limit=1)
         manager = ids2 and ids2.id or False
+
+        # Notify the auditor
+        audit_group = self.env.ref(GROUP_AUDIT)
+        self.send_notification(group_ids=audit_group.ids, template_id=TEMPLATE_AUDIT)
+
         return self.write(
-            {"state": "approve", "manager_id": manager, "approval_date": date}
+            {
+                "state": "checked", 
+                "manager_id": manager,
+                "approval_date": date,
+                "checker_id": self._uid,
+                "checked_on": fields.Datetime.now(),
+            }
+        )
+
+    def action_audit(self):
+        """Perform Auditing..."""
+        self.ensure_one()
+        # Notify the auditor
+        self.send_notification(user_ids=self.user_id.ids, template_id=TEMPLATE_AUDIT)
+        return self.write(
+            {
+                "auditor_id": self._uid,
+                "audited_on": fields.Datetime.now(),
+                "state": "audit",
+            }
         )
 
     def set_to_draft_app(self):
         return self.write(
             {"state": "draft", "manager_id": False, "approval_date": False}
         )
+
+    def unlink(self):
+        """Override the unlink method to prevent deletion of records in certain states."""
+        for record in self:
+            if record.state != 'draft':
+                raise models.ValidationError("You cannot delete a record that is not in draft, submitted, checked or audit state.")
+        return super(CashAdvance, self).unlink()
 
     def set_to_draft(self):
         return self.write(
@@ -221,19 +285,6 @@ class account_cash_advance(models.Model):
     def set_to_cancel(self):
         return self.write({"state": "cancel"})
 
-    def copy(self, default=None):
-        if default is None:
-            default = {}
-        default.update(
-            {
-                "manager_id": False,
-                "move_id1": False,
-                "approval_date": False,
-                "state": "draft",
-            }
-        )
-        return super(account_cash_advance, self).copy(default)
-
     def _default_employee(self):
         ids = self.env["hr.employee"].search([("user_id", "=", self.env.user.id)])
         if ids:
@@ -245,53 +296,53 @@ class account_cash_advance(models.Model):
         statement_line_obj = self.env["account.bank.statement.line"]
         created_move_ids = []
 
-        for line in self:
-            if not line.move:
+        for advance in self:
+            if not advance.move:
                 continue
-            if not line.journal_id:
+            if not advance.journal_id:
                 raise ValidationError("Please specify a journal.")
-            if not line.employee_account:
+            if not advance.employee_account:
                 raise ValidationError("Please specify an employee account.")
 
-            company_currency = line.company_id.currency_id
-            current_currency = line.currency_id
+            company_currency = advance.company_id.currency_id
+            current_currency = advance.currency_id
 
             if not current_currency:
                 current_currency = company_currency
 
             # Compute the amount in company currency
             move_vals = {
-                "date": line.date,
-                "ref": line.name,
-                "journal_id": line.journal_id.id,
+                "date": advance.date,
+                "ref": advance.name,
+                "journal_id": advance.journal_id.id,
             }
             move_id = move_obj.create(move_vals)
 
             # Ensure the journal has a default account
-            if not line.journal_id.default_account_id:
+            if not advance.journal_id.default_account_id:
                 raise UserError(_("Please specify an account on the journal."))
 
-            address_id = line.emp_id.address_home_id
+            address_id = advance.emp_id.address_home_id
             if not address_id:
                 raise UserError(
                     _("There is no home address defined for employee: %s")
-                    % line.emp_id.name
+                    % advance.emp_id.name
                 )
             partner_id = address_id.id
 
-            if line.update_cash:
+            if advance.update_cash:
                 type = "general"
                 statement_line_obj.create(
                     {
-                        "name": line.name or "?",
-                        "amount": -(line.advance),
+                        "name": advance.name or "?",
+                        "amount": -(advance.advance),
                         "type": type,
-                        "account_id": line.employee_account.id,
-                        "statement_id": line.cash_id.id,
-                        "ref": line.name,
+                        "account_id": advance.employee_account.id,
+                        "statement_id": advance.cash_id.id,
+                        "ref": advance.name,
                         "partner_id": partner_id,
                         "date": time.strftime("%Y-%m-%d"),
-                        "cash_advance_id": line.id,
+                        "cash_advance_id": advance.id,
                     }
                 )
 
@@ -300,17 +351,17 @@ class account_cash_advance(models.Model):
                     0,
                     0,
                     {
-                        "name": line.name,
-                        "ref": line.name,
+                        "name": advance.name,
+                        "ref": advance.name,
                         "move_id": move_id.id,
-                        "account_id": line.journal_id.default_account_id.id,
+                        "account_id": advance.journal_id.default_account_id.id,
                         "debit": 0.0,
-                        "credit": line.amount_total,
+                        "credit": advance.amount_total,
                         "partner_id": partner_id,
                         "currency_id": current_currency.id or False,
                         # "amount_currency":-amount_currency or 0.0,
-                        "date": line.date,
-                        "statement_id": line.cash_id.id or False,
+                        "date": advance.date,
+                        "statement_id": advance.cash_id.id or False,
                     },
                 )
             ]
@@ -319,34 +370,34 @@ class account_cash_advance(models.Model):
                     0,
                     0,
                     {
-                        "name": line.name,
-                        "ref": line.name,
+                        "name": advance.name,
+                        "ref": advance.name,
                         "move_id": move_id.id,
-                        "account_id": line.employee_account.id,
+                        "account_id": advance.employee_account.id,
                         "credit": 0.0,
-                        "debit": line.amount_total,
+                        "debit": advance.amount_total,
                         "partner_id": partner_id,
                         "currency_id": current_currency.id or False,
                         # "amount_currency": company_currency != current_currency and amount_currency or 0.0,
-                        "date": line.date,
-                        "statement_id": line.cash_id.id or False,
+                        "date": advance.date,
+                        "statement_id": advance.cash_id.id or False,
                     },
                 )
             ]
             final_list = cr_line + dr_line
             move_id.write({"line_ids": final_list})
             created_move_ids.append(move_id)
-            line.write({"move_id1": move_id.id, "state": "paid"})
+            advance.write({"move_id1": move_id.id, "state": "paid"})
             rem = 0.0
-            a = line.emp_id.balance
-            line.emp_id.write({"balance": line.emp_id.balance + line.amount_total})
-            if line.expense_id and line.expense_id.state == "paid":
-                for x in line.expense_id.line_ids:
+            a = advance.emp_id.balance
+            advance.emp_id.write({"balance": advance.emp_id.balance + advance.amount_total})
+            if advance.expense_id and advance.expense_id.state == "paid":
+                for x in advance.expense_id.line_ids:
                     rem += x.total_amount
-            if line.expense_id and line.expense_id.state == "paid":
-                line.expense_id.write({"state": "rem"})
-                ex = a + line.advance - rem
-                line.write({"state": "rem", "ex_amount": ex})
+            if advance.expense_id and advance.expense_id.state == "paid":
+                advance.expense_id.write({"state": "rem"})
+                ex = a + advance.advance - rem
+                advance.write({"state": "rem", "ex_amount": ex})
 
         return True
 
@@ -420,3 +471,29 @@ class account_cash_advance(models.Model):
             {"state": "rem"}
         )
         return True
+
+    def send_notification(self, user_ids=None, group_ids=None, template_id=None):
+        """Send notification to the groups that need to be informed
+
+        Parameters
+        ----------
+        user_ids list:
+            ids of the users to be notified. Mutually exclusive of the group_ids
+        group_ids list:
+            ids of the groups to be notified. Mutually exclusive of the user_ids
+        template_id str:
+            external identifier of the email templat to be used.
+
+        """
+        self.ensure_one()
+        if not (user_ids or group_ids) or not template_id:
+            return False
+        template = self.env.ref(template_id)
+        if group_ids:
+            groups = self.env["res.groups"].browse(group_ids)
+            users = groups.mapped("users")
+        else:
+            users = self.env["res.users"].browse(user_ids)
+        return template.with_context(recipients=users).send_mail(
+            self.id, force_send=True
+        )

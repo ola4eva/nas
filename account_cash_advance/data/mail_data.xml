@@ -4,7 +4,7 @@
     <data noupdate="0">
 
         <record id="preparer_notification_template" model="mail.template">
-            <field name="name">Payment Voucher Approved By Audit</field>
+            <field name="name">Cash Advance: Payment Voucher Approved By Audit</field>
             <field name="model_id" ref="account_cash_advance.model_cash_advance" />
             <field name="subject">Payment Voucher Approved By Audit</field>
             <field name="email_from">{{ (user.partner_id.email_formatted) }}</field>
@@ -16,7 +16,7 @@
                     <br />
                     <h1>Payment Voucher <t t-out="object.name" /> Approved By Audit</h1>
                     <p class="text-success">
-                        Please be informed that a your payment voucher request has been approved by
+                        Please be informed that your payment voucher request has been approved by
                         Audit.
                     </p>
                     <p>
@@ -27,7 +27,7 @@
         </record>
 
         <record id="checker_notification_template" model="mail.template">
-            <field name="name">Payment Voucher Submission</field>
+            <field name="name">Cash Advance: Payment Voucher Submission</field>
             <field name="model_id" ref="account_cash_advance.model_cash_advance" />
             <field name="subject">Payment Voucher Submitted</field>
             <field name="email_from">{{ user.partner_id.email_formatted }}</field>
@@ -40,8 +40,7 @@
                     <h1>Payment Voucher <t t-out="object.name" /> Submitted</h1>
                     <p>
                         Please be informed that a new payment voucher request has been submitted for
-                        your attention. Your
-                        prompt attention to which is greatly appreciated.
+                        your attention. Your prompt attention to which is greatly appreciated.
                     </p>
                     <p>
                         Thank you.
@@ -51,7 +50,7 @@
         </record>
 
         <record id="audit_notification_template" model="mail.template">
-            <field name="name">Payment Voucher Audit Request</field>
+            <field name="name">Cash Advance: Payment Voucher Audit Request</field>
             <field name="model_id" ref="account_cash_advance.model_cash_advance" />
             <field name="subject">Payment Voucher Submitted for Audit</field>
             <field name="email_from">{{ user.partner_id.email_formatted }}</field>
@@ -63,8 +62,7 @@
                     <br />
                     <h1>Payment Voucher <t t-out="object.name" /> Submitted for Audit</h1>
                     <p>
-                        Please be informed that a new payment voucher request has been submitted for
-                        your attention. Your
+                        Please be informed that a new payment voucher request has been submitted for your attention. Your
                         prompt attention to which is greatly appreciated.
                     </p>
                     <p>
