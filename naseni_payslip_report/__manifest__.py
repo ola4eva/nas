@@ -9,10 +9,13 @@
     "website": "https://www.yourcompany.com",
     "category": "Uncategorized",
     "version": "0.1",
-    "depends": ["hr_payroll"],
+    "depends": [
+        "hr_payroll",
+        "naseni_hr",
+        "hr_grade_step",
+    ],
     "data": [
-        # 'security/ir.model.access.csv',
-        'report/payslip_report.xml'
+        "views/report_payslip_templates.xml"
     ],
     "license": "LGPL-3",
 }
