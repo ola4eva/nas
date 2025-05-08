@@ -74,15 +74,15 @@
                             <td id="bank_infos">
                                 <div id="bank_name">
                                     <strong class="me-2">Bank name:</strong>
-                                    <!-- <span t-field="o.employee_id.legal_name" /> -->
+                                    <span t-field="o.employee_id.bank_account_id.bank_id" />
                                 </div>
                                 <div id="bank_branch">
                                     <strong class="me-2">Bank Branch:</strong>
-                                    <!-- <span t-field="o.employee_id.legal_name" /> -->
+                                    <span t-field="o.employee_id.bank_account_id.bank_id.bic" />
                                 </div>
                                 <div id="account_number">
                                     <strong class="me-2">Account Number:</strong>
-                                    <!-- <span t-field="o.employee_id.legal_name" /> -->
+                                    <span t-field="o.employee_id.bank_account_id.acc_number" />
                                 </div>
                             </td>
                             <td id="pension_infos">
