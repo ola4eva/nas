@@ -12,5 +12,6 @@
     "license": "LGPL-3",
     "data": [
         "data/start_contract_server_action.xml",
+        "views/hr_contract_views.xml",
     ],
 }

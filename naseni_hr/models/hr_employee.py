@@ -6,7 +6,7 @@ from odoo.addons.naseni_hr.utils.main import has_three_months_to_retirement
 _logger = logging.getLogger(__name__)
 
 
-class HrEmployee(models.AbstractModel):
+class HrEmployeeBase(models.AbstractModel):
     _inherit = "hr.employee.base"
     _sql_constraints = [
         (
@@ -16,15 +16,15 @@ class HrEmployee(models.AbstractModel):
         )
     ]
     institute_id = fields.Many2one(
-        comodel_name="naseni_hr.institute", string="Institute"
+        comodel_name="naseni_hr.institute", string="Center"
     )
-    pfa_id = fields.Many2one(comodel_name="naseni_hr.pfa", string="PFA")
-    pension_pin = fields.Char("Pension PIN")
+    pfa_id = fields.Many2one(comodel_name="naseni_hr.pfa", string="PFA(*)", required=True)
+    pension_pin = fields.Char("Pension PIN(*)", required=True)
     date_appointment = fields.Date("Date of Appointment")
     date_confirm = fields.Date("Date of Confirmation")
     date_present = fields.Date("Present Appointment Date")
     date_join = fields.Date("Joined Date")
-    staff_id = fields.Char("Staff ID")
+    staff_id = fields.Char("Staff ID(*)", required=True)
     dir_id = fields.Many2one(comodel_name="naseni_hr.directorate", string="Directorate")
     cadre_id = fields.Many2one(comodel_name="naseni_hr.cadre", string="Cadre")
     state_id = fields.Many2one("res.country.state", string="State")
@@ -46,9 +46,9 @@ class HrEmployee(models.AbstractModel):
     )
     acc_qual = fields.Char("Academic Qualification")
     prof_qual = fields.Char("Professional Qualification")
-    tin = fields.Char("Tax Identification No.")
+    tin = fields.Char("Tax ID No.(*)", required=True)
     nhf = fields.Char("National Housing Fund")
-    nin = fields.Char("National Identification No.")
+    nin = fields.Char("National ID No.")
     title_id = fields.Many2one(comodel_name="res.partner.title", string="Title")
     next_of_kin_ids = fields.One2many('naseni_hr.next_of_kin', 'employee_id', string='Next of Kin')
 
