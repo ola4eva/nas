@@ -9,22 +9,22 @@
         <xpath expr="//header" position="inside">
           <button name="action_submit" type="object" string="Submit to HOD" class="oe_highlight"
             invisible="state != 'draft'" />
-          <button name="action_checking" type="object" string="Checking" class="oe_highlight"
+          <button name="action_checked" type="object" string="Checked" class="oe_highlight"
             invisible="state != 'submit'" />
           <button name="action_audit" type="object" string="Audit" class="oe_highlight"
-            invisible="state != 'checking'" />
+            invisible="state != 'checked'" />
         </xpath>
         <xpath expr="//header//button[@name='action_post'][1]" position="attributes">
           <attribute name="invisible">state != 'audit' or hide_post_button or move_type != 'entry'</attribute>
         </xpath>
         <xpath expr="//header//field[@name='state']" position="attributes">
-          <attribute name="statusbar_visible">draft,posted,submit,checking,audit</attribute>
+          <attribute name="statusbar_visible">draft,posted,submit,checked,audit</attribute>
         </xpath>
         <xpath expr="//header//button[@name='action_post'][last()]" position="attributes">
           <attribute name="invisible">(state != 'audit' or hide_post_button or move_type == 'entry' or display_inactive_currency_warning)</attribute>
         </xpath>
         <xpath expr="//sheet//group" position="inside">
-          <group name="prepare_info" invisible="preparer_id == False" readonly="True">
+          <group name="preparer_info" invisible="preparer_id == False" readonly="True">
             <field name="preparer_id" readonly="1"/>
             <field name="prepared_on" readonly="1" />
           </group>

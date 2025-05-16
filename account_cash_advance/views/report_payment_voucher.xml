@@ -17,16 +17,16 @@
                                 <p>
                                     <strong>PAY:</strong>
                                     <u>
-                                        <span t-field="doc.partner_id" />
+                                        <span t-field="doc.emp_id" />
                                     </u>
                                 </p>
-                                <p t-if="doc.partner_id.street">
+                                <p t-if="doc.emp_id.address_home_id.street">
                                     <strong>ADDRESS:</strong>
                                     <u>
-                                        <span t-field="doc.partner_id.street" />
+                                        <span t-field="doc.emp_id.address_home_id.street" />
                                     </u>
                                 </p>
-                                <p t-if="doc.partner_id.city" t-field="doc.partner_id.city"></p>
+                                <p t-if="doc.emp_id.address_home_id.city" t-field="doc.emp_id.address_home_id.city"></p>
                             </div>
                             <div class="oe_inline col-6 m-1">
                                 <p>
@@ -35,7 +35,7 @@
                                 </p>
                                 <p>
                                     <strong>DATE: </strong>
-                                    <t t-esc="doc.invoice_date" />
+                                    <t t-esc="doc.date" />
                                 </p>
                                 <p>
                                     <strong>BL NO: </strong>
@@ -44,7 +44,7 @@
                         </div>
                         <p>
                             <strong>Payment Status:</strong>
-                            <t t-esc="(doc.status_in_payment.replace('_', ' ')).capitalize()" />
+                            <!-- <t t-esc="(doc.status_in_payment.replace('_', ' ')).capitalize()" /> -->
                         </p>
 
                         <table class="table table-bordered"
@@ -57,26 +57,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                                <tr>
                                     <td>
-                                        <t t-esc="doc.invoice_date" />
+                                        <t t-esc="doc.date" />
                                     </td>
                                     <td>
-                                        <t t-esc="line.product_id.name" />
+                                        <t t-esc="doc.description" />
                                     </td>
                                     <td>
-                                        <t t-esc="line.price_subtotal" />
+                                        <t t-esc="doc.advance" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
                                         <strong>Amount in words: </strong>
                                         <t
-                                            t-esc="doc.currency_id.amount_to_text(doc.amount_total)" />
+                                            t-esc="doc.currency_id.amount_to_text(doc.advance)" />
                                     </td>
                                     <td>
                                         <strong>Total:</strong>
-                                        <t t-esc="doc.amount_total" />
+                                        <t t-esc="doc.advance" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -94,7 +94,7 @@
                             <tr>
                                 <td>
                                     <strong>
-                                        <div>Prepared By: <span t-field="doc.preparer_id" /></div>
+                                        <div>Prepared By: <span t-field="doc.prepared_by" /></div>
                                         <div>Date: <t t-esc="doc.prepared_on" /></div>
                                     </strong>
                                 </td>
@@ -142,13 +142,13 @@
 
     <record id="action_payment_voucher" model="ir.actions.report">
         <field name="name">Print Payment Voucher</field>
-        <field name="model">account.move</field>
+        <field name="model">cash.advance</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">naseni_payment_voucher.report_payment_voucher</field>
-        <field name="report_file">naseni_payment_voucher.report_payment_voucher</field>
+        <field name="report_name">account_cash_advance.report_payment_voucher</field>
+        <field name="report_file">account_cash_advance.report_payment_voucher</field>
         <field name="print_report_name">('Payment Voucher - %s' % (object.name))</field>
         <field name="attachment" />
-        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="binding_model_id" ref="account_cash_advance.model_cash_advance" />
     </record>
 
 </odoo>

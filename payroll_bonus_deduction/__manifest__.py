@@ -24,6 +24,7 @@
     'license': 'LGPL-3',
 
     'data': [
+        'data/deduction_server_action.xml',
         'security/payroll_bonus_deduction_groups.xml',
         'security/ir.model.access.csv',
         'views/payroll_bonus_deduction_views.xml',

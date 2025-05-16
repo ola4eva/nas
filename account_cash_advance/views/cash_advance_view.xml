@@ -8,9 +8,14 @@
                     <header>
                         <button name="validate" string="Confirm" type="object" class="oe_highlight"
                             invisible="state != 'draft'" />
-                        <button name="approve" string="Approve" type="object" class="oe_highlight"
-                            groups="account_cash_advance.advance_manager"
+                        <button name="action_check" string="Check" type="object"
+                            class="oe_highlight"
+                            groups="naseni_base.group_voucher_checker"
                             invisible="state != 'open'" />
+                        <button name="action_audit" string="Audit" type="object"
+                            class="oe_highlight"
+                            groups="naseni_base.group_voucher_audit"
+                            invisible="state != 'checked'" />
                         <button name="set_to_draft" string="Set to Draft" type="object"
                             groups="account_cash_advance.advance_manager"
                             invisible="state != 'reject'" />
@@ -18,10 +23,10 @@
                             groups="account_cash_advance.advance_manager"
                             invisible="state != 'open'" />
                         <button name="create_move" string="Pay" type="object" class="oe_highlight"
-                            groups="account.group_account_user" invisible="state != 'approve'" />
+                            groups="account.group_account_user" invisible="state != 'audit'" />
                         <button name="set_to_close_paid" string="Reject" type="object"
                             groups="account.group_account_user"
-                            invisible="state != 'approve'" />
+                            invisible="state != 'audit'" />
                         <button name="set_to_draft_app" string="Set to Draft" type="object"
                             groups="account_cash_advance.advance_manager"
                             invisible="state != 'cancel'" />
@@ -29,7 +34,7 @@
                             groups="account_cash_advance.advance_manager"
                             invisible="state != 'draft'" />
                         <field name="state" readonly="1" widget="statusbar"
-                            statusbar_visible="draft,open,approve,paid,rem" />
+                            statusbar_visible="draft,open,checked,audit,paid,rem" />
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -77,6 +82,21 @@
                                             readonly="state != 'draft'"
                                             groups="base.group_multi_company" />
                                     </group>
+                                    <group name="preparer_info" invisible="prepared_by == False"
+                                        readonly="True">
+                                        <field name="prepared_by" readonly="1" />
+                                        <field name="prepared_on" readonly="1" />
+                                    </group>
+                                    <group name="checker_info" invisible="checker_id == False"
+                                        readonly="True">
+                                        <field name="checker_id" readonly="1" />
+                                        <field name="checked_on" readonly="1" />
+                                    </group>
+                                    <group name="auditor_info" invisible="auditor_id == False"
+                                        readonly="True">
+                                        <field name="auditor_id" readonly="1" />
+                                        <field name="audited_on" readonly="1" />
+                                    </group>
                                 </group>
                             </page>
                             <page name="accounting" string="Accounting Information">
@@ -87,7 +107,7 @@
                                             readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
                                         <field name="update_cash" readonly="state != 'draft'"
                                             groups="account.group_account_user"
-                                            invisible="state not in ('approve', 'paid')" />
+                                            invisible="state not in ('audit', 'paid')" />
                                         <field name="cash_id"
                                             groups="account.group_account_user"
                                             invisible="update_cash == False"
@@ -99,9 +119,9 @@
                                             readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
                                         <field name="move" groups="account.group_account_user"
                                             readonly="True"
-                                            required="state=='approve'" />
+                                            required="state=='audit'" />
                                         <field name="move_id1" groups="account.group_account_user"
-                                            invisible="state not in ('approve', 'paid')"
+                                            invisible="state not in ('audit', 'paid')"
                                             readonly="True" />
                                     </group>
                                 </group>
