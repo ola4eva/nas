@@ -146,8 +146,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">naseni_payment_voucher.report_payment_voucher</field>
         <field name="report_file">naseni_payment_voucher.report_payment_voucher</field>
-        <field name="print_report_name">('Payment Voucher- %s - %s - %s - %s' % (object.name,
-            object.partner_id.name, object.invoice_date.strftime('%B'), object.invoice_date.year))</field>
+        <field name="print_report_name">(object._get_default_voucher_report_name())</field>
         <field name="attachment" />
         <field name="binding_model_id" ref="account.model_account_move" />
     </record>

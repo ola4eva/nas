@@ -1,3 +1,4 @@
+from datetime import datetime
 from odoo import models, fields, api
 
 GROUP_CHECKER = "naseni_base.group_voucher_checker"
@@ -148,3 +149,15 @@ class AccountMove(models.Model):
     def action_post(self):
         super(AccountMove, self).action_post()
         self.date_confirmed = fields.Date.today()
+
+    def _get_default_voucher_report_name(self):
+        for record in self:
+            month = (
+                record.invoice_date.strftime("%B")
+                if record.invoice_date
+                else datetime.now().strftime("%B")
+            )
+            year = (
+                record.invoice_date.year if record.invoice_date else datetime.now().year
+            )
+            return f"Payment Voucher - {record.name or ''} - {record.partner_id.name or ''} - {month} - {year}"
