@@ -12,34 +12,39 @@
                         </div>
                         <br />
                         <h2 class="bg-blue text-white" style="text-align:center">PAYMENT VOUCHER</h2>
-                        <div class="row">
-                            <div class="border border-dark oe_inline col-6 m-1">
-                                <p>
-                                    <strong>PAY:</strong>
-                                    <u>
-                                        <span t-field="doc.partner_id" />
-                                    </u>
-                                </p>
-                                <p t-if="doc.partner_id.street">
-                                    <strong>ADDRESS:</strong>
-                                    <u>
-                                        <span t-field="doc.partner_id.street" />
-                                    </u>
-                                </p>
-                                <p t-if="doc.partner_id.city" t-field="doc.partner_id.city"></p>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <div class="border border-dark p-3">
+                                    <p class="mb-2">
+                                        <strong>PAY:</strong>
+                                        <u>
+                                            <span t-field="doc.partner_id" />
+                                        </u>
+                                    </p>
+                                    <p class="mb-2" t-if="doc.partner_id.street">
+                                        <strong>ADDRESS:</strong>
+                                        <u>
+                                            <span t-field="doc.partner_id.street" />
+                                        </u>
+                                    </p>
+                                    <p class="mb-0" t-if="doc.partner_id.city"
+                                        t-field="doc.partner_id.city"></p>
+                                </div>
                             </div>
-                            <div class="oe_inline col-6 m-1">
-                                <p>
-                                    <strong>P.V NO: </strong>
-                                    <t t-esc="doc.name" />
-                                </p>
-                                <p>
-                                    <strong>DATE: </strong>
-                                    <t t-esc="doc.invoice_date" />
-                                </p>
-                                <p>
-                                    <strong>BL NO: </strong>
-                                </p>
+                            <div class="col-6">
+                                <div class="p-3">
+                                    <p class="mb-2">
+                                        <strong>P.V NO: </strong>
+                                        <t t-esc="doc.name" />
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>DATE: </strong>
+                                        <t t-esc="doc.invoice_date" />
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>BL NO: </strong>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <p>
