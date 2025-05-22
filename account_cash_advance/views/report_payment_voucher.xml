@@ -12,39 +12,43 @@
                         </div>
                         <br />
                         <h2 class="bg-blue text-white" style="text-align:center">PAYMENT VOUCHER</h2>
-                        <div class="row">
-                            <div class="border border-dark oe_inline col-6 m-1">
-                                <p>
-                                    <strong>PAY:</strong>
-                                    <u>
-                                        <span t-field="doc.emp_id" />
-                                    </u>
-                                </p>
-                                <p t-if="doc.emp_id.address_home_id.street">
+                        <div class="row mx-2 pb-4">
+                            <div
+                                class="col-sm-12 col-md-6 col-lg-6 border border-secondary rounded">
+                                <div class="pt-2">
+                                    <strong class="pt-2">PAY:</strong>
+                                    <span t-field="doc.emp_id" />
+                                    <hr />
+                                </div>
+                                <div>
                                     <strong>ADDRESS:</strong>
-                                    <u>
-                                        <span t-field="doc.emp_id.address_home_id.street" />
-                                    </u>
-                                </p>
-                                <p t-if="doc.emp_id.address_home_id.city" t-field="doc.emp_id.address_home_id.city"></p>
+                                    <span
+                                        t-field="doc.emp_id.address_home_id.street" />
+                                    <hr />
+                                </div>
+                                <div t-if="doc.emp_id.address_home_id.city"
+                                    t-field="doc.emp_id.address_home_id.city">
+                                    <hr />
+                                </div>
                             </div>
-                            <div class="oe_inline col-6 m-1">
-                                <p>
+                            <div class="oe_inline col-sm-12 col-md-6 col-lg-6">
+                                <div>
                                     <strong>P.V NO: </strong>
                                     <t t-esc="doc.name" />
-                                </p>
-                                <p>
+                                </div>
+                                <div>
                                     <strong>DATE: </strong>
                                     <t t-esc="doc.date" />
-                                </p>
-                                <p>
+                                </div>
+                                <div>
                                     <strong>BL NO: </strong>
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <p>
                             <strong>Payment Status:</strong>
-                            <!-- <t t-esc="(doc.status_in_payment.replace('_', ' ')).capitalize()" /> -->
+                            <!-- <t t-esc="(doc.status_in_payment.replace('_', ' ')).capitalize()"
+                            /> -->
                         </p>
 
                         <table class="table table-bordered"
@@ -65,7 +69,8 @@
                                         <t t-esc="doc.description" />
                                     </td>
                                     <td>
-                                        <t t-esc="doc.advance" />
+                                        <span t-field="doc.advance"
+                                            t-options='{"widget": "float", "precision": 2}' />
                                     </td>
                                 </tr>
                                 <tr>
@@ -76,7 +81,8 @@
                                     </td>
                                     <td>
                                         <strong>Total:</strong>
-                                        <t t-esc="doc.advance" />
+                                        <span t-field="doc.advance"
+                                            t-options='{"widget": "float", "precision": 2}' />
                                     </td>
                                 </tr>
                             </tbody>
