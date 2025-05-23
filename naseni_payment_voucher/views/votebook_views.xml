@@ -8,32 +8,33 @@
       <field name="arch" type="xml">
         <xpath expr="//header" position="inside">
           <button name="action_submit" type="object" string="Submit to HOD" class="oe_highlight"
-            invisible="state != 'draft'" />
+            invisible="state != 'draft' or move_type == 'entry'" />
           <button name="action_checked" type="object" string="Checked" class="oe_highlight"
-            invisible="state != 'submit'" />
+            invisible="state != 'submit' or move_type == 'entry'" />
           <button name="action_audit" type="object" string="Audit" class="oe_highlight"
-            invisible="state != 'checked'" />
+            invisible="state != 'checked' or move_type == 'entry'" />
         </xpath>
         <xpath expr="//header//button[@name='action_post'][1]" position="attributes">
-          <attribute name="invisible">state != 'audit' or hide_post_button or move_type != 'entry'</attribute>
+          <attribute name="invisible">(hide_post_button or move_type != 'entry')</attribute>
         </xpath>
-        <xpath expr="//header//field[@name='state']" position="attributes">
-          <attribute name="statusbar_visible">draft,posted,submit,checked,audit</attribute>
+        <xpath expr="//header//field[@name='state']" position="replace">
+          <field name="state" widget="statusbar" statusbar_visible="draft,posted,submit,checked,audit" invisible="'move_type' != 'entry'"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,posted" invisible="'move_type' == 'entry'"/>
         </xpath>
         <xpath expr="//header//button[@name='action_post'][last()]" position="attributes">
-          <attribute name="invisible">(state != 'audit' or hide_post_button or move_type == 'entry' or display_inactive_currency_warning)</attribute>
+          <attribute name="invisible">(hide_post_button or move_type == 'entry' or display_inactive_currency_warning)</attribute>
         </xpath>
         <xpath expr="//sheet//group" position="inside">
-          <group name="preparer_info" invisible="preparer_id == False" readonly="True">
+          <group name="preparer_info" invisible="preparer_id == False or move_type == 'entry'" readonly="True">
             <field name="preparer_id" readonly="1"/>
             <field name="prepared_on" readonly="1" />
           </group>
-          <group>
-            <field name="checker_id" readonly="1"/>
+          <group invisible="move_type == 'entry'">
+            <field name="checker_id" readonly="1" invisible="move_type == 'entry'"/>
             <field name="checked_on" readonly="1"/>
           </group>
-          <group>
-            <field name="auditor_id" readonly="1"/>
+          <group invisible="move_type == 'entry'">
+            <field name="auditor_id" readonly="1" invisible="move_type == 'entry'"/>
             <field name="audited_on" readonly="1"/>
           </group>
         </xpath>
