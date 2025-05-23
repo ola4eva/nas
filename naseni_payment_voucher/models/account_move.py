@@ -16,12 +16,14 @@ class AccountMove(models.Model):
             ("submit", "Submitted"),
             ("checked", "Checked"),
             ("audit", "Audit"),
+            ("refuse", "Refused"),
             ("posted",),
         ],
         ondelete={
             "submit": "set default",
             "checked": "set default",
             "audit": "set default",
+            "refuse": "set default",
         },
     )
     name = fields.Char(
@@ -56,8 +58,8 @@ class AccountMove(models.Model):
     @api.depends("date", "auto_post")
     def _compute_hide_post_button(self):
         for record in self:
-            record.hide_post_button = (
-                record.state not in ("draft", "submit", "checked", "audit")
+            record.hide_post_button = ((
+                record.state != "draft" if record.move_type == 'entry' else record.state != "audit")
                 or record.auto_post != "no"
                 and record.date > fields.Date.context_today(record)
             )
@@ -118,6 +120,13 @@ class AccountMove(models.Model):
                 "auditor_id": self.env.uid,
                 "state": "audit",
             }
+        )
+    
+    def action_refuse(self):
+        """Refuse the voucher."""
+        self.ensure_one()
+        return self.write(
+            {"state": "refuse"}
         )
 
     def send_notification(self, user_ids=None, group_ids=None, template_id=None):
