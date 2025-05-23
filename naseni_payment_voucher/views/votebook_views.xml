@@ -67,6 +67,11 @@
             <field name="audited_on" readonly="1" />
           </group>
         </xpath>
+        <xpath
+          expr="//notebook//field[@name='invoice_line_ids']//field[@name='analytic_distribution']"
+          position="attributes">
+          <attribute name="string">Votebook</attribute>
+        </xpath>
       </field>
     </record>
 

@@ -14,30 +14,31 @@
                         <h2 class="bg-blue text-white" style="text-align:center">PAYMENT VOUCHER</h2>
                         <div class="row">
                             <div class="border border-dark col">
-                                <p>
+                                <p class="p-1">
                                     <strong>PAY:</strong>
                                     <u>
                                         <span t-field="doc.partner_id" />
                                     </u>
-                                </p>
-                                <p t-if="doc.partner_id.street">
+                                </p >
+                                <p class="p-1" t-if="doc.partner_id.street">
                                     <strong>ADDRESS:</strong>
                                     <u>
                                         <span t-field="doc.partner_id.street" />
                                     </u>
                                 </p>
-                                <p t-if="doc.partner_id.city" t-field="doc.partner_id.city"></p>
+                                <p class="p-1" t-if="doc.partner_id.city"
+                                    t-field="doc.partner_id.city"></p>
                             </div>
                             <div class="col">
-                                <p>
+                                <p class="p-1">
                                     <strong>P.V NO: </strong>
                                     <t t-esc="doc.name" />
                                 </p>
-                                <p>
+                                <p class="p-1">
                                     <strong>DATE: </strong>
                                     <t t-esc="doc.invoice_date" />
                                 </p>
-                                <p>
+                                <p class="p-1">
                                     <strong>BL NO: </strong>
                                 </p>
                             </div>
@@ -65,7 +66,8 @@
                                         <t t-esc="line.name" />
                                     </td>
                                     <td>
-                                        <t t-esc="line.price_subtotal" />
+                                        <t t-esc="line.price_subtotal"
+                                            t-options='{"widget": "float", "precision": 2}' />
                                     </td>
                                 </tr>
                                 <tr>
@@ -76,7 +78,8 @@
                                     </td>
                                     <td>
                                         <strong>Total:</strong>
-                                        <t t-esc="doc.amount_total" />
+                                        <t t-esc="doc.amount_total"
+                                            t-options='{"widget": "float", "precision": 2}' />
                                     </td>
                                 </tr>
                             </tbody>

@@ -25,7 +25,7 @@ class hr_expense_expense_ret(models.Model):
                 "state": "draft",
             }
         )
-    
+
     def action_audit(self):
         # Send email to the requester.
         return self.write({"state": "audit"})
@@ -33,9 +33,7 @@ class hr_expense_expense_ret(models.Model):
     def action_refuse(self):
         """Refuse the retirement."""
         self.ensure_one()
-        return self.write(
-            {"state": "reject"}
-        )
+        return self.write({"state": "reject"})
 
     def set_to_cancel(self):
         return self.write({"state": "cancel"})
@@ -92,6 +90,7 @@ class hr_expense_expense_ret(models.Model):
                             "account_id": l.account_id.id,
                             "debit": amount1,
                             "credit": 0.0,
+                            "analytic_distribution": {str(l.analytic_account.id): 100},
                             "journal_id": journal_id,
                             "partner_id": partner_id,
                             "currency_id": (
@@ -438,27 +437,3 @@ class HrExpenseLineRet(models.Model):
             if not uom_id:
                 res["uom_id"] = product.uom_id.id
         return {"value": res}
-
-    # remove code based on requirement
-    # def onchange_account(self, account_id, employee_id):
-    #     res = {}
-    #     if not account_id:
-    #         return {}
-    #     if not employee_id:
-    #         return {}
-    #     accounts_c = []
-    #     accounts_e = []
-    #     emp = self.env["hr.employee"].browse(employee_id)
-    #     for c in emp.category_ids:
-    #         if c.account_ids:
-    #             accounts_c += map(lambda x: x.id, c.account_ids)
-    #     if emp.account_ids:
-    #         accounts_e = map(lambda x: x.id, emp.account_ids)
-    #     if account_id in accounts_c:
-    #         return {}
-    #     elif account_id in accounts_e:
-    #         return {}
-    #     else:
-    #         return ValidationError(
-    #             "It seems you have selected the account which you are not allowed to fill/request the retirement of expense."
-    #         )
