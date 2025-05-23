@@ -8,25 +8,33 @@
                     <header>
                         <button name="validate" string="Confirm" type="object" class="oe_highlight"
                             invisible="state != 'draft'" />
+
+                        <!-- checker's approval / rejection -->
                         <button name="action_check" string="Check" type="object"
                             class="oe_highlight"
                             groups="naseni_base.group_voucher_checker"
                             invisible="state != 'open'" />
+                        <button name="action_refuse" string="Reject" type="object" class="btn btn-danger"
+                            groups="naseni_base.group_voucher_checker"
+                            invisible="state != 'open'" />
+
+                        <!-- Audit's approval / rejection -->
                         <button name="action_audit" string="Audit" type="object"
                             class="oe_highlight"
                             groups="naseni_base.group_voucher_audit"
                             invisible="state != 'checked'" />
+                        <button name="action_refuse" string="Reject" type="object"
+                            class="btn btn-danger"
+                            groups="naseni_base.group_voucher_audit"
+                            invisible="state != 'checked'" />
+
                         <button name="set_to_draft" string="Set to Draft" type="object"
                             groups="account_cash_advance.advance_manager"
                             invisible="state != 'reject'" />
-                        <button name="set_to_close" string="Reject" type="object"
-                            groups="account_cash_advance.advance_manager"
-                            invisible="state != 'open'" />
+
                         <button name="create_move" string="Pay" type="object" class="oe_highlight"
                             groups="account.group_account_user" invisible="state != 'audit'" />
-                        <button name="set_to_close_paid" string="Reject" type="object"
-                            groups="account.group_account_user"
-                            invisible="state != 'audit'" />
+                      
                         <button name="set_to_draft_app" string="Set to Draft" type="object"
                             groups="account_cash_advance.advance_manager"
                             invisible="state != 'cancel'" />

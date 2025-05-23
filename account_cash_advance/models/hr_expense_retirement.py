@@ -19,21 +19,23 @@ class hr_expense_expense_ret(models.Model):
     def approve(self):
         return self.write({"state": "approve", "user_valid": self.env.user.id})
 
-    def set_to_draft_app(self):
-        return self.write({"state": "draft"})
-
     def set_to_draft(self):
         return self.write(
             {
                 "state": "draft",
             }
         )
+    
+    def action_audit(self):
+        # Send email to the requester.
+        return self.write({"state": "audit"})
 
-    def set_to_close(self):
-        return self.write({"state": "reject"})
-
-    def set_to_close_paid(self):
-        return self.write({"state": "reject"})
+    def action_refuse(self):
+        """Refuse the retirement."""
+        self.ensure_one()
+        return self.write(
+            {"state": "reject"}
+        )
 
     def set_to_cancel(self):
         return self.write({"state": "cancel"})
@@ -126,6 +128,7 @@ class hr_expense_expense_ret(models.Model):
                 "line_ids": final_list,
             }
             move_id = move_obj.create(move_vals)
+            move_id.action_post()
             retirement.write({"move_id1": move_id.id})
             retirement.employee_id.write(
                 {"balance": retirement.employee_id.balance - amount}
@@ -249,7 +252,8 @@ class hr_expense_expense_ret(models.Model):
         selection=[
             ("draft", "New"),
             ("open", "Confirmed"),
-            ("approve", "Approved"),
+            ("approve", "Checked"),
+            ("audit", "Audited"),
             ("paid", "Done"),
             ("rem", "Reimbursed"),
             ("reject", "Rejected"),
@@ -396,29 +400,6 @@ class HrExpenseLineRet(models.Model):
     def _amount(self):
         for con in self:
             con.total_amount = con.unit_quantity * con.unit_amount
-
-    # Remove account constraints
-    # @api.constrains("account_id")
-    # def _check_accounts(self):
-    #     accounts_c = []
-    #     accounts_e = []
-    #     if self.expense_id.employee_id:
-    #         emp = self.expense_id.employee_id
-    #         for c in emp.category_ids:
-    #             if c.account_ids:
-    #                 accounts_c += map(lambda x: x.id, c.account_ids)
-    #         if emp.account_ids:
-    #             accounts_e = map(lambda x: x.id, emp.account_ids)
-    #         if self.account_id.id in accounts_c:
-    #             return True
-    #         elif self.account_id.id in accounts_e:
-    #             return True
-    #         else:
-    #             raise ValidationError(
-    #                 "It seems you have selected the account which you are not allowed "
-    #                 "to fill/request the retirments of expense"
-    #             )
-    #     return True
 
     name = fields.Char(string="Expense Note", required=True)
     date_value = fields.Date(string="Date", required=True, default=date.today())

@@ -258,6 +258,13 @@ class CashAdvance(models.Model):
                 "state": "audit",
             }
         )
+    
+    def action_refuse(self):
+        """Refuse the voucher."""
+        self.ensure_one()
+        return self.write(
+            {"state": "reject"}
+        )
 
     def set_to_draft_app(self):
         return self.write(
@@ -276,11 +283,6 @@ class CashAdvance(models.Model):
             {"state": "draft", "manager_id": False, "approval_date": False}
         )
 
-    def set_to_close(self):
-        return self.write({"state": "reject"})
-
-    def set_to_close_paid(self):
-        return self.write({"state": "reject"})
 
     def set_to_cancel(self):
         return self.write({"state": "cancel"})
@@ -294,7 +296,6 @@ class CashAdvance(models.Model):
     def create_move(self):
         move_obj = self.env["account.move"]
         statement_line_obj = self.env["account.bank.statement.line"]
-        created_move_ids = []
 
         for advance in self:
             if not advance.move:
@@ -386,7 +387,7 @@ class CashAdvance(models.Model):
             ]
             final_list = cr_line + dr_line
             move_id.write({"line_ids": final_list})
-            created_move_ids.append(move_id)
+            move_id.action_post()
             advance.write({"move_id1": move_id.id, "state": "paid", "date_confirmed": fields.Date.today()})
             rem = 0.0
             a = advance.emp_id.balance
@@ -398,7 +399,6 @@ class CashAdvance(models.Model):
                 advance.expense_id.write({"state": "rem"})
                 ex = a + advance.advance - rem
                 advance.write({"state": "rem", "ex_amount": ex})
-
         return True
 
     @api.depends("company_id", "advance")
@@ -450,8 +450,6 @@ class CashAdvance(models.Model):
             if not rec._get_associated_reconcile_lines():
                 return False
             line_ids = rec._get_associated_reconcile_lines()
-            # check if the total of the cash advance and the total retirements are equal
-            # and all retirements are in done state
             if (
                 float_compare(rec.amount_total, sum(line_ids.mapped("total_amount")), 2)
                 == 0

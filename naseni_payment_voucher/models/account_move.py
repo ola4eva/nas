@@ -28,8 +28,6 @@ class AccountMove(models.Model):
     )
     name = fields.Char(
         string="Number",
-        # compute="_compute_name",
-        # inverse="_inverse_name",
         inverse=False,
         compute=False,
         readonly=False,

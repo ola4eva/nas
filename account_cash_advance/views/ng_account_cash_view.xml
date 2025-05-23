@@ -160,10 +160,10 @@
 
         <menuitem name="Staff Advances" parent="menu_cash_head" id="menu_open_salary_advance"
             sequence="5" />
-        <menuitem name="Salary Advances" parent="menu_open_salary_advance"
-            id="menu_open_salary_advance_child" sequence="5" />
-        <menuitem parent="menu_open_salary_advance_child" sequence="1000"
-            id="action_account_advance_menu" action="action_account_advance" />
+        <!-- <menuitem name="Salary Advances" parent="menu_open_salary_advance"
+            id="menu_open_salary_advance_child" sequence="5" /> -->
+        <!-- <menuitem parent="menu_open_salary_advance_child" sequence="1000"
+            id="action_account_advance_menu" action="action_account_advance" /> -->
 
         <record model="ir.actions.act_window" id="action_account_advance1">
             <field name="name">Salary Advances to Approve</field>
@@ -171,9 +171,9 @@
             <field name="view_mode">list,form</field>
         </record>
 
-        <menuitem parent="menu_open_salary_advance_child"
+        <!-- <menuitem parent="menu_open_salary_advance_child"
             groups="account_cash_advance.advance_manager" sequence="10001"
-            id="action_account_advance_menu1" action="action_account_advance1" />
+            id="action_account_advance_menu1" action="action_account_advance1" /> -->
 
         <record model="ir.actions.act_window" id="action_account_advance_paid">
             <field name="name">Salary Advance to Disbursement</field>
@@ -183,12 +183,12 @@
 
         <menuitem id="menu_finance_advance_salary_main0" name="Staff Advances"
             parent="accountant.menu_accounting" sequence="3" />
-        <menuitem id="menu_finance_advance_salary_main" name="Salary Advances"
-            parent="menu_finance_advance_salary_main0" sequence="3000" />
-        <menuitem id="menu_finance_advance_salary" groups="account_cash_advance.advance_manager"
+        <!-- <menuitem id="menu_finance_advance_salary_main" name="Salary Advances"
+            parent="menu_finance_advance_salary_main0" sequence="3000" /> -->
+        <!-- <menuitem id="menu_finance_advance_salary" groups="account_cash_advance.advance_manager"
             sequence="5" parent="menu_finance_advance_salary_main" action="action_account_advance1" />
         <menuitem id="menu_finance_advance_salary_main_paid" groups="account.group_account_user"
             sequence="10" parent="menu_finance_advance_salary_main"
-            action="action_account_advance_paid" />
+            action="action_account_advance_paid" /> -->
     </data>
 </odoo>
