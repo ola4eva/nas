@@ -56,8 +56,12 @@ class AccountMove(models.Model):
     @api.depends("date", "auto_post")
     def _compute_hide_post_button(self):
         for record in self:
-            record.hide_post_button = ((
-                record.state != "draft" if record.move_type == 'entry' else record.state != "audit")
+            record.hide_post_button = (
+                (
+                    record.state != "draft"
+                    if record.move_type == "entry"
+                    else record.state != "audit"
+                )
                 or record.auto_post != "no"
                 and record.date > fields.Date.context_today(record)
             )
@@ -107,6 +111,11 @@ class AccountMove(models.Model):
             }
         )
 
+    def action_set_draft(self):
+        """Set payment voucher to draft."""
+        for record in self:
+            record.write({"state": "draft"})
+
     def action_audit(self):
         """Perfrom auditing."""
         self.ensure_one()
@@ -119,13 +128,11 @@ class AccountMove(models.Model):
                 "state": "audit",
             }
         )
-    
+
     def action_refuse(self):
         """Refuse the voucher."""
         self.ensure_one()
-        return self.write(
-            {"state": "refuse"}
-        )
+        return self.write({"state": "refuse"})
 
     def send_notification(self, user_ids=None, group_ids=None, template_id=None):
         """Send notification to the groups that need to be informed
