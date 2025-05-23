@@ -62,7 +62,7 @@
                                         <t t-esc="doc.invoice_date" />
                                     </td>
                                     <td>
-                                        <t t-esc="line.product_id.name" />
+                                        <t t-esc="line.name" />
                                     </td>
                                     <td>
                                         <t t-esc="line.price_subtotal" />
