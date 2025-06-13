@@ -58,6 +58,10 @@
                 <strong class="me-2">TIN:</strong>
                 <span t-field="o.employee_id.tin" />
             </div>
+            <div id="tin">
+                <strong class="me-2">NHF:</strong>
+                <!-- <span t-field="o.employee_id.tin" /> -->
+            </div>
         </xpath>
         <xpath expr="//div[@id='infos_table']" position="after">
             <div id="bank_infos_table">
