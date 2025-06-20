@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_employee_form_inherit_hide_coach_rename_manager" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit.hide.coach.rename.manager</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <!-- Hides the "Coach" field -->
+                <xpath expr="//field[@name='coach_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <!-- Renames the "Manager" field to "Supervisor" -->
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="string">Supervisor</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
