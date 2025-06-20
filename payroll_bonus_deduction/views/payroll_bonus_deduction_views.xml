@@ -77,7 +77,7 @@
             </field>
         </record>
 
-        <menuitem id="payroll_bonus_deduction_menu" name="Other Inputs" groups="payroll_bonus_deduction.group_user" parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root" sequence="99"/>
+        <menuitem id="payroll_bonus_deduction_menu" name="Other Deductions" groups="payroll_bonus_deduction.group_user" parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root" sequence="99"/>
         <menuitem id="payroll_bonus_deduction_child_menu" name="Input" action="payroll_bonus_deduction_action" groups="payroll_bonus_deduction.group_user" parent="payroll_bonus_deduction_menu" sequence="1"/>
 
     </data>
