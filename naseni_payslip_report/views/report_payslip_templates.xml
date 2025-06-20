@@ -58,6 +58,10 @@
                 <strong class="me-2">TIN:</strong>
                 <span t-field="o.employee_id.tin" />
             </div>
+            <div id="tin">
+                <strong class="me-2">NHF:</strong>
+                <!-- <span t-field="o.employee_id.tin" /> -->
+            </div>
         </xpath>
         <xpath expr="//div[@id='infos_table']" position="after">
             <div id="bank_infos_table">
@@ -119,6 +123,8 @@
             position="replace" />
         <xpath expr="//div[@id='payslip_lines_table']//td[@id='payslip_line_ytd']"
             position="replace" />
+        <xpath expr="//div[@id='wage']" position="replace"/>
+        <xpath expr="//div[@id='employee_job_title']" position="replace"/>
     </template>
 
     <record id="hr_payroll.paperformat_euro_light" model="report.paperformat">
