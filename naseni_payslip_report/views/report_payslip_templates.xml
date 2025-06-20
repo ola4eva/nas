@@ -123,6 +123,8 @@
             position="replace" />
         <xpath expr="//div[@id='payslip_lines_table']//td[@id='payslip_line_ytd']"
             position="replace" />
+        <xpath expr="//div[@id='wage']" position="replace"/>
+        <xpath expr="//div[@id='employee_job_title']" position="replace"/>
     </template>
 
     <record id="hr_payroll.paperformat_euro_light" model="report.paperformat">
