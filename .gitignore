@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # sphinx build directories
 _build/
 
@@ -50,11 +49,10 @@ package.json
 /man/
 /share/
 /src/
-=======
 # Ignore Python bytecode
 *.pyc
 __pycache__/
 
 # Mac specific files
 .DS_Store
->>>>>>> Stashed changes
+
