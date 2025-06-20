@@ -5,6 +5,15 @@
       <field name="model">hr.employee</field>
       <field name="inherit_id" ref="hr.view_employee_form" />
       <field name="arch" type="xml">
+        <!-- Hides the "Coach" field -->
+        <xpath expr="//field[@name='coach_id']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <!-- Renames the "Manager" field to "Supervisor" -->
+        <xpath expr="//field[@name='parent_id']" position="attributes">
+          <attribute name="string">Supervisor</attribute>
+        </xpath>
         <xpath expr="//field[@name='work_email']" position="before">
           <field name="title_id" />
           <field name="staff_id" />
