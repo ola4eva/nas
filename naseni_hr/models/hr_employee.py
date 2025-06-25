@@ -49,6 +49,8 @@ class HrEmployeeBase(models.AbstractModel):
     tin = fields.Char("Tax ID No.(*)", required=True)
     nhf = fields.Char("National Housing Fund")
     nin = fields.Char("National ID No.")
+    emp_no = fields.Char("Employee No.(*)")
+    budget_line = field.Char("Budget Line")
     title_id = fields.Many2one(comodel_name="res.partner.title", string="Title")
     next_of_kin_ids = fields.One2many('naseni_hr.next_of_kin', 'employee_id', string='Next of Kin')
 
