@@ -8,6 +8,8 @@ GROUP_AUDIT = "naseni_base.group_voucher_audit"
 TEMPLATE_PREPARER = "account_cash_advance.preparer_notification_template"
 TEMPLATE_CHECKER = "account_cash_advance.checker_notification_template"
 TEMPLATE_AUDIT = "account_cash_advance.audit_notification_template"
+
+
 class CashAdvance(models.Model):
     _name = "cash.advance"
     _inherit = ["mail.thread", "mail.activity.mixin"]
@@ -45,12 +47,7 @@ class CashAdvance(models.Model):
             [("user_id", "=", self.env.user.id)], limit=1
         )
 
-    name = fields.Char(
-        string="Number",
-        default="/",
-        required=True,
-        readonly=True
-    )
+    name = fields.Char(string="Number", default="/", required=True, readonly=True)
     description = fields.Char(
         string="Description",
         required=True,
@@ -146,7 +143,9 @@ class CashAdvance(models.Model):
         domain="['|', ('type','=','cash'), ('type','=','bank')]",
         default=_default_journal,
     )
-    move_id1 = fields.Many2one("account.move", string="Journal Entry", readonly=True, copy=False)
+    move_id1 = fields.Many2one(
+        "account.move", string="Journal Entry", readonly=True, copy=False
+    )
     expense_id = fields.Many2one(
         "ret.expense",
         string="Expense",
@@ -193,6 +192,15 @@ class CashAdvance(models.Model):
     auditor_id = fields.Many2one(comodel_name="res.users", string="Audited By")
     audited_on = fields.Datetime(string="Audited On")
     date_confirmed = fields.Date("Confirmation Date")
+    voucher_type = fields.Selection(
+        [
+            ("capital", "Capital"),
+            ("overhead", "Overhead"),
+            ("advances", "Advances"),
+        ],
+        string="Voucher Type",
+        tracking=True,
+    )
 
     def validate(self):
         cash = self.with_user(user=SUPERUSER_ID)
@@ -202,7 +210,7 @@ class CashAdvance(models.Model):
             )
         if cash.amount_total + cash.emp_id.balance > cash.emp_id.limit:
             raise UserError(_("This advance request is over your allowed limit."))
-        seq = self.env['ir.sequence'].next_by_code("cash.advance")
+        seq = self.env["ir.sequence"].next_by_code("cash.advance")
 
         # Notify the checker
         employee_id = self.env["hr.employee"].search(
@@ -238,7 +246,7 @@ class CashAdvance(models.Model):
 
         return self.write(
             {
-                "state": "checked", 
+                "state": "checked",
                 "manager_id": manager,
                 "approval_date": date,
                 "checker_id": self._uid,
@@ -258,13 +266,11 @@ class CashAdvance(models.Model):
                 "state": "audit",
             }
         )
-    
+
     def action_refuse(self):
         """Refuse the voucher."""
         self.ensure_one()
-        return self.write(
-            {"state": "reject"}
-        )
+        return self.write({"state": "reject"})
 
     def set_to_draft_app(self):
         return self.write(
@@ -274,15 +280,16 @@ class CashAdvance(models.Model):
     def unlink(self):
         """Override the unlink method to prevent deletion of records in certain states."""
         for record in self:
-            if record.state != 'draft':
-                raise models.ValidationError("You cannot delete a record that is not in draft, submitted, checked or audit state.")
+            if record.state != "draft":
+                raise models.ValidationError(
+                    "You cannot delete a record that is not in draft, submitted, checked or audit state."
+                )
         return super(CashAdvance, self).unlink()
 
     def set_to_draft(self):
         return self.write(
             {"state": "draft", "manager_id": False, "approval_date": False}
         )
-
 
     def set_to_cancel(self):
         return self.write({"state": "cancel"})
@@ -388,10 +395,18 @@ class CashAdvance(models.Model):
             final_list = cr_line + dr_line
             move_id.write({"line_ids": final_list})
             move_id.action_post()
-            advance.write({"move_id1": move_id.id, "state": "paid", "date_confirmed": fields.Date.today()})
+            advance.write(
+                {
+                    "move_id1": move_id.id,
+                    "state": "paid",
+                    "date_confirmed": fields.Date.today(),
+                }
+            )
             rem = 0.0
             a = advance.emp_id.balance
-            advance.emp_id.write({"balance": advance.emp_id.balance + advance.amount_total})
+            advance.emp_id.write(
+                {"balance": advance.emp_id.balance + advance.amount_total}
+            )
             if advance.expense_id and advance.expense_id.state == "paid":
                 for x in advance.expense_id.line_ids:
                     rem += x.total_amount
