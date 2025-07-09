@@ -32,6 +32,7 @@
           <field name="tin" />
           <field name="nhf" />
           <field name="nin" />
+          <field name="trade_union" />
           <field name="state_id" widget="selection" />
           <field name="lga_id" widget="selection" />
           <field name="date_appointment" />

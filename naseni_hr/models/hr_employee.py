@@ -51,6 +51,7 @@ class HrEmployeeBase(models.AbstractModel):
     nin = fields.Char("National ID No.")
     title_id = fields.Many2one(comodel_name="res.partner.title", string="Title")
     next_of_kin_ids = fields.One2many('naseni_hr.next_of_kin', 'employee_id', string='Next of Kin')
+    trade_union = fields.Char('Trade Union')
 
     @api.model
     def process_retirment_notification(self):
