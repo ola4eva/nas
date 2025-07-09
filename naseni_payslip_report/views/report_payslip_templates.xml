@@ -43,9 +43,9 @@
             </div>
             <div id="trade_union">
                 <strong class="me-2">Trade Union:</strong>
-                <!-- <span t-field="o.employee_id.trade_union" /> -->
+                <span t-field="o.employee_id.trade_union" />
             </div>
-            
+
             <div id="gender">
                 <strong class="me-2">Gender:</strong>
                 <span t-field="o.employee_id.gender" />
@@ -60,7 +60,7 @@
             </div>
             <div id="tin">
                 <strong class="me-2">NHF:</strong>
-                <!-- <span t-field="o.employee_id.tin" /> -->
+                <span t-field="o.employee_id.nhf" />
             </div>
         </xpath>
         <xpath expr="//div[@id='infos_table']" position="after">
@@ -78,10 +78,6 @@
                                 <div id="bank_name">
                                     <strong class="me-2">Bank name:</strong>
                                     <span t-field="o.employee_id.bank_account_id.bank_id" />
-                                </div>
-                                <div id="bank_branch">
-                                    <strong class="me-2">Bank Branch:</strong>
-                                    <span t-field="o.employee_id.bank_account_id.bank_id.bic" />
                                 </div>
                                 <div id="account_number">
                                     <strong class="me-2">Account Number:</strong>
@@ -103,28 +99,192 @@
                 </table>
             </div>
         </xpath>
-        <xpath expr="//div[@id='payslip_lines_table']//th[@id='line_header_amount']"
-            position="replace" />
-        <xpath expr="//div[@id='payslip_lines_table']//th[@id='line_header_quantity']"
-            position="replace" />
-        <xpath expr="//div[@id='payslip_lines_table']//th[@id='line_header_rate']"
-            position="replace" />
-        <xpath expr="//div[@id='payslip_lines_table']//th[@id='line_header_ytd']"
-            position="replace" />
-        <xpath expr="//div[@id='payslip_lines_table']//th[@id='line_header_total']"
-            position="replace">
-            <th id="line_header_total" class="text-end">Amount</th>
+        <xpath expr="//div[@id='payslip_lines_table']" position="replace">
+            <div class="heading-deduction-section mx-1"
+                style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                <div class="row">
+                    <div class="col-6 row p-1">
+                        <div class="col font-weight-bold">
+                            <strong>EARNINGS</strong>
+                        </div>
+                        <div class="col text-end">
+                            <b>N</b>
+                        </div>
+                    </div>
+
+                    <div class="col-6 row p-1">
+                        <div class="col">
+                            <strong>DEDUCTIONS</strong>
+                        </div>
+                        <div class="col text-end">
+                            <strong>N</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="payslip_lines_table" class="mt-0">
+                <div class="row">
+                    <div class="col-6 p-1">
+                        <!-- <div class="d-flex justify-content-between">
+                            <span>BASIC SALARY</span>
+                            <t t-set="basic_salary"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'BASIC SALARY')" />
+                            <span t-if="basic_salary" t-field="basic_salary[0].total" />
+                            <span t-if="not basic_salary">0.00</span>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-6">BASIC SALARY</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">JAN ARREARS</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">FEB ARREARS</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">FEB ARREARS</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <!-- <div class="d-flex justify-content-between">
+                            <span>JAN_ARREARS</span>
+                            <t t-set="jan_arrears"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'JAN_ARREARS')" />
+                            <span t-if="jan_arrears" t-field="jan_arrears[0].total" />
+                            <span t-if="not jan_arrears">0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>FEB_ARREARS</span>
+                            <t t-set="feb_arrears"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'FEB_ARREARS')" />
+                            <span t-if="feb_arrears" t-field="feb_arrears[0].total" />
+                            <span t-if="not feb_arrears">0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>MAR_ARREARS</span>
+                            <t t-set="mar_arrears"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'MAR_ARREARS')" />
+                            <span t-if="mar_arrears" t-field="mar_arrears[0].total" />
+                            <span t-if="not mar_arrears">0.00</span>
+                        </div> -->
+                    </div>
+                    <div class="col-6 p-1">
+                        <div class="row">
+                            <div class="col-6">PENSION</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">TAX</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">TAX ARREARS</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">NASU</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">CTSS NASENI</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">NHF</div>
+                            <div class="col-6 text-end">0.00</div>
+                        </div>
+                        <!-- <div class="d-flex justify-content-between">
+                            <span>PENSION</span>
+                            <t t-set="pension"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'PENSION')" />
+                            <span t-if="pension" t-field="pension[0].total" />
+                            <span t-if="not pension">0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>TAX</span>
+                            <t t-set="tax" t-value="o.line_ids.filtered(lambda l: l.name == 'TAX')" />
+                            <span t-if="tax" t-field="tax[0].total" />
+                            <span t-if="not tax">0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>TAX ARREARS</span>
+                            <t t-set="tax_arrears"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'TAX ARREARS')" />
+                            <span t-if="tax_arrears" t-field="tax_arrears[0].total" />
+                            <span t-if="not tax_arrears">0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>NASU</span>
+                            <t t-set="nasu"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'NASU')" />
+                            <span t-if="nasu" t-field="nasu[0].total" />
+                            <span t-if="not nasu">0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>CTSS_NASENI</span>
+                            <t t-set="ctss_naseni"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'CTSS_NASENI')" />
+                            <span t-if="ctss_naseni" t-field="ctss_naseni[0].total" />
+                            <span t-if="not ctss_naseni">0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>NATIONAL HOUSING FUND</span>
+                            <t t-set="nhf"
+                                t-value="o.line_ids.filtered(lambda l: l.name == 'NATIONAL HOUSING FUND')" />
+                            <span t-if="nhf" t-field="nhf[0].total" />
+                            <span t-if="not nhf">0.00</span>
+                        </div> -->
+                    </div>
+                </div>
+                <hr />
+                <div class="row d-flex justify-content-between mt-3">
+                    <div class="col-6">
+                        <strong>GROSS SALARY :</strong>
+                        <strong>0.00</strong>
+                    </div>
+                    <div class="col-6">
+                        <strong class="ms-auto">TOTAL DEDUCTION :</strong>
+                        <strong>0.00</strong>
+                    </div>
+                </div>
+                <hr />
+                <div class="mt-2 mb-3">
+                    <strong class="me-2">YOUR NET PAY FOR THIS MONTH IS :</strong>
+                    <strong class="text-decoration-none">0.00</strong>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div>
+                            <u>Cummulative Income</u>
+                        </div>
+                        <div>7,223,713.56</div>
+                    </div>
+                    <div class="col-3">
+                        <div>
+                            <u>Cummulative Tax</u>
+                        </div>
+                        <div>7,223,713.56</div>
+                    </div>
+                    <div class="col-3">
+                        <div>
+                            <u>Cummulative NHF</u>
+                        </div>
+                        <div>7,223,713.56</div>
+                    </div>
+                    <div class="col-3">
+                        <div>
+                            <u>Cummulative Pension</u>
+                        </div>
+                        <div>7,223,713.56</div>
+                    </div>
+                </div>
+            </div>
         </xpath>
-        <xpath expr="//div[@id='payslip_lines_table']//td[@id='payslip_line_amount']"
-            position="replace"/>
-        <xpath expr="//div[@id='payslip_lines_table']//td[@id='payslip_line_quantity']"
-            position="replace" />
-        <xpath expr="//div[@id='payslip_lines_table']//td[@id='payslip_line_rate']"
-            position="replace" />
-        <xpath expr="//div[@id='payslip_lines_table']//td[@id='payslip_line_ytd']"
-            position="replace" />
-        <xpath expr="//div[@id='wage']" position="replace"/>
-        <xpath expr="//div[@id='employee_job_title']" position="replace"/>
+        <xpath expr="//div[@id='wage']" position="replace" />
+        <xpath expr="//div[@id='employee_job_title']" position="replace" />
+        <xpath expr="//div[@id='to_pay']" position="replace" />
     </template>
 
     <record id="hr_payroll.paperformat_euro_light" model="report.paperformat">
