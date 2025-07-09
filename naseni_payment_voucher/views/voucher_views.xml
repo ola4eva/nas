@@ -53,6 +53,9 @@
             display_inactive_currency_warning)</attribute>
         </xpath>
         <xpath expr="//sheet//group" position="inside">
+          <group name="voucher_type">
+            <field name="voucher_type" />
+          </group>
           <group name="preparer_info" invisible="preparer_id == False or move_type == 'entry'"
             readonly="True">
             <field name="preparer_id" readonly="1" />

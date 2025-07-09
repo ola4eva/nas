@@ -43,6 +43,11 @@ class AccountMove(models.Model):
     auditor_id = fields.Many2one(comodel_name="res.users", string="Audited By")
     audited_on = fields.Datetime(string="Audited On")
     date_confirmed = fields.Date("Confirmation Date")
+    voucher_type = fields.Selection([
+        ('capital', 'Capital'),
+        ('overhead', 'Overhead'),
+        ('advances', 'Advances'),
+    ], string='Voucher Type', tracking=True)
 
     def unlink(self):
         """Override the unlink method to prevent deletion of records in certain states."""

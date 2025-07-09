@@ -17,7 +17,7 @@
     "data": [
         "data/mail_data.xml",
         "data/voucher_sequence.xml",
-        "views/votebook_views.xml",
+        "views/voucher_views.xml",
         "views/report_payment_voucher_views.xml",
     ],
 }
