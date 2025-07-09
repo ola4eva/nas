@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+
+        <!-- <record id="employee_categ_form_exp" model="ir.ui.view">
+            <field name="name">employee.form.expense</field>
+            <field name="model">hr.employee.category</field>
+            <field name="inherit_id" ref="hr.view_employee_category_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <separator string="Allowed Accounts in expense" />
+                    <field name="account_ids" nolabel="1" />
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="employee_extd_form_advance_cash" model="ir.ui.view">
+            <field name="name">cash.advance.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="Home Address" string="Home Address">
+                        <group>
+                            <field name="address_home_id"
+                                options="{'no_create': True, 'no_create_edit': True}" />
+                        </group>
+                    </page>
+                    <!-- <page string="Allowed Accounts in expense">
+                        <field name="account_ids" nolabel="1" />
+                    </page> -->
+                </xpath>
+                <xpath expr="//page[@name='hr_settings']" position="inside">
+                    <group string="Expense Limit Settings">
+                        <field name="limit" />
+                        <field name="currency_id" />
+                        <field name="balance" />
+                        <field name="salary_advance_current" />
+
+                    </group>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Cash Advances">
+                        <field name="cash_ids" nolabel="1" />
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

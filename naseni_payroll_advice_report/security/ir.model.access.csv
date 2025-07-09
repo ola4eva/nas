@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_naseni_payroll_advice_report,naseni_payroll_advice_report.naseni_payroll_advice_report,model_payroll_advice_generate,base.group_user,1,1,1,1

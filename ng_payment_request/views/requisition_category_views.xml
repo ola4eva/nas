@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_requisition_category_view_list" model="ir.ui.view">
+        <field name="name">payment.requisition.category.view.list</field>
+        <field name="model">payment.requisition.category</field>
+        <field name="arch" type="xml">
+            <list string="Payment Requisition Category">
+                <field name="name" />
+                <field name="description" />
+            </list>
+        </field>
+    </record>
+
+    <record id="payment_requisition_category_view_form" model="ir.ui.view">
+        <field name="name">payment.requisition.category.view.form</field>
+        <field name="model">payment.requisition.category</field>
+        <field name="arch" type="xml">
+            <form string="Payment Requisition Category">
+                <sheet>
+                    <div class="oe_title" colspan="4">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="description" string="Description">
+                            <field name="description" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="payment_requisition_category_view_search" model="ir.ui.view">
+        <field name="name">payment.requisition.category.view.search</field>
+        <field name="model">payment.requisition.category</field>
+        <field name="arch" type="xml">
+            <search string="Payment Requisition Category">
+                <field name="name" />
+                <field name="description" />
+            </search>
+        </field>
+    </record>
+
+    <record id="payment_requisition_category_action" model="ir.actions.act_window">
+        <field name="name">Requisition Category</field>
+        <field name="res_model">payment.requisition.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_no_content_create">
+                click to create a new payment requisition category
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="payment_requisition_category_menu"
+        name="Category"
+        parent="payment_requisition_main"
+        sequence="3" />
+
+    <menuitem
+        id="payment_requisition_category_action_menu"
+        name="Category"
+        parent="payment_requisition_category_menu"
+        action="payment_requisition_category_action"
+        sequence="1" />
+
+</odoo>

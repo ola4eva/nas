@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="seq_store_request" model="ir.sequence">
+			<field name="name">Store Request</field>
+			<field name="code">store.request</field>
+			<field name="prefix">SR/%(year)s/</field>
+			<field name="padding">3</field>
+		</record>
+    
+    </data>
+    
+</odoo>

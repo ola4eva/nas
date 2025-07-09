@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="cron_cash_advance_cron" model="ir.cron">
+            <field name="name">Update Cash Advance Status</field>
+            <field name="model_id" ref="account_cash_advance.model_cash_advance" />
+            <field name="state">code</field>
+            <field name="code">model.set_unretired_advances_to_retired()</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+        </record>
+
+    </data>
+
+</odoo>

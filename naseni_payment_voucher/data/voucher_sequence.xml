@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="seq_payment_voucher" model="ir.sequence">
+            <field name="name">Payment Voucher Sequence</field>
+            <field name="code">payment.voucher</field>
+            <field name="prefix">PVC/%(year)s/</field>
+            <field name="padding">3</field>
+        </record>
+
+    </data>
+
+</odoo>

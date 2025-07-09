@@ -1,0 +1,62 @@
+<odoo>
+  <data>
+    <record id="view_employee_form" model="ir.ui.view">
+      <field name="name">hr.employee.view.form.inherit</field>
+      <field name="model">hr.employee</field>
+      <field name="inherit_id" ref="hr.view_employee_form" />
+      <field name="arch" type="xml">
+        <!-- Hides the "Coach" field -->
+        <xpath expr="//field[@name='coach_id']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>
+
+        <!-- Renames the "Manager" field to "Supervisor" -->
+        <xpath expr="//field[@name='parent_id']" position="attributes">
+          <attribute name="string">Supervisor</attribute>
+        </xpath>
+        <xpath expr="//field[@name='work_email']" position="before">
+          <field name="title_id" />
+          <field name="staff_id" />
+          <field name="dir_id" widget="selection" />
+          <field name="cadre_id" widget="selection" />
+          <field name="acc_qual" />
+          <field name="prof_qual" />
+        </xpath>
+        <xpath expr="//field[@name='work_email']" position="before">
+          <field name="institute_id" widget="selection" />
+          <field name="geo" />
+          <field name="pfa_id" widget="selection" />
+          <field name="pension_pin" />
+          <field name="emp_no"/>
+          <field name="budget_line"/>
+        </xpath>
+        <xpath expr="//field[@name='coach_id']" position="after">
+          <field name="tin" />
+          <field name="nhf" />
+          <field name="nin" />
+          <field name="trade_union" />
+          <field name="state_id" widget="selection" />
+          <field name="lga_id" widget="selection" />
+          <field name="date_appointment" />
+          <field name="date_confirm" />
+          <field name="date_present" />
+          <field name="date_join" />
+        </xpath>
+        <xpath expr="//notebook" position="inside">
+          <page string="Next of Kin">
+            <group>
+              <field name="next_of_kin_ids" nolabel="1">
+                <list>
+                  <field name="name" />
+                  <field name="relationship" />
+                  <field name="phone" />
+                  <field name="employee_id" invisible="1"/>
+                </list>
+              </field>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

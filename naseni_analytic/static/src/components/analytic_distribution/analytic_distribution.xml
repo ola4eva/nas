@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="analytic.AnalyticDistributionPopup" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('h5 mt-2 me-auto')]" position="replace">
+            <div class="h5 mt-2 me-auto"> Votebook <span t-if="allowSave"
+                    class="btn btn-link" t-on-click="onSaveNew"
+                    title="Save as new analytic distribution model">New Model</span>
+            </div>
+        </xpath>
+    </t>
+</templates>

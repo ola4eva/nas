@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+
+        <record id="hr_employee_grade_level_one" model="hr.employee.grade">
+            <field name="name">GL01</field>
+            <field name="note">Grade Level 1</field>
+            <field name="step_ids"
+                eval="[
+                (0, 0, {'name': '1', 'note': 'Step 1'}), 
+                (0, 0, {'name': '2', 'note': 'Step 2'}), 
+                (0, 0, {'name': '3', 'note': 'Step 3'}), 
+                (0, 0, {'name': '4', 'note': 'Step 4'}), 
+                (0, 0, {'name': '5', 'note': 'Step 5'}),
+                (0, 0, {'name': '6', 'note': 'Step 6'}),
+                (0, 0, {'name': '7', 'note': 'Step 7'}),
+                (0, 0, {'name': '8', 'note': 'Step 8'}),
+                (0, 0, {'name': '9', 'note': 'Step 9'}),
+                (0, 0, {'name': '10', 'note': 'Step 10'}),
+                (0, 0, {'name': '11', 'note': 'Step 11'}),
+                (0, 0, {'name': '12', 'note': 'Step 12'}),
+                (0, 0, {'name': '13', 'note': 'Step 13'}),
+                (0, 0, {'name': '14', 'note': 'Step 14'}),
+                (0, 0, {'name': '15', 'note': 'Step 15'}),
+            ]">
+            </field>
+        </record>
+
+        <record id="hr_employee_grade_level_two" model="hr.employee.grade">
+            <field name="name">GL02</field>
+            <field name="note">Grade Level 2</field>
+            <field name="step_ids" eval="[
+                (0, 0, {'name': '1', 'note': 'Step 1'}), 
+                (0, 0, {'name': '2', 'note': 'Step 2'}), 
+                (0, 0, {'name': '3', 'note': 'Step 3'}), 
+                (0, 0, {'name': '4', 'note': 'Step 4'}), 
+                (0, 0, {'name': '5', 'note': 'Step 5'}),
+                (0, 0, {'name': '6', 'note': 'Step 6'}),
+                (0, 0, {'name': '7', 'note': 'Step 7'}),
+                (0, 0, {'name': '8', 'note': 'Step 8'}),
+                (0, 0, {'name': '9', 'note': 'Step 9'}),
+                (0, 0, {'name': '10', 'note': 'Step 10'}),
+                (0, 0, {'name': '11', 'note': 'Step 11'}),
+                (0, 0, {'name': '12', 'note': 'Step 12'}),
+                (0, 0, {'name': '13', 'note': 'Step 13'}),
+                (0, 0, {'name': '14', 'note': 'Step 14'}),
+                (0, 0, {'name': '15', 'note': 'Step 15'}),
+            ]">
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -13,4 +13,4 @@ access_refund_advance,employee_refund_advance,model_refund_advance,base.group_us
 access_reconcile,ret.expense.reconcile,model_ret_expense_reconcile,base.group_user,1,1,1,0
 access_reconcile_refund,ret.expense.reconcile.refund,model_refund_line,base.group_user,1,1,1,0
 access_reconcile_mgr,ret.expense.reconcile,model_ret_expense_reconcile,advance_manager,1,1,1,1
-access_reconcile_mgr,ret.expense,model_ret_expense,base.group_user,1,1,1,1
+access_retirement,ret.expense,model_ret_expense,base.group_user,1,1,1,1

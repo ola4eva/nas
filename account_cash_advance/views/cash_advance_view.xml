@@ -1,0 +1,219 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_account_cash_advance_main_form">
+            <field name="name">cash.advance.form</field>
+            <field name="model">cash.advance</field>
+            <field name="arch" type="xml">
+                <form string="Advances Request">
+                    <header>
+                        <button name="validate" string="Confirm" type="object" class="oe_highlight"
+                            invisible="state != 'draft'" />
+
+                        <!-- checker's approval / rejection -->
+                        <button name="action_check" string="Check" type="object"
+                            class="oe_highlight"
+                            groups="naseni_base.group_voucher_checker"
+                            invisible="state != 'open'" />
+                        <button name="action_refuse" string="Reject" type="object" class="btn btn-danger"
+                            groups="naseni_base.group_voucher_checker"
+                            invisible="state != 'open'" />
+
+                        <!-- Audit's approval / rejection -->
+                        <button name="action_audit" string="Audit" type="object"
+                            class="oe_highlight"
+                            groups="naseni_base.group_voucher_audit"
+                            invisible="state != 'checked'" />
+                        <button name="action_refuse" string="Reject" type="object"
+                            class="btn btn-danger"
+                            groups="naseni_base.group_voucher_audit"
+                            invisible="state != 'checked'" />
+
+                        <button name="set_to_draft" string="Set to Draft" type="object"
+                            groups="account_cash_advance.advance_manager"
+                            invisible="state != 'reject'" />
+
+                        <button name="create_move" string="Pay" type="object" class="oe_highlight"
+                            groups="account.group_account_user" invisible="state != 'audit'" />
+                      
+                        <button name="set_to_draft_app" string="Set to Draft" type="object"
+                            groups="account_cash_advance.advance_manager"
+                            invisible="state != 'cancel'" />
+                        <button name="set_to_cancel" string="Cancel" type="object"
+                            groups="account_cash_advance.advance_manager"
+                            invisible="state != 'draft'" />
+                        <field name="state" readonly="1" widget="statusbar"
+                            statusbar_visible="draft,open,checked,audit,paid,rem" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"></label>
+                            <h3>
+                                <field name="name" readonly="True" />
+                            </h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="description" placeholder="e.g. Trip to Abuja"
+                                    readonly="state != 'draft'" />
+                            </group>
+                            <group>
+                                <field name="emp_id" readonly="state != 'draft'" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="general" string="General">
+                                <group>
+                                    <group>
+                                        <field name="department_id" />
+                                        <field name="advance"
+                                            readonly="state != 'draft'" />
+                                        <field name="currency_id" readonly="state != 'draft'" />
+                                        <field name="company_id" readonly="state != 'draft'" />
+                                        <field name="amount_total" readonly="state != 'draft'" />
+                                        <field name="ex_amount" readonly="1" invisible="1" />
+                                        <field name="voucher_type" />
+                                    </group>
+                                    <group>
+                                        <field name="balance" readonly="1" />
+                                        <field name="ret_amount" readonly="1" />
+                                        <field name="amount_open" readonly="1" />
+                                        <field name="date" readonly="state != 'draft'" />
+                                        <field name="manager_id" readonly="state != 'draft'" />
+                                    </group>
+                                    <group>
+                                        <field name="notes" string="Additional Information"
+                                            readonly="state != 'draft'" />
+                                    </group>
+                                    <group>
+                                        <field name="approval_date" readonly="state != 'draft'" />
+                                        <field name="user_id" readonly="state != 'draft'" />
+                                        <field name="company_id" widget="selection"
+                                            readonly="state != 'draft'"
+                                            groups="base.group_multi_company" />
+                                    </group>
+                                    <group name="preparer_info" invisible="prepared_by == False"
+                                        readonly="True">
+                                        <field name="prepared_by" readonly="1" />
+                                        <field name="prepared_on" readonly="1" />
+                                    </group>
+                                    <group name="checker_info" invisible="checker_id == False"
+                                        readonly="True">
+                                        <field name="checker_id" readonly="1" />
+                                        <field name="checked_on" readonly="1" />
+                                    </group>
+                                    <group name="auditor_info" invisible="auditor_id == False"
+                                        readonly="True">
+                                        <field name="auditor_id" readonly="1" />
+                                        <field name="audited_on" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="accounting" string="Accounting Information">
+                                <group>
+                                    <group>
+                                        <field name="employee_account"
+                                            groups="account.group_account_user"
+                                            readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
+                                        <field name="update_cash" readonly="state != 'draft'"
+                                            groups="account.group_account_user"
+                                            invisible="state not in ('audit', 'paid')" />
+                                        <field name="cash_id"
+                                            groups="account.group_account_user"
+                                            invisible="update_cash == False"
+                                            required="update_cash == True"
+                                        />
+                                    </group>
+                                    <group>
+                                        <field name="journal_id" groups="account.group_account_user"
+                                            readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
+                                        <field name="move" groups="account.group_account_user"
+                                            readonly="True"
+                                            required="state=='audit'" />
+                                        <field name="move_id1" groups="account.group_account_user"
+                                            invisible="state not in ('audit', 'paid')"
+                                            readonly="True" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter />
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_cash_advance_main_list">
+            <field name="name">cash.advance.list</field>
+            <field name="model">cash.advance</field>
+            <field name="arch" type="xml">
+                <list string="Advances Requests">
+                    <field name="name" />
+                    <field name="emp_id" />
+                    <field name="user_id" invisible="1" />
+                    <field name="department_id" invisible="1" />
+                    <field name="date" />
+                    <field name="approval_date" invisible="1" />
+                    <field name="expense_id" invisible="1" />
+                    <field name="journal_id" invisible="1" />
+                    <field name="employee_account" invisible="1" />
+                    <field name="advance" />
+                    <field name="currency_id" />
+                    <field name="ex_amount" invisible="1" />
+                    <field name="manager_id" />
+                    <field name="company_id" widget="selection" groups="base.group_multi_company" />
+                    <field name="state" />
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_account_cash_advance">
+            <field name="name">Advances Request</field>
+            <field name="res_model">cash.advance</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_account_cash_advance1">
+            <field name="name">Advances to Approve</field>
+            <field name="res_model">cash.advance</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem name="Expense Advances" parent="menu_open_salary_advance"
+            id="menu_open_salary_cash_advance_child" sequence="4" />
+
+        <menuitem parent="menu_open_salary_cash_advance_child" sequence="1000"
+            id="action_account_cash_advance_menu" action="action_account_cash_advance" />
+
+        <menuitem parent="menu_open_salary_cash_advance_child" sequence="10001"
+            groups="account_cash_advance.advance_manager" id="action_account_cash_advance_menu1"
+            action="action_account_cash_advance1" />
+
+        <record model="ir.actions.act_window" id="action_account_cash_advance1_account">
+            <field name="name">Expense Advances</field>
+            <field name="res_model">cash.advance</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_account_cash_advance_paid">
+            <field name="name">Advances to Disburse</field>
+            <field name="res_model">cash.advance</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_finance_cash_advance_salary_main" name="Expense Advances"
+            parent="menu_finance_advance_salary_main0" sequence="300" />
+
+        <menuitem id="menu_finance_cash_advance_salary_account" name="Expense Advances"
+            action="action_account_cash_advance1_account"
+            parent="menu_finance_cash_advance_salary_main" sequence="999" />
+
+        <menuitem id="menu_finance_cash_advance_salary" name="Expense Advances to Disburse"
+            action="action_account_cash_advance_paid" parent="menu_finance_cash_advance_salary_main"
+            sequence="1000" />
+
+        <menuitem id="menu_finance_cash_advance_salary" sequence="40000"
+            groups="account_cash_advance.advance_manager" name="Expense Advances to Disburse"
+            action="action_account_cash_advance_paid" parent="menu_open_salary_cash_advance_child" />
+
+    </data>
+</odoo>

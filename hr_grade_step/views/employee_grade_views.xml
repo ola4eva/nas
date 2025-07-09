@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="hr_employee_grade_view_list" model="ir.ui.view">
+            <field name="name">hr_employee_grade.view.list</field>
+            <field name="model">hr.employee.grade</field>
+            <field name="arch" type="xml">
+                <list string="Grade">
+                    <field name="name" />
+                    <field name="note" />
+                </list>
+            </field>
+        </record>
+
+        <record id="hr_employee_grade_view_form" model="ir.ui.view">
+            <field name="name">hr_employee_grade.view.form</field>
+            <field name="model">hr.employee.grade</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                            </group>
+                            <group>
+                                <field name="note" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="employee_steps" string="Steps">
+                                <group>
+                                    <field name="step_ids" nolabel="1">
+                                        <list>
+                                            <field name="name" />
+                                            <field name="note" />
+                                            <field name="basic" />
+                                            <field name="grade_id" column_invisible="1" />
+                                        </list>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_employee_grade_view_search" model="ir.ui.view">
+            <field name="name">hr_employee_grade.view.search</field>
+            <field name="model">hr.employee.grade</field>
+            <field name="arch" type="xml">
+                <search string="Grade">
+                    <field name="name" />
+                    <field name="note" />
+                </search>
+            </field>
+        </record>
+
+        <record id="hr_employee_grade_action" model="ir.actions.act_window">
+            <field name="name">Grade</field>
+            <field name="res_model">hr.employee.grade</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_no_content_create">Please click here to create a new grade</p>
+            </field>
+        </record>
+
+        <menuitem id="hr_employee_grade_root_menu" name="Employee Grade" parent="hr.menu_hr_root"
+            sequence="10" />
+
+        <menuitem id="hr_employee_grade_menu" name="Employee Grade"
+            action="hr_employee_grade_action" groups="hr.group_hr_manager"
+            parent="hr_employee_grade_root_menu" sequence="1" />
+
+    </data>
+
+
+</odoo>

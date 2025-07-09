@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="payment_requisition_form" model="ir.ui.view">
+            <field name='name'>payment.requisition.form</field>
+            <field name='model'>payment.requisition</field>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <form string="Cash Requisition">
+                    <header>
+                        <!-- Requester -->
+                        <button name="action_confirm" invisible="state != 'draft'" string="Submit for approval"
+                            type="object" class="oe_highlight" />
+                        <button name="action_cancel" invisible="state != 'draft'" string="Cancel" type="object"
+                            class="oe_highlight" />
+
+                        <!-- Department manager -->
+                        <button name="action_approve" string="Manager Approval"
+                            groups="ng_payment_request.department_manager" type="object"
+                            class="oe_highlight" invisible="state != 'awaiting_approval'" />
+                        <button name="action_refuse" string="Refuse"
+                            groups="ng_payment_request.department_manager" class="btn-danger"
+                            type="object" invisible="state != 'awaiting_approval'" />
+
+                        <!-- General manager -->
+                        <button name="action_gm_approve" groups="ng_payment_request.general_manager"
+                            string="Treasury Approval" type="object" class="oe_highlight"
+                            invisible="state != 'mgr_approve'" />
+                        <button name="action_refuse" string="Refuse"
+                            groups="ng_payment_request.general_manager" class="btn-danger"
+                            type="object" invisible="state != 'mgr_approve'" />
+
+                        <!-- Managing Director -->
+                        <button name="action_md_approve"
+                            groups="ng_payment_request.managing_director"
+                            string="Financial Controller Approval" type="object"
+                            class="oe_highlight"
+                            invisible="state != 'gm_approve' or bill_ids == False" />
+
+                        <button name="action_refuse" string="Refuse"
+                            groups="ng_payment_request.managing_director" class="btn-danger"
+                            type="object"
+                            invisible="state != 'gm_approve' or bill_ids != False" />
+
+                        <button name="action_reset" string="Reset to Draft" type="object"
+                            class="oe_highlight" invisible="state != 'refused'" />
+
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_bills" type="object" class="oe_stat_button"
+                                icon="fa-list" invisible="bill_count == 0">
+                                <field name="bill_count" widget="statinfo" string="Vendor Bills" />
+                            </button>
+                        </div>
+                        <h1>
+                            <field name="name" class="oe_inline" readonly="1" />
+                        </h1>
+                        <field name="payment_state" invisible="1" />
+                        <group>
+                            <group>
+                                <field name="requester_id"
+                                    readonly="state  not in ('draft', 'confirm')" />
+                                <field name="employee_id"
+                                    readonly="state  not in ('draft', 'confirm')" />
+                                <field name="department_id"
+                                    readonly="state  not in ('draft', 'confirm')" />
+                            </group>
+                            <group>
+                                <field name="company_id"
+                                    readonly="state  not in ('draft', 'confirm')" />
+                                <field name="date"
+                                    readonly="state  not in ('draft', 'confirm')" />
+                                <field name="need_gm_approval" invisible="1" />
+                                <field name="need_md_approval" invisible="1" />
+                            </group>
+                        </group>
+                        <field name="description" class="oe_inline"
+                            placeholder="Description..."
+                            readonly="state  not in ('draft', 'confirm')" colspan="2"/>
+                        <notebook string="Cash Requisition">
+                            <page string="Payment Request Lines">
+                                <field name="request_line"
+                                    readonly="state in ('paid', 'cancelled')">
+                                    <list string="Request Lines" editable="bottom">
+                                        <field name="state" column_invisible="1" invisible="1" />
+                                        <field name="category_id" />
+                                        <field name="name" />
+                                        <field name="request_amount" sum="Total Requsted Amount" />
+                                        <field name="partner_id" />
+                                        <field name="approved_amount" sum="Total Approved Amount"
+                                            groups="account.group_account_user,ng_payment_request.department_manager,ng_payment_request.general_manager,ng_payment_request.managing_director"
+                                            required="state == 'awaiting_approval'" />
+                                        <field name="expense_account_id"
+                                            domain="[('account_type', 'in', ['expense', 'asset_cash'])]" />
+                                        <field name="analytic_account_id"
+                                            groups="analytic.group_analytic_accounting" />
+                                    </list>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" name="requested_amount">
+                                    <field name="requested_amount" widget='monetary'
+                                        options="{'currency_field': 'currency_id'}" />
+                                    <field name="approved_amount" widget='monetary'
+                                        options="{'currency_field': 'currency_id'}" />
+                                </group>
+                            </page>
+                            <page string="Other Info">
+                                <group>
+                                    <group>
+                                        <field name="currency_id"
+                                            readonly="state  not in ('draft', 'confirm')" />
+                                        <field name="bill_ids" widget="many2many_tags"
+                                            invisible="bill_ids == False"
+                                            readonly="1" />
+                                    </group>
+                                </group>
+                                <group string="Approved By">
+                                    <group>
+                                        <field name="dept_manager_id" />
+                                        <field name="general_manager_id"
+                                            invisible="need_gm_approval == False" />
+                                        <field name="manging_director_id"
+                                            invisible="need_md_approval == False" />
+                                    </group>
+                                    <group>
+                                        <field name="dept_manager_approve_date" />
+                                        <field name="gm_approve_date"
+                                            invisible="need_gm_approval == False" />
+                                        <field name="director_approve_date"
+                                            invisible="need_md_approval == False" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id='payment_requisition_list' model='ir.ui.view'>
+            <field name='name'>payment.requisition.list</field>
+            <field name='model'>payment.requisition</field>
+            <field name='type'>list</field>
+            <field name='arch' type='xml'>
+                <list string='Cash Requisition'>
+                    <field name='name' />
+                    <field name="requester_id" />
+                    <field name="department_id" />
+                    <field name="date" />
+                    <field name="requested_amount" />
+                    <field name="approved_amount" />
+                    <field name="payment_state" invisible="1" />
+                    <field name="state" />
+                </list>
+            </field>
+        </record>
+
+        <record id="search_view_payment_requisition" model="ir.ui.view">
+            <field name="name">Cash Requisition Search View</field>
+            <field name="model">payment.requisition</field>
+            <field name="arch" type="xml">
+                <search string="Cash Requisition">
+                    <field name="name" />
+                    <field name="state" />
+                    <field name="analytic_account_id" />
+                    <field name="category_id" />
+                    <filter name="draft" string="Draft" domain="[('state','=', 'draft')]" />
+                    <filter name="draft" string="Awaiting Approval"
+                        domain="[('state','=', 'awaiting_approval')]" />
+                    <filter name="draft" string="Approved" domain="[('state','=', 'approved')]" />
+                    <filter name="paid" string="Paid" domain="[('state','=', 'paid')]" />
+                    <filter name="refused" string="Refused" domain="[('state','=', 'refused')]" />
+                    <filter name="cancelled" string="Cancelled"
+                        domain="[('state','=', 'cancelled')]" />
+                    <filter string="Requester" domain="[]" name="requester"
+                        context="{'group_by': 'requester_id'}" />
+                    <filter string="Department" domain="[]" name="department"
+                        context="{'group_by': 'department_id'}" />
+                    <filter string="Category" domain="[]" name="category_id"
+                        context="{'group_by': 'category_id'}" />
+                    <filter string="Analytic Account" name="analytic_account_id" domain="[]"
+                        context="{'group_by':'analytic_account_id'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id='payment_requisition_action' model='ir.actions.act_window'>
+            <field name='name'>Cash Requisition</field>
+            <field name='res_model'>payment.requisition</field>
+            <field name='view_mode'>list,form</field>
+        </record>
+
+        <!-- Requisition line start -->
+
+        <record id="payment_requisition_line_form" model="ir.ui.view">
+            <field name='name'>payment.requisition.line.form</field>
+            <field name='model'>payment.requisition.line</field>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <form string="Cash Requisition Line">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="state" />
+                                <field name="analytic_account_id" />
+                                <field name="category_id" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id='payment_requisition_line_list' model='ir.ui.view'>
+            <field name='name'>payment.requisition.line.list</field>
+            <field name='model'>payment.requisition.line</field>
+            <field name='type'>list</field>
+            <field name='arch' type='xml'>
+                <list string='Cash Requisition Line'>
+                    <field name="category_id" />
+                    <field name="name" />
+                    <field name="analytic_account_id" />
+                    <field name="create_date" />
+                    <field name="request_amount" sum="Total Requested" />
+                    <field name="approved_amount" sum="Total Approved" />
+                    <field name="state" />
+                </list>
+            </field>
+        </record>
+
+        <record id="search_view_payment_requisition_line" model="ir.ui.view">
+            <field name="name">Cash Requisition Line Search View</field>
+            <field name="model">payment.requisition.line</field>
+            <field name="arch" type="xml">
+                <search string="Cash Requisition">
+                    <field name="name" />
+                    <field name="state" />
+                    <field name="analytic_account_id" />
+                    <field name="category_id" />
+                    <filter string="Category" domain="[]" name="filter_groupby_category_id"
+                        context="{'group_by': 'category_id'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id='payment_requisition_line_action' model='ir.actions.act_window'>
+            <field name='name'>Cash Requisition Lines</field>
+            <field name='res_model'>payment.requisition.line</field>
+            <field name='view_mode'>list,form</field>
+        </record>
+
+        <!-- Requisition line end -->
+
+        <menuitem id="payment_requisition_main" name="Cash Requisition"
+            web_icon="ng_payment_request,static/description/icon.png" groups="base.group_user" />
+
+        <menuitem id="payment_requisition_main_menu" name="Cash Requisition"
+            groups="base.group_user" parent="payment_requisition_main" sequence="1" />
+
+        <menuitem id="payment_requisition_main_menu_1" name="Cash Requisition"
+            parent="payment_requisition_main_menu" groups="base.group_user" sequence="1"
+            action="payment_requisition_action" />
+
+        <menuitem id="payment_request_main_menu" groups="account.group_account_user"
+            name="Cash Requisition" parent="accountant.menu_accounting" />
+
+        <menuitem id="payment_request_menu" name="Cash Requisition"
+            parent="payment_request_main_menu" sequence="1" action="payment_requisition_action" />
+
+        <!-- Requisiton lines -->
+        <menuitem id="payment_request_line_menu"
+            name="Cash Requisition Line" parent="payment_requisition_main" sequence="2" />
+
+        <menuitem id="payment_request_line_action_menu" name="Cash Requisition Lines"
+            parent="payment_request_line_menu" sequence="1" action="payment_requisition_line_action" />
+
+    </data>
+</odoo>

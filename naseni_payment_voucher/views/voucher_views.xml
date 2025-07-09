@@ -1,0 +1,86 @@
+<odoo>
+  <data>
+
+    <record id="view_out_invoice_tree" model="ir.ui.view">
+      <field name="name">account.move.view.form.inherit</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='status_in_payment']" position="after">
+          <field name="state" string="State" />
+        </xpath>
+        <xpath expr="//field[@name='status_in_payment']" position="attributes">
+          <attribute name="string">Payment Status</attribute>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="view_move_form" model="ir.ui.view">
+      <field name="name">account.move.view.form.inherit</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+          <button name="action_submit" type="object" string="Submit to HOD" class="oe_highlight"
+            invisible="state != 'draft' or move_type == 'entry'" />
+
+          <button name="action_checked" type="object" string="Checked" class="oe_highlight"
+            invisible="state != 'submit' or move_type == 'entry'" />
+          <button name="action_refuse" type="object" string="Refuse" class="btn btn-danger"
+            invisible="state != 'submit' or move_type == 'entry'" />
+
+          <button name="action_audit" type="object" string="Audit" class="oe_highlight"
+            invisible="state != 'checked' or move_type == 'entry'" />
+          <button name="action_refuse" type="object" string="Refuse" class="btn btn-danger"
+            invisible="state != 'checked' or move_type == 'entry'" />
+          <button string="Reset To Draft" name="action_set_draft" type="object" invisible="state != 'refuse'" class="oe_highlight"/>
+        </xpath>
+
+        <xpath expr="//header//button[@name='button_set_checked']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//header//button[@name='action_post'][1]" position="attributes">
+          <attribute name="invisible">(hide_post_button or move_type != 'entry')</attribute>
+        </xpath>
+        <xpath expr="//header//field[@name='state']" position="replace">
+          <field name="state" widget="statusbar"
+            statusbar_visible="draft,posted,submit,checked,audit" invisible="'move_type' != 'entry'" />
+          <field name="state" widget="statusbar" statusbar_visible="draft,posted"
+            invisible="'move_type' == 'entry'" />
+        </xpath>
+        <xpath expr="//header//button[@name='action_post'][last()]" position="attributes">
+          <attribute name="invisible">(hide_post_button or move_type == 'entry' or
+            display_inactive_currency_warning)</attribute>
+        </xpath>
+        <xpath expr="//sheet//group" position="inside">
+          <group name="voucher_type">
+            <field name="voucher_type" />
+          </group>
+          <group name="preparer_info" invisible="preparer_id == False or move_type == 'entry'"
+            readonly="True">
+            <field name="preparer_id" readonly="1" />
+            <field name="prepared_on" readonly="1" />
+          </group>
+          <group invisible="move_type == 'entry'">
+            <field name="checker_id" readonly="1" invisible="move_type == 'entry'" />
+            <field name="checked_on" readonly="1" />
+          </group>
+          <group invisible="move_type == 'entry'">
+            <field name="auditor_id" readonly="1" invisible="move_type == 'entry'" />
+            <field name="audited_on" readonly="1" />
+          </group>
+        </xpath>
+        <xpath
+          expr="//notebook//field[@name='invoice_line_ids']//field[@name='analytic_distribution']"
+          position="attributes">
+          <attribute name="string">Votebook</attribute>
+        </xpath>
+      </field>
+    </record>
+
+    <menuitem name="Votebook" id="naseni_payment_voucher.votebook"
+      action="account_budget.act_budget_analytic_view"
+      web_icon="naseni_payment_voucher,static/description/icon.png" />
+
+  </data>
+</odoo>

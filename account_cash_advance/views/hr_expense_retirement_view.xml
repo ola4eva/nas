@@ -1,0 +1,257 @@
+<odoo>
+    <data>
+
+        <record id="ret_view_expenses_line_list" model="ir.ui.view">
+            <field name="name">ret.expense.line.list</field>
+            <field name="model">ret.expense.line</field>
+            <field name="arch" type="xml">
+                <list string="Advances Retirement Lines">
+                    <field name="sequence" invisible="True" />
+                    <field name="date_value" />
+                    <field name="name" />
+                    <field name="account_id" />
+                    <field name="ref" />
+                    <field name="analytic_account" groups="analytic.group_analytic_accounting" string="Votebook" />
+                    <field name="unit_amount" />
+                    <field name="unit_quantity" />
+                    <field name="total_amount" sum="Total" />
+                </list>
+            </field>
+        </record>
+
+        <record id="ret_view_expenses_line_form" model="ir.ui.view">
+            <field name="name">ret.expense.line.form</field>
+            <field name="model">ret.expense.line</field>
+            <field name="arch" type="xml">
+                <form string="Advances Retirement Lines">
+                    <group>
+                        <group>
+                            <field name="sequence" invisible="True" />
+                            <field name="date_value" />
+                            <field name="name" />
+                            <field name="account_id" />
+                            <field name="ref" />
+                        </group>
+                        <group>
+                            <field name="analytic_account" string="Votebook"
+                                groups="analytic.group_analytic_accounting" />
+                            <field name="unit_amount" />
+                            <field name="unit_quantity" />
+                            <field name="total_amount" sum="Total" />
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_expenses_list_ret" model="ir.ui.view">
+            <field name="name">ret.expense.list</field>
+            <field name="model">ret.expense</field>
+            <field name="arch" type="xml">
+                <list string="Advances Retirement">
+                    <field name="employee_id" />
+                    <field name="date" />
+                    <field name="user_id" invisible="True" />
+                    <field name="name" />
+                    <field name="currency_id" />
+                    <field name="journal_id" invisible="True" />
+                    <field name="employee_account" invisible="True" />
+                    <field name="department_id" invisible="True" />
+                    <field name="amount" />
+                    <field name="state" />
+                </list>
+            </field>
+        </record>
+
+        <record id="view_editable_expenses_list_ret" model="ir.ui.view">
+            <field name="name">ret.expense.list</field>
+            <field name="model">ret.expense</field>
+            <field name="arch" type="xml">
+                <list string=" Advances Retirement">
+                    <field name="employee_id" />
+                    <field name="date" />
+                    <field name="journal_id" invisible="True" />
+                    <field name="employee_account" invisible="True" />
+                    <field name="department_id" invisible="True" />
+                    <field name="ref" />
+                    <field name="name" />
+                    <field name="amount" />
+                    <field name="state" />
+                    <button name="confirm" string="Confirm" invisible="state != 'draft'" />
+                    <button name="refuse" string="Refuse" groups="hr.group_hr_user" />
+                </list>
+            </field>
+        </record>
+
+        <record id="view_expenses_form_ret" model="ir.ui.view">
+            <field name="name">hr.expense.form.ret</field>
+            <field name="model">ret.expense</field>
+            <field name="arch" type="xml">
+                <form string="Advances Retirement Sheet">
+                    <header>
+                        <button name="validate" string="Confirm" type="object" class="oe_highlight"
+                            invisible="state != 'draft'" />
+
+                        <button name="approve" string="Approve" type="object" class="oe_highlight"
+                            groups="hr.group_hr_user,account_cash_advance.advance_manager"
+                            invisible="state != 'open'" />
+                        <button name="action_refuse" string="Reject" type="object" class="btn btn-danger"
+                            groups="hr.group_hr_user,account_cash_advance.advance_manager"
+                            invisible="state != 'open'" />
+
+                        <button name="action_audit" string="Audit" type="object"
+                            class="oe_highlight"
+                            groups="naseni_base.group_voucher_audit"
+                            invisible="state != 'approve'" />
+                        <button name="action_refuse" string="Reject" type="object"
+                            class="btn btn-danger"
+                            groups="naseni_base.group_voucher_audit"
+                            invisible="state != 'approve'" />
+
+                        <button name="set_to_draft" string="Set to Draft" type="object"
+                            groups="hr.group_hr_user,account_cash_advance.advance_manager"
+                            invisible="state != 'reject'" />
+                      
+                        <button name="create_move" string="Create Journal Entry" type="object"
+                            class="oe_highlight" groups="account.group_account_user"
+                            invisible="state != 'audit'" />
+                        
+                        <button name="set_to_cancel" string="Cancel" type="object"
+                            groups="hr.group_hr_user,account_cash_advance.advance_manager"
+                            invisible="state != 'draft'" />
+                        <field name="state" readonly="True" widget="statusbar"
+                            statusbar_visible="draft,open,approve,audit,paid,rem" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" />
+
+                            <field name="name" readonly="state !='draft'" />
+
+                            <label for="employee_id" class="oe_edit_only" />
+                            <h2>
+                                <field name="employee_id" readonly="state !='draft'" />
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="ref" readonly="state !='draft'" />
+                                <field name="date" readonly="state !='draft'" />
+                                <field name="currency_id"
+                                    on_change="onchange_employee_id(employee_id, currency_id,date)"
+                                    readonly="state !='draft'" />
+                                <field name="department_id" readonly="state !='draft'" />
+                                <field name="company_id" groups="base.group_multi_company"
+                                    readonly="state !='draft'" />
+                            </group>
+                            <notebook>
+                                <page string="Reconcile Lines">
+                                    <field name="rec_line_ids" nolabel="1">
+                                        <list string="Reconcile Lines" editable="bottom">
+                                            <field name="ret_id" readonly="state != 'draft'" />
+                                            <field name="approval_date" readonly="state != 'draft'" />
+                                            <field name="org_amount" readonly="state != 'draft'" />
+                                            <field name="open_amount" readonly="state != 'draft'" />
+                                            <field name="allocate_amount"
+                                                readonly="state != 'draft'" />
+                                            <field name="state" invisible="1" />
+                                        </list>
+                                    </field>
+                                </page>
+                                <page string="Description">
+                                    <field name="line_ids" nolabel="1">
+                                        <form string="Retirement Advances Lines">
+                                            <group>
+                                                <group>
+                                                    <field name="state" invisible="1" />
+                                                    <field name="product_id"
+                                                        on_change="onchange_product_id(product_id, uom_id, parent.employee_id)"
+                                                        readonly="state != 'draft'" invisible="1" />
+                                                    <field name="name" readonly="state != 'draft'" />
+                                                    <field name="account_id"
+                                                        readonly="state in ('paid', 'rem', 'reject', 'cancel')"
+                                                        on_change="onchange_account(account_id, parent.employee_id)" />
+                                                </group>
+                                                <group>
+                                                    <field name="unit_amount"
+                                                        readonly="state != 'draft'" />
+                                                    <field name="unit_quantity"
+                                                        readonly="state != 'draft'" />
+                                                    <field name="uom_id" readonly="state != 'draft'"
+                                                        on_change="onchange_product_id(product_id, uom_id, parent.employee_id)" invisible="1"/>
+                                                </group>
+                                            </group>
+                                            <group groups="analytic.group_analytic_accounting">
+                                                <separator string="Customer Project" />
+                                                <field name="analytic_account" string="Votebook"
+                                                    readonly="state != 'draft'" />
+                                            </group>
+                                            <group>
+                                                <separator string="References"
+                                                    readonly="state != 'draft'" />
+                                                <field name="date_value" readonly="state != 'draft'" />
+                                                <field name="ref" readonly="state != 'draft'" />
+                                            </group>
+                                        </form>
+                                    </field>
+                                </page>
+
+                                <page string="Other Info"
+                                    groups="account.group_account_user,hr.group_hr_user">
+                                    <group>
+                                        <separator string="Accounting data"
+                                            readonly="state !='draft'" />
+                                        <field name="journal_id"
+                                            readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
+                                        <field name="employee_account"
+                                            readonly="state in ('paid', 'rem', 'reject', 'cancel')" />
+                                        <field name="move_id1" readonly="True" />
+                                    </group>
+                                    <group>
+                                        <separator string="Validation" />
+                                        <field name="date_confirm" readonly="True" />
+                                        <field name="date_valid" readonly="True" />
+                                        <field name="user_valid" readonly="True" />
+                                    </group>
+                                    <separator string="Notes" />
+                                    <field name="note" nolabel="1" readonly="state != 'draft'" />
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                    <chatter />
+                </form>
+            </field>
+        </record>
+
+        <record id="expense_all_ret" model="ir.actions.act_window">
+            <field name="name">Advances Retirement</field>
+            <field name="res_model">ret.expense</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_expenses_list_ret" />
+        </record>
+
+        <record id="expense_all_ret" model="ir.actions.act_window">
+            <field name="name">Advances Retirement</field>
+            <field name="res_model">ret.expense</field>
+        </record>
+
+        <menuitem id="next_id_49" name="Expenses" sequence="4" parent="hr.menu_hr_root" />
+        <menuitem action="expense_all_ret" id="menu_expense_all_ret" sequence="4000000"
+            name="Advances Retirement" parent="menu_open_salary_cash_advance_child" />
+
+        <record model="ir.actions.act_window" id="action_account_expense_advance_paid">
+            <field name="name">Expenses to Journal</field>
+            <field name="res_model">ret.expense</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_finance_exp_advance_salary_main" name="Staff Expenses"
+            parent="accountant.menu_accounting" sequence="4" />
+        <menuitem action="expense_all_ret" id="menu_expense_all_ret00" name="Advances Retirements"
+            parent="menu_finance_exp_advance_salary_main" />
+        <menuitem id="menu_finance_exp_advance_salary" action="action_account_expense_advance_paid"
+            parent="menu_finance_exp_advance_salary_main" sequence="1000" />
+
+    </data>
+</odoo>
