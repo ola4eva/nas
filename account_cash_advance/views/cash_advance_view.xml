@@ -71,6 +71,7 @@
                                         <field name="company_id" readonly="state != 'draft'" />
                                         <field name="amount_total" readonly="state != 'draft'" />
                                         <field name="ex_amount" readonly="1" invisible="1" />
+                                        <field name="voucher_type" />
                                     </group>
                                     <group>
                                         <field name="balance" readonly="1" />
