@@ -29,6 +29,7 @@ class HrEmployeeBase(models.AbstractModel):
     date_present = fields.Date("Date of Present Appointment")
     date_join = fields.Date("Joined Date")
     staff_id = fields.Char("Staff ID(*)", required=True)
+    employee_no = fields.Char("IPPIS No.(*)", required=True)
     dir_id = fields.Many2one(comodel_name="naseni_hr.directorate", string="Directorate")
     cadre_id = fields.Many2one(comodel_name="naseni_hr.cadre", string="Cadre")
     state_id = fields.Many2one("res.country.state", string="State")
