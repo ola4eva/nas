@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="nok_relationship_view_list" model="ir.ui.view">
+        <field name="name">nok.relationship.view.list</field>
+        <field name="model">nok.relationship</field>
+        <field name="arch" type="xml">
+            <list string="Relationship">
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="nok_relationship_view_form" model="ir.ui.view">
+        <field name="name">nok.relationship.view.form</field>
+        <field name="model">nok.relationship</field>
+        <field name="arch" type="xml">
+            <form string="Relationship">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="nok_relationship_action" model="ir.actions.act_window">
+        <field name="name">Relationship</field>
+        <field name="res_model">nok.relationship</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="nok_relationship_menu"
+        name="Relationship"
+        action="nok_relationship_action"
+        groups="base.group_user"
+        parent="hr.menu_human_resources_configuration"
+        sequence="10" />
+
+</odoo>
