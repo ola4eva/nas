@@ -21,6 +21,7 @@
         <xpath expr="//field[@name='work_email']" position="before">
           <field name="title_id" />
           <field name="staff_id" />
+          <field name="employee_no" />
           <field name="dir_id" widget="selection" />
           <field name="cadre_id" widget="selection" />
           <field name="acc_qual" />
