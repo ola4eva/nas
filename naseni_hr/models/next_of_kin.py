@@ -21,4 +21,4 @@ class NextOfKin(models.Model):
         selection=NEXT_OF_KIN_SELECTION, string="Relationship"
     )
     phone = fields.Char("Phone")
-    employee_id = fields.Many2one('hr.employee', string='Employee')
+    employee_id = fields.Many2one("hr.employee", string="Employee")
