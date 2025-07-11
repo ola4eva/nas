@@ -1,17 +1,5 @@
 from odoo import models, fields
 
-NEXT_OF_KIN_SELECTION = [
-    ("son", "Son"),
-    ("daughter", "Daughter"),
-    ("father", "Father"),
-    ("mother", "Mother"),
-    ("husband", "Husband"),
-    ("wife", "Wife"),
-    ("pastor", "Pastor"),
-    ("friend", "Friend"),
-]
-
-
 class NextOfKin(models.Model):
     _name = "naseni_hr.next_of_kin"
     _description = "Next Of Kin"
