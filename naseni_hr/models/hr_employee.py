@@ -15,6 +15,10 @@ class HrEmployeeBase(models.AbstractModel):
             "You can not have two employees with the same Staff Number !",
         )
     ]
+
+    def _valid_field_parameter(self, field, name):
+        return name == "tracking" or super()._valid_field_parameter(field, name)
+
     institute_id = fields.Many2one(
         comodel_name="naseni_hr.institute", string="Center"
     )
