@@ -11,6 +11,9 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
     _order = "create_date DESC"
 
+    def _valid_field_parameter(self, field, name):
+        return name == "states" or super()._valid_field_parameter(field, name)
+
     def _default_employee(self):
         return self.env["hr.employee"].sudo().search([("user_id", "=", self.env.uid)])
 

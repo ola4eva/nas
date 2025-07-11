@@ -9,7 +9,11 @@
         <xpath expr="//field[@name='coach_id']" position="attributes">
           <attribute name="invisible">1</attribute>
         </xpath>
-
+        <!-- move the birthday & bank account fields to the top  -->
+         <xpath expr="//field[@name='work_email']" position="after">
+          <field name="birthday" position="move"/>
+          <field name="bank_account_id" position="move"/>
+         </xpath>
         <!-- Renames the "Manager" field to "Supervisor" -->
         <xpath expr="//field[@name='parent_id']" position="attributes">
           <attribute name="string">Supervisor</attribute>
