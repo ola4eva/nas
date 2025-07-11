@@ -17,8 +17,8 @@ class NextOfKin(models.Model):
     _description = "Next Of Kin"
 
     name = fields.Char("Name")
-    relationship = fields.Selection(
-        selection=NEXT_OF_KIN_SELECTION, string="Relationship"
+    relationship = fields.Many2one(
+        comodel_name="nok.relationship", string="Relationship"
     )
     phone = fields.Char("Phone")
-    employee_id = fields.Many2one('hr.employee', string='Employee')
+    employee_id = fields.Many2one("hr.employee", string="Employee")
