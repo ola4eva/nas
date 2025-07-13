@@ -11,6 +11,7 @@ Custom module to override default terms in Odoo modules (e.g. renaming "Quotatio
         'send_payslips_by_email_ss',
     ],
     'data': [],
+    'license': "LGPL-3",
     'assets': {},
     'installable': True,
     'auto_install': False,

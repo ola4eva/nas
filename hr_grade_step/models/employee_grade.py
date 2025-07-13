@@ -22,6 +22,7 @@ class EmployeeGrade(models.Model):
 
 class EmployeeStep(models.Model):
     _name = 'hr.employee.step'
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Employee Step'
 
     name = fields.Char('Step')

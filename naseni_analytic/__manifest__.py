@@ -10,7 +10,7 @@
 
     "category": "Uncategorized",
     "version": "0.1",
-
+    "license": "LGPL-3",
     "depends": ["analytic"],
     "assets": {
         "web.assets_backend": [

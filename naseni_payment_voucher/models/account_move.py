@@ -1,5 +1,6 @@
 from datetime import datetime
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 GROUP_CHECKER = "naseni_base.group_voucher_checker"
 GROUP_AUDIT = "naseni_base.group_voucher_audit"
@@ -43,11 +44,15 @@ class AccountMove(models.Model):
     auditor_id = fields.Many2one(comodel_name="res.users", string="Audited By")
     audited_on = fields.Datetime(string="Audited On")
     date_confirmed = fields.Date("Confirmation Date")
-    voucher_type = fields.Selection([
-        ('capital', 'Capital'),
-        ('overhead', 'Overhead'),
-        ('advances', 'Advances'),
-    ], string='Voucher Type', tracking=True)
+    voucher_type = fields.Selection(
+        [
+            ("capital", "Capital"),
+            ("overhead", "Overhead"),
+            ("advances", "Advances"),
+        ],
+        string="Voucher Type",
+        tracking=True,
+    )
 
     def unlink(self):
         """Override the unlink method to prevent deletion of records in certain states."""
@@ -74,6 +79,9 @@ class AccountMove(models.Model):
     def action_submit(self):
         """Submit to HOD."""
         self.ensure_one()
+
+        if not self.invoice_date:
+            raise UserError(_("Please set the voucher date before submitting."))
 
         # Get the employee's HOD
         def get_employee_hod(employee_id=None):
@@ -103,6 +111,8 @@ class AccountMove(models.Model):
     def action_checked(self):
         """Perform Checking..."""
         self.ensure_one()
+        if not self.invoice_date:
+            raise UserError(_("Please set the voucher date before checking."))
 
         # Notify the auditor
         audit_group = self.env.ref(GROUP_AUDIT)
@@ -124,6 +134,9 @@ class AccountMove(models.Model):
     def action_audit(self):
         """Perfrom auditing."""
         self.ensure_one()
+
+        if not self.invoice_date:
+            raise UserError(_("Please set the voucher date before submitting."))
         # Notify the initiator
         self.send_notification([self.preparer_id.id], template_id=TEMPLATE_PREPARER)
         return self.write(

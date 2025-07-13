@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Option 1 -->
+    <template id="report_invoice_document_extend" inherit_id="account.report_invoice_document">
+
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr//th[@name='th_priceunit']"
+            position="after">
+            <th name="th_analytic_account" class="text-start">
+                <span>Votebook</span>
+            </th>
+        </xpath>
+
+        <xpath
+            expr="//table[@name='invoice_line_table']/tbody/t[@t-foreach='lines']/tr/t[@name='account_invoice_line_accountable']/td[@name='td_price_unit']"
+            position="after">
+            <td name="td_analytic_account" class="text-start">
+                <ul class="list-unstyled mb-0">
+                    <t t-foreach="line.analytic_distribution.items()" t-as="analytic">
+                        <t t-set="analytic_id" t-value="analytic[0]" />
+                        <t t-set="percentage" t-value="analytic[1]" />
+                        <t t-set="analytic_account"
+                            t-value="env['account.analytic.account'].browse(int(analytic_id))" />
+                        <li>
+                            <span t-esc="analytic_account.name" /> - <span t-esc="percentage" />% </li>
+                    </t>
+                </ul>
+            </td>
+        </xpath>
+
+    </template>
+</odoo>
