@@ -32,8 +32,6 @@
           <field name="geo" />
           <field name="pfa_id" widget="selection" />
           <field name="pension_pin" />
-          <field name="emp_no"/>
-          <field name="budget_line"/>
         </xpath>
         <xpath expr="//field[@name='coach_id']" position="after">
           <field name="tin" />

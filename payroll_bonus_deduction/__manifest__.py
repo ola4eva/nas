@@ -20,7 +20,7 @@
     'version': '0.1',
 
     'depends': [
-        'hr_payroll'
+        'hr_payroll',
         'naseni_hr',
     ],
 
