@@ -201,6 +201,9 @@ class CashAdvance(models.Model):
         string="Voucher Type",
         tracking=True,
     )
+    limit = fields.Float(
+        string="Expense Limit", help="Limit amount of employee for expense advance.", related="emp_id.limit"
+    )
 
     def validate(self):
         cash = self.with_user(user=SUPERUSER_ID)
