@@ -14,7 +14,8 @@
                             class="oe_highlight"
                             groups="naseni_base.group_voucher_checker"
                             invisible="state != 'open'" />
-                        <button name="action_refuse" string="Reject" type="object" class="btn btn-danger"
+                        <button name="action_refuse" string="Reject" type="object"
+                            class="btn btn-danger"
                             groups="naseni_base.group_voucher_checker"
                             invisible="state != 'open'" />
 
@@ -34,7 +35,7 @@
 
                         <button name="create_move" string="Pay" type="object" class="oe_highlight"
                             groups="account.group_account_user" invisible="state != 'audit'" />
-                      
+
                         <button name="set_to_draft_app" string="Set to Draft" type="object"
                             groups="account_cash_advance.advance_manager"
                             invisible="state != 'cancel'" />
@@ -55,11 +56,25 @@
                             <group>
                                 <field name="description" placeholder="e.g. Trip to Abuja"
                                     readonly="state != 'draft'" />
-                            </group>
-                            <group>
                                 <field name="emp_id" readonly="state != 'draft'" />
                             </group>
+                            <group>
+                                <div class="text-muted">
+                                    <h5>
+                                        <span class="oe_inline">Expense Limit:</span>
+                                        <span class="oe_inline">  </span>
+                                        <span class="oe_inline">
+                                            <field name="limit" readonly="1" class="oe_inline" widget="monetary"/>
+                                        </span>
+                                    </h5>
+                                    <i>
+                                        This is the maximum amount that can be requested by this
+                                        employee.
+                                    </i>
+                                </div>
+                            </group>
                         </group>
+
                         <notebook>
                             <page name="general" string="General">
                                 <group>

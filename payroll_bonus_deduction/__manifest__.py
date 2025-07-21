@@ -19,7 +19,10 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['hr_payroll'],
+    'depends': [
+        'hr_payroll',
+        'naseni_hr',
+    ],
 
     'license': 'LGPL-3',
 

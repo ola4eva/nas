@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_gifmis_report_wizard_form" model="ir.ui.view">
+        <field name="name">gifmis.report.wizard.form</field>
+        <field name="model">gifmis.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate GIFMIS Report">
+                <group>
+                    <field name="name" />
+                    <field name="budget_line" />
+                    <field name="department_id" />
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate Report"
+                        class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
