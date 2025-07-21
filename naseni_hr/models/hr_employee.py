@@ -36,6 +36,7 @@ class HrEmployeeBase(models.AbstractModel):
     lga_id = fields.Many2one(
         "res.country.state.lga", string="Lga", domain="[('state_id', '=', state_id)]"
     )
+    ippis_no = fields.Char('IPPIS No.')
     geo = fields.Selection(
         [
             ("nw", "NORTH WEST"),
