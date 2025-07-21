@@ -10,10 +10,10 @@
           <attribute name="invisible">1</attribute>
         </xpath>
         <!-- move the birthday & bank account fields to the top  -->
-         <xpath expr="//field[@name='work_email']" position="after">
-          <field name="birthday" position="move"/>
-          <field name="bank_account_id" position="move"/>
-         </xpath>
+        <xpath expr="//field[@name='work_email']" position="after">
+          <field name="birthday" position="move" />
+          <field name="bank_account_id" position="move" />
+        </xpath>
         <!-- Renames the "Manager" field to "Supervisor" -->
         <xpath expr="//field[@name='parent_id']" position="attributes">
           <attribute name="string">Supervisor</attribute>
@@ -25,7 +25,6 @@
           <field name="dir_id" widget="selection" />
           <field name="cadre_id" widget="selection" />
           <field name="acc_qual" />
-          <field name="ippis_no" />
           <field name="prof_qual" />
         </xpath>
         <xpath expr="//field[@name='work_email']" position="before">
@@ -54,7 +53,7 @@
                   <field name="name" />
                   <field name="relationship" />
                   <field name="phone" />
-                  <field name="employee_id" invisible="1"/>
+                  <field name="employee_id" invisible="1" />
                 </list>
               </field>
             </group>
