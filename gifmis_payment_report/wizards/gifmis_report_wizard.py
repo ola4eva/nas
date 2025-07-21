@@ -34,8 +34,7 @@ class GifmisReportWizard(models.TransientModel):
             "Amount",
             "Currency",
             "Budget Line",
-            "Is Advance",
-            "Payment",
+            "Is Advance Payment",
         ]
 
         for col, header in enumerate(headers):
