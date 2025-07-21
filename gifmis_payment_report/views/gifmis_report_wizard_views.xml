@@ -6,6 +6,7 @@
             <form string="Generate GIFMIS Report">
                 <group>
                     <field name="name" />
+                    <field name="budget_line" />
                     <field name="department_id" />
                 </group>
                 <footer>

@@ -11,6 +11,9 @@ class GifmisReportWizard(models.TransientModel):
     department_id = fields.Many2one("hr.department", string="Department (optional)")
     payslip_ids = fields.Many2many("hr.payslip", string="Payslips")
     name = fields.Char("Description", required=True, default="GIFMIS Payment Upload")
+    budget_line = fields.Char(
+        "Budget Line", required=True, default="21010101-02601-STATFS01008711"
+    )
 
     def action_generate(self):
         payslips = self.payslip_ids
@@ -48,7 +51,7 @@ class GifmisReportWizard(models.TransientModel):
                     self.name or "",
                     slip.net_wage or 0.0,
                     "NGN",
-                    "",
+                    self.budget_line or "",
                     0,
                     "",
                 ],
