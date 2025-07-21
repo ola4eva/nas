@@ -25,6 +25,7 @@
           <field name="dir_id" widget="selection" />
           <field name="cadre_id" widget="selection" />
           <field name="acc_qual" />
+          <field name="ippis_no" />
           <field name="prof_qual" />
         </xpath>
         <xpath expr="//field[@name='work_email']" position="before">
