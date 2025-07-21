@@ -25,6 +25,7 @@ class GifmisReportWizard(models.TransientModel):
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output)
         worksheet = workbook.add_worksheet("GIFMIS Payment Upload")
+        bold_format = workbook.add_format({'bold': True})
 
         headers = [
             "Employee",
@@ -38,7 +39,7 @@ class GifmisReportWizard(models.TransientModel):
         ]
 
         for col, header in enumerate(headers):
-            worksheet.write(0, col, header)
+            worksheet.write(0, col, header,bold_format)
 
         for idx, slip in enumerate(payslips, start=1):
             emp = slip.employee_id
