@@ -5,11 +5,13 @@
         <field name="arch" type="xml">
             <form string="Generate GIFMIS Report">
                 <group>
-                    <field name="department_id"/>
+                    <field name="name" />
+                    <field name="department_id" />
                 </group>
                 <footer>
-                    <button name="action_generate" type="object" string="Generate Report" class="btn-primary"/>
-                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button name="action_generate" type="object" string="Generate Report"
+                        class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>
         </field>
