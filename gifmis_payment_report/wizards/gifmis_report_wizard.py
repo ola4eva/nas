@@ -46,7 +46,7 @@ class GifmisReportWizard(models.TransientModel):
                 idx,
                 0,
                 [
-                    emp.staff_id or "",
+                    emp.employee_no or "",
                     emp.bank_account_id.acc_number or "",
                     self.name or "",
                     slip.net_wage or 0.0,
