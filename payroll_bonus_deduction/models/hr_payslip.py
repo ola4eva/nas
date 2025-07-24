@@ -5,9 +5,12 @@ from odoo.tools import groupby
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
-    
+
     def compute_sheet(self):
         payslips = self.filtered(lambda slip: slip.state in ["draft", "verify"])
+        # ✅ Delete existing input lines to prevent duplication
+        payslips.mapped("input_line_ids").unlink()
+        # ✅ Create new input lines for other inputs
         self.env["hr.payslip.input"].create(payslips._get_other_input_lines())
         super().compute_sheet()
 
