@@ -50,9 +50,9 @@
                 <strong class="me-2">Gender:</strong>
                 <span t-field="o.employee_id.gender" />
             </div>
-            <div id="tax_state">
+            <div id="work_location_id">
                 <strong class="me-2">Tax State:</strong>
-                <span t-field="o.employee_id.state_id" />
+                <span t-field="o.employee_id.work_location_id" />
             </div>
             <div id="tin">
                 <strong class="me-2">TIN:</strong>
