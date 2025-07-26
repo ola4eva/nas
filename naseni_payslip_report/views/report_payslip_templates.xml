@@ -146,12 +146,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6">TAX ARREARS</div>
-                            <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_tax_arrears())" />
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-6">NASU</div>
                             <div class="col-6 text-end">
                                 <t t-esc="'{:,.2f}'.format(o.get_nasu())" />
