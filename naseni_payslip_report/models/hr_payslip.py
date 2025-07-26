@@ -12,13 +12,10 @@ class HrPayslip(models.Model):
         return self.get_component("BASIC")
 
     def get_pension(self):
-        return self.get_component("PEN")
+        return self.get_component("PENSION_EMPLOYEE")
 
     def get_tax(self):
-        return self.get_component("TAX")
-
-    def get_tax_arrears(self):
-        return self.get_component("TAX_ARREARS")
+        return self.get_component("PAYE")
 
     def get_nasu(self):
         return self.get_component("NASU")
@@ -35,7 +32,6 @@ class HrPayslip(models.Model):
     def get_total_deduction(self):
         total_deduction = (
             self.get_tax() +
-            self.get_tax_arrears() +
             self.get_nasu() +
             self.get_ctss_naseni() +
             self.get_nhf()
