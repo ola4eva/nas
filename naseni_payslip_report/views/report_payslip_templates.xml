@@ -9,9 +9,9 @@
         <xpath expr="//div[@id='pay_period']" position="replace" />
         <xpath expr="//div[@id='worked_days_table']" position="replace" />
         <xpath expr="//div[@id='employee_id']" position="replace">
-            <div id="employee_id">
-                <strong class="me-2">Employee ID:</strong>
-                <span t-field="o.employee_id.staff_id" />
+            <div id="employee_no">
+                <strong class="me-2">IPPIS Number:</strong>
+                <span t-field="o.employee_id.employee_no" />
             </div>
         </xpath>
         <xpath expr="//td[@id='employee_infos']" position="inside">
@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class="col-6 row p-1">
                         <div class="col font-weight-bold">
-                            <strong>EARNINGS</strong>
+                            <strong><b>Gross Earnings</b></strong>
                         </div>
                         <div class="col text-end">
                             <b>N</b>
@@ -114,7 +114,7 @@
 
                     <div class="col-6 row p-1">
                         <div class="col">
-                            <strong>DEDUCTIONS</strong>
+                            <strong><b>Gross Deduction</b></strong>
                         </div>
                         <div class="col text-end">
                             <strong>N</strong>
@@ -126,7 +126,7 @@
                 <div class="row">
                     <div class="col-6 p-1">
                         <div class="row">
-                            <div class="col-6">BASIC SALARY</div>
+                            <div class="col-6">Earnings</div>
                             <div class="col-6 text-end">
                                 <t t-esc="'{:,.2f}'.format(o.get_basic_salary())" />
                             </div>
