@@ -43,7 +43,7 @@ class PayrollAdvice(models.Model):
             ("date_from", ">=", f"{selected_year}-{selected_month:02d}-01"),
             ("date_to", "<=", f"{selected_year}-{selected_month:02d}-{last_day}"),
             ("employee_id", "in", self.employee_ids.ids),
-            ("state", "in", ["done", "paid"]),
+            ("state", "in", ["done", "draft", "verify", "paid"]),
         ]
         payroll_records = self.env["hr.payslip"].search(domain)
 
