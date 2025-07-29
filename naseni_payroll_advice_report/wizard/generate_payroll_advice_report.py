@@ -57,7 +57,8 @@ class PayrollAdvice(models.Model):
             CTSS_PEEMADI = 0.0
             FMBN_RENOVATION = 0.0
             NASENI_CSL = 0.0
-            FIDELITY_DEBT = 0.0
+            FIDELITY_DEBT_RECOVERY = 0.0
+            CHILD_SUPPORT_DED = 0.0
 
             # Salary rules
             basic = 0.0
@@ -80,8 +81,10 @@ class PayrollAdvice(models.Model):
                     FMBN_RENOVATION = input_line.amount
                 elif input_line.code == "NASENI_CSL":
                     NASENI_CSL = input_line.amount
-                elif input_line.code == "FIDELITY_DEBT":
-                    FIDELITY_DEBT = input_line.amount
+                elif input_line.code == "FIDELITY_DEBT_RECOVERY":
+                    FIDELITY_DEBT_RECOVERY = input_line.amount
+                elif input_line.code == "CHILD_SUPPORT_DED":
+                    CHILD_SUPPORT_DED = input_line.amount
 
             for line in rec.line_ids:
                 if line.code == "BASIC":
@@ -118,7 +121,8 @@ class PayrollAdvice(models.Model):
                 TSAN,
                 NASU,
                 SSAUTHRIAI,
-                FIDELITY_DEBT,
+                FIDELITY_DEBT_RECOVERY,
+                CHILD_SUPPORT_DED,
                 rec.department_id.name if rec.department_id else "N/A",
             ))
 
@@ -157,7 +161,8 @@ class PayrollAdvice(models.Model):
             "TSAN",
             "NASU",
             "SSAUTHRIAI",
-            "FIDELITY_DEBT",
+            "FIDELITY_DEBT_RECOVERY",
+            "CHILD_SUPPORT_DED",
             "CENTRE",
         ]
 
@@ -167,7 +172,7 @@ class PayrollAdvice(models.Model):
         # Write data
         for row, data in enumerate(PAYROLL_DATA, start=6):
             for col, value in enumerate(data):
-                if col in range(6, 19):  # Amount columns (BASIC to FIDELITY_DEBT)
+                if col in range(6, 20):  # Amount columns (BASIC to FIDELITY_DEBT)
                     sheet.write(row, col, value, money_format)
                 else:
                     sheet.write(row, col, value, text_format)
