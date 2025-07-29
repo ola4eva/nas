@@ -59,6 +59,33 @@ class PayrollAdvice(models.Model):
             NASENI_CSL = 0.0
             FIDELITY_DEBT_RECOVERY = 0.0
             CHILD_SUPPORT_DED = 0.0
+            CTLS_ELDI_AKWA = 0.0
+            CTLS_JFS = 0.0
+            CTLS_PEDI = 0.0
+            CTLS_PRODA_ENUGU = 0.0
+            CTLS_SEDI_ENUGU = 0.0
+            CTLS_SEDI_MINNA = 0.0
+            CTLS_SEP_SEDI = 0.0
+            CTSS_AMTDI = 0.0
+            CTSS_ELDI_AKWA = 0.0
+            CTSS_ELDI_WALFARE = 0.0
+            CTSS_EMDI = 0.0
+            CTSS_HEDI_KANO = 0.0
+            CTSS_NEDDI = 0.0
+            CTSS_NEDDI_NNEWI = 0.0
+            CTSS_PEDI = 0.0
+            CTSS_PRODA_ENUGU = 0.0
+            CTSS_SEDI_DUKIYA = 0.0
+            CTSS_SEDI_ENUGU = 0.0
+            CTSS_SEDI_MINNA = 0.0
+            CTSS_SEP_SEDI = 0.0
+            CTSS_SSW_SEDI = 0.0
+            ERURU_MUSLIM = 0.0
+            FGSHLB = 0.0
+            HICY = 0.0
+            NASENI_MUSLIM = 0.0
+            SEDI_MINNA_UMMA_FUND = 0.0
+            SEDI_MINNA_WELFARE = 0.0
 
             # Salary rules
             basic = 0.0
@@ -85,6 +112,60 @@ class PayrollAdvice(models.Model):
                     FIDELITY_DEBT_RECOVERY = input_line.amount
                 elif input_line.code == "CHILD_SUPPORT_DED":
                     CHILD_SUPPORT_DED = input_line.amount
+                elif input_line.code == "CTLS_ELDI_AKWA":
+                    CTLS_ELDI_AKWA = input_line.amount
+                elif input_line.code == "CTLS_JFS":
+                    CTLS_JFS = input_line.amount
+                elif input_line.code == "CTLS_PEDI":
+                    CTLS_PEDI = input_line.amount
+                elif input_line.code == "CTLS_PRODA_ENUGU":
+                    CTLS_PRODA_ENUGU = input_line.amount
+                elif input_line.code == "CTLS_SEDI_ENUGU":
+                    CTLS_SEDI_ENUGU = input_line.amount
+                elif input_line.code == "CTLS_SEDI_MINNA":
+                    CTLS_SEDI_MINNA = input_line.amount
+                elif input_line.code == "CTLS_SEP_SEDI":
+                    CTLS_SEP_SEDI = input_line.amount
+                elif input_line.code == "CTSS_AMTDI":
+                    CTSS_AMTDI = input_line.amount
+                elif input_line.code == "CTSS_ELDI_AKWA":
+                    CTSS_ELDI_AKWA = input_line.amount
+                elif input_line.code == "CTSS_ELDI_WALFARE":
+                    CTSS_ELDI_WALFARE = input_line.amount
+                elif input_line.code == "CTSS_EMDI":
+                    CTSS_EMDI = input_line.amount
+                elif input_line.code == "CTSS_HEDI_KANO":
+                    CTSS_HEDI_KANO = input_line.amount
+                elif input_line.code == "CTSS_NEDDI":
+                    CTSS_NEDDI = input_line.amount
+                elif input_line.code == "CTSS_NEDDI_NNEWI":
+                    CTSS_NEDDI_NNEWI = input_line.amount
+                elif input_line.code == "CTSS_PEDI":
+                    CTSS_PEDI = input_line.amount
+                elif input_line.code == "CTSS_PRODA_ENUGU":
+                    CTSS_PRODA_ENUGU = input_line.amount
+                elif input_line.code == "CTSS_SEDI_DUKIYA":
+                    CTSS_SEDI_DUKIYA = input_line.amount
+                elif input_line.code == "CTSS_SEDI_ENUGU":
+                    CTSS_SEDI_ENUGU = input_line.amount
+                elif input_line.code == "CTSS_SEDI_MINNA":
+                    CTSS_SEDI_MINNA = input_line.amount
+                elif input_line.code == "CTSS_SEP_SEDI":
+                    CTSS_SEP_SEDI = input_line.amount
+                elif input_line.code == "CTSS_SSW_SEDI":
+                    CTSS_SSW_SEDI = input_line.amount
+                elif input_line.code == "ERURU_MUSLIM":
+                    ERURU_MUSLIM = input_line.amount
+                elif input_line.code == "FGSHLB":
+                    FGSHLB = input_line.amount
+                elif input_line.code == "HICY":
+                    HICY = input_line.amount
+                elif input_line.code == "NASENI_MUSLIM":
+                    NASENI_MUSLIM = input_line.amount
+                elif input_line.code == "SEDI_MINNA_UMMA_FUND":
+                    SEDI_MINNA_UMMA_FUND = input_line.amount
+                elif input_line.code == "SEDI_MINNA_WELFARE":
+                    SEDI_MINNA_WELFARE = input_line.amount
 
             for line in rec.line_ids:
                 if line.code == "BASIC":
@@ -123,6 +204,33 @@ class PayrollAdvice(models.Model):
                 SSAUTHRIAI,
                 FIDELITY_DEBT_RECOVERY,
                 CHILD_SUPPORT_DED,
+                CTLS_ELDI_AKWA,
+                CTLS_JFS,
+                CTLS_PEDI,
+                CTLS_PRODA_ENUGU,
+                CTLS_SEDI_ENUGU,
+                CTLS_SEDI_MINNA,
+                CTLS_SEP_SEDI,
+                CTSS_AMTDI,
+                CTSS_ELDI_AKWA,
+                CTSS_ELDI_WALFARE,
+                CTSS_EMDI,
+                CTSS_HEDI_KANO,
+                CTSS_NEDDI,
+                CTSS_NEDDI_NNEWI,
+                CTSS_PEDI,
+                CTSS_PRODA_ENUGU,
+                CTSS_SEDI_DUKIYA,
+                CTSS_SEDI_ENUGU,
+                CTSS_SEDI_MINNA,
+                CTSS_SEP_SEDI,
+                CTSS_SSW_SEDI,
+                ERURU_MUSLIM,
+                FGSHLB,
+                HICY,
+                NASENI_MUSLIM,
+                SEDI_MINNA_UMMA_FUND,
+                SEDI_MINNA_WELFARE,
                 rec.department_id.name if rec.department_id else "N/A",
             ))
 
@@ -163,6 +271,33 @@ class PayrollAdvice(models.Model):
             "SSAUTHRIAI",
             "FIDELITY_DEBT_RECOVERY",
             "CHILD_SUPPORT_DED",
+            "CTLS_ELDI_AKWA",
+            "CTLS_JFS",
+            "CTLS_PEDI",
+            "CTLS_PRODA_ENUGU",
+            "CTLS_SEDI_ENUGU",
+            "CTLS_SEDI_MINNA",
+            "CTLS_SEP_SEDI",
+            "CTSS_AMTDI",
+            "CTSS_ELDI_AKWA",
+            "CTSS_ELDI_WALFARE",
+            "CTSS_EMDI",
+            "CTSS_HEDI_KANO",
+            "CTSS_NEDDI",
+            "CTSS_NEDDI_NNEWI",
+            "CTSS_PEDI",
+            "CTSS_PRODA_ENUGU",
+            "CTSS_SEDI_DUKIYA",
+            "CTSS_SEDI_ENUGU",
+            "CTSS_SEDI_MINNA",
+            "CTSS_SEP_SEDI",
+            "CTSS_SSW_SEDI",
+            "ERURU_MUSLIM",
+            "FGSHLB",
+            "HICY",
+            "NASENI_MUSLIM",
+            "SEDI_MINNA_UMMA_FUND",
+            "SEDI_MINNA_WELFARE",
             "CENTRE",
         ]
 
@@ -172,7 +307,7 @@ class PayrollAdvice(models.Model):
         # Write data
         for row, data in enumerate(PAYROLL_DATA, start=6):
             for col, value in enumerate(data):
-                if col in range(6, 20):  # Amount columns (BASIC to FIDELITY_DEBT)
+                if col in range(6, 47):  # Amount columns (BASIC to FIDELITY_DEBT)
                     sheet.write(row, col, value, money_format)
                 else:
                     sheet.write(row, col, value, text_format)
