@@ -10,7 +10,7 @@
         <xpath expr="//div[@id='worked_days_table']" position="replace" />
         <xpath expr="//div[@id='employee_id']" position="replace">
             <div id="employee_no">
-                <strong class="me-2">IPPIS Number:</strong>
+                <strong class="me-2">Employee ID:</strong>
                 <span t-field="o.employee_id.employee_no" />
             </div>
         </xpath>
