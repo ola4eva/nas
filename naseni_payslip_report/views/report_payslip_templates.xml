@@ -20,7 +20,7 @@
                 <span t-field="o.employee_id.job_title" />
             </div>
             <div id="devt_institute">
-                <strong class="me-2">Devt. Institute:</strong>
+                <strong class="me-2">Ministry:</strong>
                 <span t-field="o.employee_id.institute_id" />
             </div>
             <div id="date_of_first_appointment">
