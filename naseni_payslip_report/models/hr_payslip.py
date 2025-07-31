@@ -34,6 +34,7 @@ class HrPayslip(models.Model):
             self.get_tax() +
             self.get_nasu() +
             self.get_ctss_naseni() +
+            self.get_pension() +
             self.get_nhf()
         )
         return total_deduction
