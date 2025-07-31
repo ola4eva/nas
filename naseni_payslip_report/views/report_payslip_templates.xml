@@ -105,7 +105,9 @@
                 <div class="row">
                     <div class="col-6 row p-1">
                         <div class="col font-weight-bold">
-                            <strong><b>Gross Earnings</b></strong>
+                            <strong>
+                                <b>Gross Earnings</b>
+                            </strong>
                         </div>
                         <div class="col text-end">
                             <b>N</b>
@@ -114,7 +116,9 @@
 
                     <div class="col-6 row p-1">
                         <div class="col">
-                            <strong><b>Gross Deductions</b></strong>
+                            <strong>
+                                <b>Gross Deductions</b>
+                            </strong>
                         </div>
                         <div class="col text-end">
                             <strong>N</strong>
@@ -145,10 +149,22 @@
                                 <t t-esc="'{:,.2f}'.format(o.get_tax())" />
                             </div>
                         </div>
-                        <div class="row">
+                        <div t-if="o.belongs_to_nasu()" class="row">
                             <div class="col-6">NASU</div>
                             <div class="col-6 text-end">
                                 <t t-esc="'{:,.2f}'.format(o.get_nasu())" />
+                            </div>
+                        </div>
+                        <div t-if="o.belongs_to_tsaon()" class="row">
+                            <div class="col-6">TSAON</div>
+                            <div class="col-6 text-end">
+                                <t t-esc="'{:,.2f}'.format(o.get_tsaon())" />
+                            </div>
+                        </div>
+                        <div t-if="o.belongs_to_ssauthriai()" class="row">
+                            <div class="col-6">SSAUTHRIAI</div>
+                            <div class="col-6 text-end">
+                                <t t-esc="'{:,.2f}'.format(o.get_ssauthriai())" />
                             </div>
                         </div>
                         <div class="row">
@@ -163,6 +179,18 @@
                                 <t t-esc="'{:,.2f}'.format(o.get_nhf())" />
                             </div>
                         </div>
+                        <t
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code == 'DED' and l.code != 'PENSION' and l.code != 'TAX' and l.code != 'NASU' and l.code != 'TSAON' and l.code != 'SSAUTHRIAI' and l.code != 'CTSS_NASENI' and l.code != 'NHF')"
+                            t-as="line">
+                            <div class="row">
+                                <div class="col-6">
+                                    <t t-esc="line.name" />
+                                </div>
+                                <div class="col-6 text-end">
+                                    <t t-esc="'{:,.2f}'.format(abs(line.total))" />
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </div>
                 <hr />

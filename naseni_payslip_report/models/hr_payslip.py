@@ -6,7 +6,7 @@ class HrPayslip(models.Model):
 
     def get_component(self, code):
         self.ensure_one()
-        return sum(self.line_ids.filtered(lambda l: l.code == code).mapped("total"))
+        return abs(sum((self.line_ids.filtered(lambda l: l.code == code).mapped("total"))))
 
     def get_basic_salary(self):
         return self.get_component("BASIC")
@@ -16,6 +16,21 @@ class HrPayslip(models.Model):
 
     def get_tax(self):
         return self.get_component("PAYE")
+
+    def belongs_to_tsaon(self):
+        return self.employee_id.trade_union == "tsaon"
+
+    def belongs_to_nasu(self):
+        return self.employee_id.trade_union == "nasu"
+
+    def belongs_to_ssauthriai(self):
+        return self.employee_id.trade_union == "ssauthriai"
+
+    def get_tsaon(self):
+        return self.get_component("TSA")
+
+    def get_ssauthriai(self):
+        return self.get_component("SSAUTHRIAI")
 
     def get_nasu(self):
         return self.get_component("NASU")
@@ -31,11 +46,11 @@ class HrPayslip(models.Model):
 
     def get_total_deduction(self):
         total_deduction = (
-            self.get_tax() +
-            self.get_nasu() +
-            self.get_ctss_naseni() +
-            self.get_pension() +
-            self.get_nhf()
+            self.get_tax()
+            + self.get_nasu()
+            + self.get_ctss_naseni()
+            + self.get_pension()
+            + self.get_nhf()
         )
         return total_deduction
 
