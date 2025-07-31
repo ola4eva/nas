@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <t
-                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code == 'DED' and l.code != 'PENSION' and l.code != 'TAX' and l.code != 'NASU' and l.code != 'TSAON' and l.code != 'SSAUTHRIAI' and l.code != 'CTSS_NASENI' and l.code != 'NHF')"
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in ['DED', 'ODD'] and l.code not in ('PENSION', 'TAX', 'NASU', 'TSAON', 'SSAUTHRIAI', 'CTSS_NASENI', 'NHF', 'PAYE', 'PENSION_EMPLOYEE'))"
                             t-as="line">
                             <div class="row">
                                 <div class="col-6">
