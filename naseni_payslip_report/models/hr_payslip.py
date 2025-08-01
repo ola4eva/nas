@@ -7,6 +7,9 @@ class HrPayslip(models.Model):
     def get_component(self, code):
         self.ensure_one()
         return abs(sum((self.line_ids.filtered(lambda l: l.code == code).mapped("total"))))
+    
+    def get_other_deductions(self):
+        return abs(sum(self.line_ids.filtered(lambda l: l.category_id.code == "ODD").mapped("total")))
 
     def get_basic_salary(self):
         return self.get_component("BASIC")
@@ -48,9 +51,11 @@ class HrPayslip(models.Model):
         total_deduction = (
             self.get_tax()
             + self.get_nasu()
-            + self.get_ctss_naseni()
+            + self.get_tsaon()
+            + self.get_ssauthriai()
             + self.get_pension()
             + self.get_nhf()
+            + self.get_other_deductions()
         )
         return total_deduction
 

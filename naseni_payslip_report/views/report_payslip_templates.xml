@@ -167,7 +167,7 @@
                                 <t t-esc="'{:,.2f}'.format(o.get_ssauthriai())" />
                             </div>
                         </div>
-                        <div class="row">
+                        <div t-if="o.get_ctss_naseni() > 0" class="row">
                             <div class="col-6">CTSS NASENI</div>
                             <div class="col-6 text-end">
                                 <t t-esc="'{:,.2f}'.format(o.get_ctss_naseni())" />
