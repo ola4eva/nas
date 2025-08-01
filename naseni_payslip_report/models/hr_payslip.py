@@ -54,8 +54,6 @@ class HrPayslip(models.Model):
             + self.get_tsaon()
             + self.get_ssauthriai()
             + self.get_pension()
-            + self.get_ssauthriai()
-            + self.get_tsaon()
             + self.get_nhf()
             + self.get_other_deductions()
         )
