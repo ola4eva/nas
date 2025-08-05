@@ -9,3 +9,4 @@ from . import cadre
 from . import res_state
 from . import next_of_kin
 from . import nok_relationship
+from . import tax_state

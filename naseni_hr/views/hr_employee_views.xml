@@ -29,6 +29,7 @@
         </xpath>
         <xpath expr="//field[@name='work_email']" position="before">
           <field name="institute_id" widget="selection" />
+          <field name="tax_state_id" widget="selection" />
           <field name="geo" />
           <field name="pfa_id" widget="selection" />
           <field name="pension_pin" />

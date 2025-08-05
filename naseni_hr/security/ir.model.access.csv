@@ -6,3 +6,4 @@ access_user_cadre,naseni_hr.cadre,model_naseni_hr_cadre,base.group_user,1,1,1,1
 naseni_hr.access_res_country_lga,access_res_country_lga,model_res_country_state_lga,base.group_user,1,1,1,1
 naseni_hr.access_next_of_kin,access_next_of_kin,model_naseni_hr_next_of_kin,base.group_user,1,1,1,1
 naseni_hr.access_next_of_kin_relationship,access_next_of_kin_relationship,model_nok_relationship,base.group_user,1,1,1,1
+naseni_hr.access_tax_state,naseni_hr.cadre,model_naseni_hr_tax,base.group_user,1,1,1,1

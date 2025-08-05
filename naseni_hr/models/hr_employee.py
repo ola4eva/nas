@@ -22,6 +22,9 @@ class HrEmployeeBase(models.AbstractModel):
     institute_id = fields.Many2one(
         comodel_name="naseni_hr.institute", string="Center"
     )
+    tax_state_id = fields.Many2one(
+        comodel_name="naseni_hr.tax", string="Tax State"
+    )
     pfa_id = fields.Many2one(comodel_name="naseni_hr.pfa", string="PFA(*)", required=True)
     pension_pin = fields.Char("Pension PIN(*)", required=True)
     date_appointment = fields.Date("Date of First Appointment")

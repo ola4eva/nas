@@ -26,6 +26,7 @@
         'views/cadre_views.xml',
         'views/res_state_views.xml',
         'views/nok_relationship_views.xml',
+        'views/tax_state_views.xml',
     ],
 }
 
