@@ -29,8 +29,8 @@ class HrPayslip(models.Model):
     def belongs_to_ssauthriai(self):
         return self.employee_id.trade_union == "ssauthriai"
 
-    def get_tsaon(self):
-        return self.get_component("TSAON")
+    def get_tsan(self):
+        return self.get_component("TSAN")
 
     def get_ssauthriai(self):
         return self.get_component("SSAUTHRIAI")
