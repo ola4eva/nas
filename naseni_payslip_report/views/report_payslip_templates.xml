@@ -156,9 +156,9 @@
                             </div>
                         </div>
                         <div t-if="o.belongs_to_tsaon()" class="row">
-                            <div class="col-6">TSAON</div>
+                            <div class="col-6">TSAN</div>
                             <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_tsaon())" />
+                                <t t-esc="'{:,.2f}'.format(o.get_tsan())" />
                             </div>
                         </div>
                         <div t-if="o.belongs_to_ssauthriai()" class="row">
@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <t
-                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in ['DED', 'ODD'] and l.code not in ('PENSION', 'TAX', 'NASU', 'TSAON', 'SSAUTHRIAI', 'CTSS_NASENI', 'NHF', 'PAYE', 'PENSION_EMPLOYEE'))"
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in ['DED', 'ODD'] and l.code not in ('PENSION', 'TAX', 'NASU', 'TSAN', 'SSAUTHRIAI', 'CTSS_NASENI', 'NHF', 'PAYE', 'PENSION_EMPLOYEE'))"
                             t-as="line">
                             <div class="row">
                                 <div class="col-6">

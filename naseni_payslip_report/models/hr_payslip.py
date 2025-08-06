@@ -20,8 +20,8 @@ class HrPayslip(models.Model):
     def get_tax(self):
         return self.get_component("PAYE")
 
-    def belongs_to_tsaon(self):
-        return self.employee_id.trade_union == "tsaon"
+    def belongs_to_tsan(self):
+        return self.employee_id.trade_union == "tsan"
 
     def belongs_to_nasu(self):
         return self.employee_id.trade_union == "nasu"
@@ -51,7 +51,7 @@ class HrPayslip(models.Model):
         total_deduction = (
             self.get_tax()
             + self.get_nasu()
-            + self.get_tsaon()
+            + self.get_tsan()
             + self.get_ssauthriai()
             + self.get_pension()
             + self.get_nhf()

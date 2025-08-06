@@ -62,7 +62,7 @@ class HrEmployeeBase(models.AbstractModel):
     trade_union = fields.Selection(
         selection=[
             ('nasu', 'NASU'),
-            ('tsaon', 'TSAON'),
+            ('tsan', 'TSAN'),
             ('ssauthriai', 'SSAUTHRIAI'),
         ],
         string='Trade Union',
