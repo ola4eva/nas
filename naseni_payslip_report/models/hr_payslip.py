@@ -14,36 +14,6 @@ class HrPayslip(models.Model):
     def get_basic_salary(self):
         return self.get_component("BASIC")
 
-    def get_pension(self):
-        return self.get_component("PENSION_EMPLOYEE")
-
-    def get_tax(self):
-        return self.get_component("PAYE")
-
-    def belongs_to_tsan(self):
-        return self.employee_id.trade_union == "tsan"
-
-    def belongs_to_nasu(self):
-        return self.employee_id.trade_union == "nasu"
-
-    def belongs_to_ssauthriai(self):
-        return self.employee_id.trade_union == "ssauthriai"
-
-    def get_tsan(self):
-        return self.get_component("TSAN")
-
-    def get_ssauthriai(self):
-        return self.get_component("SSAUTHRIAI")
-
-    def get_nasu(self):
-        return self.get_component("NASU")
-
-    def get_ctss_naseni(self):
-        return self.get_component("CTSS_NASENI")
-
-    def get_nhf(self):
-        return self.get_component("NHF")
-
     def get_gross(self):
         return self.get_component("GROSS")
 
