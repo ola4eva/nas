@@ -135,13 +135,21 @@
                                 <t t-esc="'{:,.2f}'.format(o.get_basic_salary())" />
                             </div>
                         </div>
+                        <div class="row"
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in ['ALW'] and l.total > 0)"
+                            t-as="line">
+                            <div class="col-6">
+                                <t t-esc="line.name" />
+                            </div>
+                            <div class="col-6 text-end">
+                                <t t-esc="'{:,.2f}'.format(abs(line.total))" />
+                            </div>
+                        </div>
                     </div>
                     <div class="col-6 p-1">
-                        <t t-set="EXCLUDED_DEDUCTIONS"
-                            t-value="('PAYE', 'PENSION_EMPLOYEE')" />
                         <t t-set="DEDUCTION_CATEGORY" t-value="['DED', 'ODD']" />
                         <t
-                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in DEDUCTION_CATEGORY and l.code not in EXCLUDED_DEDUCTIONS and l.total > 0)"
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in DEDUCTION_CATEGORY and l.total > 0)"
                             t-as="line">
                             <div class="row">
                                 <div class="col-6">
