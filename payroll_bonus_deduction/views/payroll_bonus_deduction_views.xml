@@ -33,7 +33,7 @@
                             <group>
                                 <field name="name" readonly="state != 'draft'"/>
                                 <field name="staff_id" />
-                                <field name="employee_id" required="1" readonly="state != 'draft'" />
+                                <field name="employee_id" readonly="1"/>
                             </group>
                             <group>
                                 <field name="other_input_id" />
