@@ -6,39 +6,24 @@ class HrPayslip(models.Model):
 
     def get_component(self, code):
         self.ensure_one()
-        return sum(self.line_ids.filtered(lambda l: l.code == code).mapped("total"))
+        return abs(sum((self.line_ids.filtered(lambda l: l.code == code).mapped("total"))))
+    
+    def get_regular_deductions(self):
+        return abs(sum(self.line_ids.filtered(lambda l: l.category_id.code == "DED").mapped("total")))
+    
+    def get_other_deductions(self):
+        return abs(sum(self.line_ids.filtered(lambda l: l.category_id.code == "ODD").mapped("total")))
 
     def get_basic_salary(self):
         return self.get_component("BASIC")
-
-    def get_pension(self):
-        return self.get_component("PEN")
-
-    def get_tax(self):
-        return self.get_component("TAX")
-
-    def get_tax_arrears(self):
-        return self.get_component("TAX_ARREARS")
-
-    def get_nasu(self):
-        return self.get_component("NASU")
-
-    def get_ctss_naseni(self):
-        return self.get_component("CTSS_NASENI")
-
-    def get_nhf(self):
-        return self.get_component("NHF")
 
     def get_gross(self):
         return self.get_component("GROSS")
 
     def get_total_deduction(self):
         total_deduction = (
-            self.get_tax() +
-            self.get_tax_arrears() +
-            self.get_nasu() +
-            self.get_ctss_naseni() +
-            self.get_nhf()
+            self.get_regular_deductions()
+            + self.get_other_deductions()
         )
         return total_deduction
 

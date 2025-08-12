@@ -22,6 +22,9 @@ class HrEmployeeBase(models.AbstractModel):
     institute_id = fields.Many2one(
         comodel_name="naseni_hr.institute", string="Center"
     )
+    tax_state_id = fields.Many2one(
+        comodel_name="naseni_hr.tax", string="Tax State"
+    )
     pfa_id = fields.Many2one(comodel_name="naseni_hr.pfa", string="PFA(*)", required=True)
     pension_pin = fields.Char("Pension PIN(*)", required=True)
     date_appointment = fields.Date("Date of First Appointment")
@@ -56,8 +59,16 @@ class HrEmployeeBase(models.AbstractModel):
     nin = fields.Char("National ID No.")
     title_id = fields.Many2one(comodel_name="res.partner.title", string="Title")
     next_of_kin_ids = fields.One2many('naseni_hr.next_of_kin', 'employee_id', string='Next of Kin')
-    trade_union = fields.Char('Trade Union')
-
+    trade_union = fields.Selection(
+        selection=[
+            ('nasu', 'NASU'),
+            ('tsan', 'TSAN'),
+            ('ssauthriai', 'SSAUTHRIAI'),
+        ],
+        string='Trade Union',
+        default='nasu',
+    )
+    
     @api.model
     def process_retirment_notification(self):
         retiring_employees = self.search([]).filtered(

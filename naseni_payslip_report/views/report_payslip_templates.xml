@@ -9,9 +9,9 @@
         <xpath expr="//div[@id='pay_period']" position="replace" />
         <xpath expr="//div[@id='worked_days_table']" position="replace" />
         <xpath expr="//div[@id='employee_id']" position="replace">
-            <div id="employee_id">
+            <div id="employee_no">
                 <strong class="me-2">Employee ID:</strong>
-                <span t-field="o.employee_id.staff_id" />
+                <span t-field="o.employee_id.employee_no" />
             </div>
         </xpath>
         <xpath expr="//td[@id='employee_infos']" position="inside">
@@ -20,7 +20,7 @@
                 <span t-field="o.employee_id.job_title" />
             </div>
             <div id="devt_institute">
-                <strong class="me-2">Devt. Institute:</strong>
+                <strong class="me-2">Centre:</strong>
                 <span t-field="o.employee_id.institute_id" />
             </div>
             <div id="date_of_first_appointment">
@@ -50,9 +50,9 @@
                 <strong class="me-2">Gender:</strong>
                 <span t-field="o.employee_id.gender" />
             </div>
-            <div id="tax_state">
+            <div id="work_location_id">
                 <strong class="me-2">Tax State:</strong>
-                <span t-field="o.employee_id.state_id" />
+                <span t-field="o.employee_id.tax_state_id" />
             </div>
             <div id="tin">
                 <strong class="me-2">TIN:</strong>
@@ -105,7 +105,9 @@
                 <div class="row">
                     <div class="col-6 row p-1">
                         <div class="col font-weight-bold">
-                            <strong>EARNINGS</strong>
+                            <strong>
+                                <b>Gross Earnings</b>
+                            </strong>
                         </div>
                         <div class="col text-end">
                             <b>N</b>
@@ -114,7 +116,9 @@
 
                     <div class="col-6 row p-1">
                         <div class="col">
-                            <strong>DEDUCTIONS</strong>
+                            <strong>
+                                <b>Gross Deductions</b>
+                            </strong>
                         </div>
                         <div class="col text-end">
                             <strong>N</strong>
@@ -126,49 +130,36 @@
                 <div class="row">
                     <div class="col-6 p-1">
                         <div class="row">
-                            <div class="col-6">BASIC SALARY</div>
+                            <div class="col-6">Earnings</div>
                             <div class="col-6 text-end">
                                 <t t-esc="'{:,.2f}'.format(o.get_basic_salary())" />
                             </div>
                         </div>
+                        <div class="row"
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in ['ALW'] and l.total > 0)"
+                            t-as="line">
+                            <div class="col-6">
+                                <t t-esc="line.name" />
+                            </div>
+                            <div class="col-6 text-end">
+                                <t t-esc="'{:,.2f}'.format(abs(line.total))" />
+                            </div>
+                        </div>
                     </div>
                     <div class="col-6 p-1">
-                        <div class="row">
-                            <div class="col-6">PENSION</div>
-                            <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_pension())" />
+                        <t t-set="DEDUCTION_CATEGORY" t-value="['DED', 'ODD']" />
+                        <t
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in DEDUCTION_CATEGORY and l.total > 0)"
+                            t-as="line">
+                            <div class="row">
+                                <div class="col-6">
+                                    <t t-esc="line.name" />
+                                </div>
+                                <div class="col-6 text-end">
+                                    <t t-esc="'{:,.2f}'.format(abs(line.total))" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">TAX</div>
-                            <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_tax())" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">TAX ARREARS</div>
-                            <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_tax_arrears())" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">NASU</div>
-                            <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_nasu())" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">CTSS NASENI</div>
-                            <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_ctss_naseni())" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">NHF</div>
-                            <div class="col-6 text-end">
-                                <t t-esc="'{:,.2f}'.format(o.get_nhf())" />
-                            </div>
-                        </div>
+                        </t>
                     </div>
                 </div>
                 <hr />
@@ -180,7 +171,7 @@
                         </strong>
                     </div>
                     <div class="col-6">
-                        <strong class="ms-auto">TOTAL DEDUCTION: </strong>
+                        <strong class="ms-auto">TOTAL DEDUCTIONS: </strong>
                         <strong>
                             <t t-esc="'{:,.2f}'.format(o.get_total_deduction())" />
                         </strong>
