@@ -7,6 +7,7 @@ class PayrollBonusDeduction(models.Model):
     _name = 'payroll.bonus.deduction'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Payroll Bonuses & Deductions'
+    _order = 'create_date desc'
 
     name = fields.Char(string="Name", required=True)
     note = fields.Text('Description')
