@@ -45,29 +45,41 @@ class PayrollBonusDeduction(models.Model):
     def create(self, vals_list):
         # Prepare to collect new vals and update existing records
         new_vals_list = []
+        updated_records = self.browse()
+
         for vals in vals_list:
             # Try to find existing record using import logic
             existing = self._import_find_existing_record(vals)
             if existing:
+                print(f"Found existing record: {existing.id} for vals: {vals}")
                 # Update the existing record with new values
                 existing.write(vals)
-                continue
-            # If no existing record, resolve employee_id if needed
-            if "employee_id" not in vals and "staff_id" in vals:
-                staff_id = vals.get("staff_id")
-                employee = self.env["hr.employee"].search(
-                    ["|", ("employee_no", "=", staff_id), ("staff_id", "=", staff_id)],
-                    limit=1,
-                )
-                if employee:
-                    vals["employee_id"] = employee.id
-                else:
-                    vals["employee_id"] = False
-            new_vals_list.append(vals)
+                updated_records |= existing
+            else:
+                print(f"Creating new record with vals: {vals}")
+                # If no existing record, resolve employee_id if needed
+                if "employee_id" not in vals and "staff_id" in vals:
+                    staff_id = vals.get("staff_id")
+                    employee = self.env["hr.employee"].search(
+                        [
+                            "|",
+                            ("employee_no", "=", staff_id),
+                            ("staff_id", "=", staff_id),
+                        ],
+                        limit=1,
+                    )
+                    if employee:
+                        vals["employee_id"] = employee.id
+                    else:
+                        vals["employee_id"] = False
+                new_vals_list.append(vals)
+
+        # Create new records if any
         if new_vals_list:
-            return super().create(new_vals_list)
+            new_records = super().create(new_vals_list)
+            return updated_records | new_records
         else:
-            return self.browse()
+            return updated_records
 
     @api.onchange("staff_id")
     def _onchange_staff_id(self):
@@ -86,3 +98,21 @@ class PayrollBonusDeduction(models.Model):
                 self.employee_id = employee.id
             else:
                 self.employee_id = False
+
+    def _import_find_existing_record(self, vals):
+        """Custom method to match on two fields during import."""
+        staff_id = vals.get("staff_id")
+        other_input_id = vals.get("other_input_id")
+
+        if isinstance(staff_id, str):
+            staff_id = staff_id.strip()
+        if not staff_id:
+            staff_id = False
+
+        if not staff_id or not other_input_id:
+            return False
+        domain = [
+            ("staff_id", "=", staff_id),
+            ("other_input_id", "=", int(other_input_id)),
+        ]
+        return self.search(domain, limit=1)
