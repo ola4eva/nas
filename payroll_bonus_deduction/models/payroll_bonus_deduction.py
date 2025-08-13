@@ -43,7 +43,16 @@ class PayrollBonusDeduction(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        # Prepare to collect new vals and update existing records
+        new_vals_list = []
         for vals in vals_list:
+            # Try to find existing record using import logic
+            existing = self._import_find_existing_record(vals)
+            if existing:
+                # Update the existing record with new values
+                existing.write(vals)
+                continue
+            # If no existing record, resolve employee_id if needed
             if "employee_id" not in vals and "staff_id" in vals:
                 staff_id = vals.get("staff_id")
                 employee = self.env["hr.employee"].search(
@@ -54,7 +63,11 @@ class PayrollBonusDeduction(models.Model):
                     vals["employee_id"] = employee.id
                 else:
                     vals["employee_id"] = False
-        return super().create(vals_list)
+            new_vals_list.append(vals)
+        if new_vals_list:
+            return super().create(new_vals_list)
+        else:
+            return self.browse()
 
     @api.onchange("staff_id")
     def _onchange_staff_id(self):
@@ -76,11 +89,22 @@ class PayrollBonusDeduction(models.Model):
 
     def _import_find_existing_record(self, vals):
         """Custom method to match on two fields during import."""
+        staff_id = vals.get("staff_id")
+        if staff_id is not False and staff_id is not None:
+            if isinstance(staff_id, str):
+                staff_id = staff_id.strip()
+            if staff_id == "":
+                staff_id = False
+        else:
+            staff_id = False
+
         other_input_id = self._resolve_many2one(
-            "hr.payslip.input.type", vals.get("other_input_id")
+            "hr.payslip.input.type", vals.get("other_input_id") or False
         )
+        if not staff_id or not other_input_id:
+            return False
         domain = [
-            ("staff_id", "=", vals.get("staff_id")),
+            ("staff_id", "=", staff_id),
             ("other_input_id", "=", other_input_id),
         ]
         return self.search(domain, limit=1)
@@ -106,7 +130,7 @@ class PayrollBonusDeduction(models.Model):
     def _load_records(self, data_list, fields):
         # In Odoo 14, data_list is a list of lists, fields is a list of field names.
         for row in data_list:
-            vals = dict(zip(fields, row))
+            vals = {k: (v if v not in (None, "") else False) for k, v in zip(fields, row)}
             existing = self._import_find_existing_record(vals)
             if existing:
                 if "id" in fields:
