@@ -47,7 +47,8 @@ class PayrollBonusDeduction(models.Model):
             if "employee_id" not in vals and "staff_id" in vals:
                 staff_id = vals.get("staff_id")
                 employee = self.env["hr.employee"].search(
-                    [("staff_id", "=", staff_id)], limit=1
+                    ["|", ("employee_no", "=", staff_id), ("staff_id", "=", staff_id)],
+                    limit=1,
                 )
                 if employee:
                     vals["employee_id"] = employee.id
@@ -60,7 +61,12 @@ class PayrollBonusDeduction(models.Model):
         print("method _onchange_staff_id called")
         if self.staff_id:
             employee = self.env["hr.employee"].search(
-                [("staff_id", "=", self.staff_id)], limit=1
+                [
+                    "|",
+                    ("employee_no", "=", self.staff_id),
+                    ("staff_id", "=", self.staff_id),
+                ],
+                limit=1,
             )
             print(f"Found employee: {employee.name if employee else 'None'}")
             if employee:
