@@ -73,3 +73,46 @@ class PayrollBonusDeduction(models.Model):
                 self.employee_id = employee.id
             else:
                 self.employee_id = False
+
+    def _import_find_existing_record(self, vals):
+        """Custom method to match on two fields during import."""
+        other_input_id = self._resolve_many2one(
+            "hr.payslip.input.type", vals.get("other_input_id")
+        )
+        domain = [
+            ("staff_id", "=", vals.get("staff_id")),
+            ("other_input_id", "=", other_input_id),
+        ]
+        return self.search(domain, limit=1)
+    
+    def _resolve_many2one(self, model, value):
+        """Resolve import value to record ID, handling different data types safely."""
+        if not value:
+            return False
+        # If value is an integer, return as is
+        if isinstance(value, int):
+            return value
+        # If value is a string, try external ID or name
+        if isinstance(value, str):
+            if "." in value:
+                record = self.env.ref(value, raise_if_not_found=False)
+                if record:
+                    return record.id
+            # Then, try searching by name
+            return self.env[model].search([('name', '=', value)], limit=1).id or False
+        # For any other type, return False for safety
+        return False
+
+    def _load_records(self, data_list, fields):
+        # In Odoo 14, data_list is a list of lists, fields is a list of field names.
+        for row in data_list:
+            vals = dict(zip(fields, row))
+            existing = self._import_find_existing_record(vals)
+            if existing:
+                if "id" in fields:
+                    idx = fields.index("id")
+                    row[idx] = existing.id
+                else:
+                    fields.insert(0, "id")
+                    row.insert(0, existing.id)
+        return super()._load_records(data_list, fields)
