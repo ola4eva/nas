@@ -15,7 +15,7 @@ class PayrollBonusDeduction(models.Model):
         comodel_name="hr.employee", string="Employee", required=False
     )
     staff_id = fields.Char("Staff ID", required=True)
-    date = fields.Date(string="Date", default=date.today(), required=True)
+    date = fields.Date(string="Date", default=fields.Date.context_today, required=True)
     other_input_id = fields.Many2one(
         "hr.payslip.input.type", string="Other Input", required=True
     )
@@ -24,10 +24,10 @@ class PayrollBonusDeduction(models.Model):
         [("draft", "New"), ("confirm", "Confirmed")],
         string="State",
         default="draft",
-        readonly="1",
+        readonly=True,
         tracking=True,
     )
-    active = fields.Boolean("Active?", defualt=True)
+    active = fields.Boolean(string="Active?", default=True)
 
     def _action_confirm(self):
         return self.write({"state": "confirm"})
