@@ -136,7 +136,7 @@
                             </div>
                         </div>
                         <div class="row"
-                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in ['ALW'] and l.total > 0)"
+                            t-foreach="o.line_ids.filtered(lambda l: l.category_id.code in ['ARREARS'] and l.total > 0)"
                             t-as="line">
                             <div class="col-6">
                                 <t t-esc="line.name" />
