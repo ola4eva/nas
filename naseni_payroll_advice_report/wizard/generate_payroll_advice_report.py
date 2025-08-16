@@ -94,6 +94,20 @@ class PayrollAdvice(models.Model):
             TSAN = 0.0
             NASU = 0.0
             SSAUTHRIAI = 0.0
+            PAYE = 0.0
+            ARREARS = 0.0
+            JAN_ARREARS = 0.0
+            FEB_ARREARS = 0.0
+            MAR_ARREARS = 0.0
+            APR_ARREARS = 0.0
+            MAY_ARREARS = 0.0
+            JUN_ARREARS = 0.0
+            JULY_ARREARS = 0.0
+            AUG_ARREARS = 0.0
+            SEP_ARREARS = 0.0
+            OCT_ARREARS = 0.0
+            NOV_ARREARS = 0.0
+            DEC_ARREARS = 0.0
 
             for input_line in rec.input_line_ids:
                 if input_line.code == "SWIS_MPCS_PEEMADI":
@@ -166,6 +180,32 @@ class PayrollAdvice(models.Model):
                     SEDI_MINNA_UMMA_FUND = input_line.amount
                 elif input_line.code == "SEDI_MINNA_WELFARE":
                     SEDI_MINNA_WELFARE = input_line.amount
+                elif input_line.code == "ARREARS":
+                    ARREARS = input_line.amount
+                elif input_line.code == "JAN_ARREARS":
+                    JAN_ARREARS = input_line.amount
+                elif input_line.code == "FEB_ARREARS":
+                    FEB_ARREARS = input_line.amount
+                elif input_line.code == "MAR_ARREARS":
+                    MAR_ARREARS = input_line.amount
+                elif input_line.code == "APR_ARREARS":
+                    APR_ARREARS = input_line.amount
+                elif input_line.code == "MAY_ARREARS":
+                    MAY_ARREARS = input_line.amount
+                elif input_line.code == "JUN_ARREARS":
+                    JUN_ARREARS = input_line.amount
+                elif input_line.code == "JULY_ARREARS":
+                    JULY_ARREARS = input_line.amount
+                elif input_line.code == "AUG_ARREARS":
+                    AUG_ARREARS = input_line.amount
+                elif input_line.code == "SEP_ARREARS":
+                    SEP_ARREARS = input_line.amount
+                elif input_line.code == "OCT_ARREARS":
+                    OCT_ARREARS = input_line.amount
+                elif input_line.code == "NOV_ARREARS":
+                    NOV_ARREARS = input_line.amount
+                elif input_line.code == "DEC_ARREARS":
+                    DEC_ARREARS = input_line.amount
 
             for line in rec.line_ids:
                 if line.code == "BASIC":
@@ -180,11 +220,13 @@ class PayrollAdvice(models.Model):
                     NASU = line.total
                 elif line.code == "SSAUTHRIAI":
                     SSAUTHRIAI = line.total
+                elif line.code == "PAYE":
+                    PAYE = line.total
 
 
             PAYROLL_DATA.append((
                 index,
-                rec.employee_id.staff_id or "N/A",
+                rec.employee_id.employee_no or "N/A",
                 rec.employee_id.name,
                 rec.employee_id.grade_id.name if rec.employee_id.grade_id else "N/A",
                 rec.employee_id.bank_account_id.bank_id.name if rec.employee_id.bank_account_id else "N/A",
@@ -192,6 +234,20 @@ class PayrollAdvice(models.Model):
                 basic,
                 gross,
                 rec.net_wage,
+                PAYE,
+                ARREARS,
+                JAN_ARREARS,
+                FEB_ARREARS,
+                MAR_ARREARS,
+                APR_ARREARS,
+                MAY_ARREARS,
+                JUN_ARREARS,
+                JULY_ARREARS,
+                AUG_ARREARS,
+                SEP_ARREARS,
+                OCT_ARREARS,
+                NOV_ARREARS,
+                DEC_ARREARS,
                 SWIS_MPCS_PEEMADI,
                 AL_HUDA_MPCS,
                 CTSS_NASENI,
@@ -258,7 +314,21 @@ class PayrollAdvice(models.Model):
             "ACC NO",
             "BASIC",
             "GROSS PAY",
+            "TAX",
             "Net Pay",
+            "ARREARS",
+            "JAN_ARREARS",
+            "FEB_ARREARS",
+            "MAR_ARREARS",
+            "APR_ARREARS",
+            "MAY_ARREARS",
+            "JUN_ARREARS",
+            "JULY_ARREARS",
+            "AUG_ARREARS",
+            "SEP_ARREARS",
+            "OCT_ARREARS",
+            "NOV_ARREARS",
+            "DEC_ARREARS",
             "SWIS_MPCS_PEEMADI",
             "AL_HUDA_MPCS",
             "CTSS_NASENI",
@@ -307,7 +377,7 @@ class PayrollAdvice(models.Model):
         # Write data
         for row, data in enumerate(PAYROLL_DATA, start=6):
             for col, value in enumerate(data):
-                if col in range(6, 47):  # Amount columns (BASIC to FIDELITY_DEBT)
+                if col in range(6, 61):  # Amount columns (BASIC to FIDELITY_DEBT)
                     sheet.write(row, col, value, money_format)
                 else:
                     sheet.write(row, col, value, text_format)
