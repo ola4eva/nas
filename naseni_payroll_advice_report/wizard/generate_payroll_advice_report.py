@@ -228,6 +228,7 @@ class PayrollAdvice(models.Model):
                 rec.employee_id.employee_no or "N/A",
                 rec.employee_id.name,
                 rec.employee_id.grade_id.name if rec.employee_id.grade_id else "N/A",
+                rec.department_id.name if rec.department_id else "N/A",
                 rec.employee_id.bank_account_id.bank_id.name if rec.employee_id.bank_account_id else "N/A",
                 rec.employee_id.bank_account_id.acc_number if rec.employee_id.bank_account_id else "N/A",
                 basic,
@@ -286,7 +287,7 @@ class PayrollAdvice(models.Model):
                 NASENI_MUSLIM,
                 SEDI_MINNA_UMMA_FUND,
                 SEDI_MINNA_WELFARE,
-                rec.department_id.name if rec.department_id else "N/A",
+                rec.net_wage,
             ))
 
         # Create Excel file
@@ -309,6 +310,7 @@ class PayrollAdvice(models.Model):
             "STAFF ID",
             "STAFF NAME",
             "GRADELEVEL",
+            "CENTRE",
             "BANK",
             "ACC NO",
             "BASIC",
@@ -367,7 +369,7 @@ class PayrollAdvice(models.Model):
             "NASENI_MUSLIM",
             "SEDI_MINNA_UMMA_FUND",
             "SEDI_MINNA_WELFARE",
-            "CENTRE",
+            "Net Pay",
         ]
 
         for col, header in enumerate(headers):
