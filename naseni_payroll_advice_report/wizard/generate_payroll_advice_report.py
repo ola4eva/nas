@@ -223,7 +223,6 @@ class PayrollAdvice(models.Model):
                 elif line.code == "PAYE":
                     PAYE = line.total
 
-
             PAYROLL_DATA.append((
                 index,
                 rec.employee_id.employee_no or "N/A",
