@@ -24,7 +24,6 @@ class GifmisReportWizard(models.TransientModel):
 
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output)
-        worksheet = workbook.add_worksheet("GIFMIS Payment Upload")
         bold_format = workbook.add_format({'bold': True})
 
         headers = [
@@ -37,25 +36,36 @@ class GifmisReportWizard(models.TransientModel):
             "Is Advance Payment",
         ]
 
-        for col, header in enumerate(headers):
-            worksheet.write(0, col, header,bold_format)
+        # Group payslips by employee's institute_id
+        payslips_by_institute = {}
+        for slip in payslips:
+            institute = slip.employee_id.institute_id
+            if institute not in payslips_by_institute:
+                payslips_by_institute[institute] = []
+            payslips_by_institute[institute].append(slip)
 
-        for idx, slip in enumerate(payslips, start=1):
-            emp = slip.employee_id
-            worksheet.write_row(
-                idx,
-                0,
-                [
-                    emp.employee_no or "",
-                    emp.bank_account_id.acc_number or "",
-                    self.name or "",
-                    slip.net_wage or 0.0,
-                    "NGN",
-                    self.budget_line or "",
+        for institute, slips in payslips_by_institute.items():
+            sheet_name = institute.name if institute else "No Institute"
+            worksheet = workbook.add_worksheet(sheet_name[:31])  # Excel sheet name max length is 31
+            for col, header in enumerate(headers):
+                worksheet.write(0, col, header, bold_format)
+
+            for idx, slip in enumerate(slips, start=1):
+                emp = slip.employee_id
+                worksheet.write_row(
+                    idx,
                     0,
-                    "",
-                ],
-            )
+                    [
+                        emp.employee_no or "",
+                        emp.bank_account_id.acc_number or "",
+                        self.name or "",
+                        slip.net_wage or 0.0,
+                        "NGN",
+                        self.budget_line or "",
+                        0,
+                        "",
+                    ],
+                )
 
         workbook.close()
         output.seek(0)
