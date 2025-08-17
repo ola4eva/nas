@@ -85,7 +85,7 @@ class PayrollAdviceWizard(models.TransientModel):
             ("date_from", ">=", "{}-{:02d}-01".format(selected_year, selected_month)),
             ("date_to", "<=", "{}-{:02d}-{}".format(selected_year, selected_month, last_day)),
             ("employee_id", "in", self.employee_ids.ids),
-            ("state", "in", ["done", "paid"]),  # Only include processed payslips
+            ("state", "in", ["done", "verify", "draft", "paid"]),  # Only include processed payslips
         ]
         payroll_records = self.env["hr.payslip"].search(domain)
         return payroll_records
