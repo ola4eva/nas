@@ -45,11 +45,11 @@ class PayrollAdvice(models.Model):
             ("employee_id", "in", self.employee_ids.ids),
             ("state", "in", ["done", "draft", "verify", "paid"]),
         ]
-        payroll_records = self.env["hr.payslip"].search(domain)
+        payslips = self.env["hr.payslip"].search(domain)
 
         PAYROLL_DATA = []
 
-        for index, rec in enumerate(payroll_records, start=1):
+        for index, rec in enumerate(payslips, start=1):
             # Input types
             SWIS_MPCS_PEEMADI = 0.0
             AL_HUDA_MPCS = 0.0
@@ -233,7 +233,7 @@ class PayrollAdvice(models.Model):
                         if rec.employee_id.grade_id
                         else "N/A"
                     ),
-                    rec.institute_id.name if rec.institute_id else "N/A",
+                    rec.employee_id.institute_id.name if rec.employee_id.institute_id else "N/A",
                     (
                         rec.employee_id.bank_account_id.bank_id.name
                         if rec.employee_id.bank_account_id
