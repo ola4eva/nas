@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_generate_payroll_summary_report_form" model="ir.ui.view">
+        <field name="name">generate.payroll.summary.report.form</field>
+        <field name="model">payroll.summary.generate</field>
+        <field name="arch" type="xml">
+            <form string="Generate Payroll Summary Report">
+                <group>
+                    <field name="year" />
+                    <field name="month" />
+                    <field name="employee_ids" widget="many2many_tags" />
+                </group>
+                <group>
+                    <field name="file_name" readonly="0" />
+                    <field name="file_data" filename="file_name" widget="binary" invisible="1" />
+                </group>
+                <footer>
+                    <button name="generate_payroll_summary" string="Generate Excel" type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_generate_payroll_summary_report" model="ir.actions.act_window">
+        <field name="name">Payroll Summary Report</field>
+        <field name="res_model">payroll.summary.generate</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_generate_payroll_summary_report" name="Payroll Summary Report"
+        parent="hr_payroll.menu_hr_payroll_report" action="action_generate_payroll_summary_report" />
+</odoo>
