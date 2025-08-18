@@ -233,7 +233,7 @@ class PayrollAdvice(models.Model):
                         if rec.employee_id.grade_id
                         else "N/A"
                     ),
-                    rec.department_id.name if rec.department_id else "N/A",
+                    rec.institute_id.name if rec.institute_id else "N/A",
                     (
                         rec.employee_id.bank_account_id.bank_id.name
                         if rec.employee_id.bank_account_id
