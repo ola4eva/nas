@@ -4,6 +4,7 @@ import calendar
 import datetime
 import xlsxwriter
 from odoo import models, fields
+from ..constants import DEDUCTION_CODES
 
 
 class PayrollSummary(models.Model):
@@ -62,61 +63,14 @@ class PayrollSummary(models.Model):
                 "DEDUCTIONS": {},
             }
 
-            deduction_codes = [
-                "AL_HUDA_MPCS",
-                "CHILD_SUPPORT_DED",
-                "CTLS_SEDI_MINNA",
-                "CTLS_ELDI_AWKA",
-                "CTLS_JFS",
-                "CTLS_PEDI",
-                "CTLS_PRODA_ENUGU",
-                "CTLS_SEDI_ENUGU",
-                "CTLS_SEP_SEDI",
-                "CTSS_AMTDI",
-                "CTSS_EMDI",
-                "CTSS_NEDDI_NNEWI",
-                "CTSS_SEDI_DUKIYA",
-                "CTSS_SEDI_MINNA",
-                "CTSS_SEP_SEDI",
-                "CTSS_SSW_SEDI",
-                "CTSS_ELDI_AWKA",
-                "CTSS_ELDI_WALFARE",
-                "CTSS_HEDI_KANO",
-                "CTSS_NASENI",
-                "CTSS_NEDDI",
-                "CTSS_PEDI",
-                "CTSS_PEEMADI",
-                "CTSS_PRODA_ENUGU",
-                "CTSS_SEDI_ENUGU",
-                "ERURU_MUSLIM",
-                "FGSHLB",
-                "FIDELITY DEBT RECOVERY",
-                "FMBN RENOVATION",
-                "HICY",
-                "NASENI CSL",
-                "NASENI MUSLIM",
-                "NASU",
-                "NATIONAL HOUSING FUND",
-                "PENSION",
-                "SEDI MINNA UMMA FUND",
-                "SEDI MINNA WELFARE",
-                "SSAUTHRIAI",
-                "SWIS MPCS PEEMADI",
-                "TAX",
-                "TAX ARREARS",
-                "TSAN",
-                "EMPLOYER PAID PENSION",
-                "NHIS",
-                "NSITF CONTRIBUTION",
-            ]
-            for code in deduction_codes:
-                total_amounts["DEDUCTIONS"][code] = 0.0
+            for code in DEDUCTION_CODES:
+                total_amounts["DEDUCTIONS"][code[0]] = 0.0
 
             for slip in payslips:
                 for line in slip.line_ids:
                     if line.code in total_amounts:
                         total_amounts[line.code] += line.total
-                    elif line.code in total_amounts["DEDUCTIONS"]:
+                    if line.code in total_amounts["DEDUCTIONS"]:
                         total_amounts["DEDUCTIONS"][line.code] += line.total
 
             total_amounts["TOTAL_PAYOUT"] = (
@@ -151,7 +105,9 @@ class PayrollSummary(models.Model):
 
         # Report Title and Header
         worksheet.merge_range(
-            "B2:C2", "NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE", merge_format
+            "B2:C2",
+            "NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE",
+            merge_format,
         )
         worksheet.merge_range("B3:C3", "IDU INDUSTRIAL LAYOUT, ABUJA", merge_format)
         worksheet.merge_range(
@@ -206,7 +162,9 @@ class PayrollSummary(models.Model):
         worksheet.write(row, col + 1, report_data["TOTAL_PAYOUT"], bold_number_format)
 
         # Add conditional formatting for borders in B1:C61
-        worksheet.conditional_format("B2:C62", {"type": "no_blanks", "format": border_format})
+        worksheet.conditional_format(
+            "B2:C62", {"type": "no_blanks", "format": border_format}
+        )
         # worksheet.conditional_format("B2:C62", {"type": "blanks", "format": border_format})
 
         workbook.close()
