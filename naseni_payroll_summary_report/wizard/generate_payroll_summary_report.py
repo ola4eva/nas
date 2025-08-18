@@ -54,11 +54,11 @@ class PayrollSummary(models.Model):
             """
             self.ensure_one()
             total_amounts = {
-                "GROSS_PAY": 0.0,
-                "EMPLOYER_PAID_PENSION": 0.0,
+                "GROSS": 0.0,
+                "PEN_EMPLOYER": 0.0,
                 "NHIS": 0.0,
-                "NSITF_CONTRIBUTION": 0.0,
-                "NET_PAY": 0.0,
+                "NSITF": 0.0,
+                "NET": 0.0,
                 "DEDUCTIONS": {},
             }
 
@@ -90,7 +90,24 @@ class PayrollSummary(models.Model):
                 "CTSS_SEDI_ENUGU",
                 "ERURU_MUSLIM",
                 "FGSHLB",
-                "FIDEL",
+                "FIDELITY DEBT RECOVERY",
+                "FMBN RENOVATION",
+                "HICY",
+                "NASENI CSL",
+                "NASENI MUSLIM",
+                "NASU",
+                "NATIONAL HOUSING FUND",
+                "PENSION",
+                "SEDI MINNA UMMA FUND",
+                "SEDI MINNA WELFARE",
+                "SSAUTHRIAI",
+                "SWIS MPCS PEEMADI",
+                "TAX",
+                "TAX ARREARS",
+                "TSAN",
+                "EMPLOYER PAID PENSION",
+                "NHIS",
+                "NSITF CONTRIBUTION",
             ]
             for code in deduction_codes:
                 total_amounts["DEDUCTIONS"][code] = 0.0
@@ -103,10 +120,10 @@ class PayrollSummary(models.Model):
                         total_amounts["DEDUCTIONS"][line.code] += line.total
 
             total_amounts["TOTAL_PAYOUT"] = (
-                total_amounts["GROSS_PAY"]
-                + total_amounts["EMPLOYER_PAID_PENSION"]
+                total_amounts["GROSS"]
+                + total_amounts["PEN_EMPLOYER"]
                 + total_amounts["NHIS"]
-                + total_amounts["NSITF_CONTRIBUTION"]
+                + total_amounts["NSITF"]
             )
             return total_amounts
 
@@ -118,64 +135,86 @@ class PayrollSummary(models.Model):
 
         # Add a bold format
         bold = workbook.add_format({"bold": True})
+        number_format = workbook.add_format({"num_format": "#,##0.00"})
+        bold_number_format = workbook.add_format(
+            {"bold": True, "num_format": "#,##0.00"}
+        )
+        border_format = workbook.add_format({"border": 1})
+        merge_format = workbook.add_format(
+            {
+                "bold": 1,
+                "border": 1,
+                "align": "center",
+                "valign": "vcenter",
+            }
+        )
 
         # Report Title and Header
-        worksheet.write(
-            "A1", "NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE", bold
+        worksheet.merge_range(
+            "B2:C2", "NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE", merge_format
         )
-        worksheet.write("A2", "IDU INDUSTRIAL LAYOUT, ABUJA")
-        worksheet.write(
-            "A4", f"SALARY PAYOUT SUMMARY FOR {self.file_name.replace(" ", "_")}", bold
+        worksheet.merge_range("B3:C3", "IDU INDUSTRIAL LAYOUT, ABUJA", merge_format)
+        worksheet.merge_range(
+            "B5:C5",
+            f"SALARY PAYOUT SUMMARY FOR {(calendar.month_name[int(self.month)]).upper()} {self.year}",
+            merge_format,
         )
 
-        # Write the first table
-        row = 6
-        worksheet.write(row, 0, "PAY ITEM", bold)
-        worksheet.write(row, 1, "AMOUNT", bold)
+        row = 5
+        worksheet.write(row, 1, "PAY ITEM", bold)
+        worksheet.write(row, 2, "AMOUNT", bold)
         row += 1
 
         # Write the data from the report
-        worksheet.write(row, 0, "GROSS PAY")
-        worksheet.write(row, 1, report_data["GROSS_PAY"])
+        worksheet.write(row, 1, "GROSS PAY")
+        worksheet.write(row, 2, report_data["GROSS"], number_format)
         row += 1
 
-        worksheet.write(row, 0, "EMPLOYER PAID PENSION")
-        worksheet.write(row, 1, report_data["EMPLOYER_PAID_PENSION"])
+        worksheet.write(row, 1, "EMPLOYER PAID PENSION")
+        worksheet.write(row, 2, report_data["PEN_EMPLOYER"], number_format)
         row += 1
 
-        worksheet.write(row, 0, "NHIS")
-        worksheet.write(row, 1, report_data["NHIS"])
+        worksheet.write(row, 1, "NHIS")
+        worksheet.write(row, 2, report_data["NHIS"], number_format)
         row += 1
 
-        worksheet.write(row, 0, "NSITF CONTRIBUTION")
-        worksheet.write(row, 1, report_data["NSITF_CONTRIBUTION"])
+        worksheet.write(row, 1, "NSITF CONTRIBUTION")
+        worksheet.write(row, 2, report_data["NSITF"], number_format)
         row += 1
 
-        worksheet.write(row, 0, "TOTAL PAYOUT", bold)
-        worksheet.write(row, 1, report_data["TOTAL_PAYOUT"])
+        worksheet.write(row, 1, "TOTAL PAYOUT", bold)
+        worksheet.write(row, 2, report_data["TOTAL_PAYOUT"], number_format)
         row += 2
 
         # Write the second table
-        worksheet.write(row, 0, "PAY ITEM", bold)
-        worksheet.write(row, 1, "AMOUNT", bold)
+        worksheet.write(row, 1, "PAY ITEM", bold)
+        worksheet.write(row, 2, "AMOUNT", bold)
         row += 1
 
-        worksheet.write(row, 0, "NET PAY", bold)
-        worksheet.write(row, 1, report_data["NET_PAY"])
+        worksheet.write(row, 1, "NET PAY")
+        worksheet.write(row, 2, report_data["NET"], number_format)
         row += 1
 
+        col = 1
         # Write deductions
         for item, amount in report_data["DEDUCTIONS"].items():
-            worksheet.write(row, 0, item.replace("_", " ").title())
-            worksheet.write(row, 1, amount)
+            worksheet.write(row, col, item)
+            worksheet.write(row, col + 1, amount, number_format)
             row += 1
+
+        worksheet.write(row, col, "TOTAL PAYOUT", bold)
+        worksheet.write(row, col + 1, report_data["TOTAL_PAYOUT"], bold_number_format)
+
+        # Add conditional formatting for borders in B1:C61
+        worksheet.conditional_format("B2:C62", {"type": "no_blanks", "format": border_format})
+        # worksheet.conditional_format("B2:C62", {"type": "blanks", "format": border_format})
 
         workbook.close()
         output.seek(0)
 
         # Create a transient record to hold the Excel file for download
         excel_file_data = base64.b64encode(output.read())
-        excel_name = f"Payroll_Summary_{self.file_name.replace(" ", "_")}.xlsx"
+        excel_name = f"Payroll_Summary_{self.file_name.replace(' ', '_')}.xlsx"
 
         attachment = self.env["ir.attachment"].create(
             {
