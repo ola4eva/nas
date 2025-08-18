@@ -62,8 +62,8 @@ class PayrollAdvice(models.Model):
                         else ("N/A", TEXT)
                     ),
                     (
-                        (rec.department_id.name, TEXT)
-                        if rec.department_id
+                        (rec.employee_id.institute_id.name, TEXT)
+                        if rec.employee_id.institute_id
                         else ("N/A", TEXT)
                     ),
                     (
@@ -78,7 +78,7 @@ class PayrollAdvice(models.Model):
                     ),
                     *[
                         (get_element_value(rec, header[0]), header[2])
-                        for header in REPORT_HEADERS[6:]
+                        for header in REPORT_HEADERS[7:]
                     ],
                 )
             )
@@ -89,17 +89,14 @@ class PayrollAdvice(models.Model):
         sheet = workbook.add_worksheet("Payroll Advice")
         # Formats
         text_format = workbook.add_format({"align": "left"})
+        number_format = workbook.add_format({"num_format": "#,##0.00", "align": "right"})
+        header_format = workbook.add_format({"bold": True, "align": "left"})
 
         def get_format(type=""):
             formats = {
-                "number_format": sheet.add_format(
-                    {"num_format": "#,##0.00", "align": "left"}
-                ),
-                "money_format": workbook.add_format(
-                    {"num_format": "#,##0.00", "align": "left"}
-                ),
-                "text_format": workbook.add_format({"align": "left"}),
-                "header_format": workbook.add_format({"bold": True, "align": "left"}),
+                "number": number_format,
+                "text": text_format,
+                "header": header_format,
             }
             return formats.get(type, text_format)
 
@@ -118,7 +115,7 @@ class PayrollAdvice(models.Model):
         )
 
         for col, header in enumerate(REPORT_HEADERS):
-            sheet.write(5, col, header[1], get_format("header_format"))
+            sheet.write(5, col, header[1], get_format("header"))
 
         # Write data
         for row, data in enumerate(PAYROLL_DATA, start=6):
