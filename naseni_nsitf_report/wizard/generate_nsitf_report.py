@@ -8,17 +8,17 @@ from odoo import models, fields
 
 REPORT_HEADERS = [
     "SNO",
-    "Staff ID",
+    "Staff",
     "First Name",
     "Other Names",
     "Gross Pay",
-    "NHIS",
+    "NSITF",
 ]
 
 
 class NhisDeductionWizard(models.TransientModel):
-    _name = "nhis.deduction.wizard"
-    _description = "Generate NHIS Deductions Spreadsheet"
+    _name = "nsitf.deduction.wizard"
+    _description = "Generate NSITF Deductions Spreadsheet"
 
     file_name = fields.Char(string="File Name")
     file_data = fields.Binary(string="File", readonly=True)
@@ -94,7 +94,7 @@ class NhisDeductionWizard(models.TransientModel):
         )
         sheet.merge_range(
             "A3:E3",
-            "NHIS DEDUCTION FOR THE MONTH OF {}, {}".format(
+            "NSITF DEDUCTION FOR THE MONTH OF {}, {}".format(
                 calendar.month_name[int(self.month)], self.year
             ),
             title_format,
@@ -106,15 +106,14 @@ class NhisDeductionWizard(models.TransientModel):
         static_data = [
             (
                 index,
-                record.employee_id.employee_no or "",
+                record.employee_id.staff_id or "",
                 record.employee_id.name.split(" ")[0],
                 record.employee_id.name.split(" ")[-1],
                 record.gross_wage,
-                self.get_rule_amount(record, "NHIS"),
+                self.get_rule_amount(record, "NSITF"),
             )
             for index, record in enumerate(payroll_records, start=1)
         ]
-        print(f"Static Data: {static_data} &&&&&&&&&&&&&&&&&&&&")
 
         for row, data in enumerate(static_data, start=5):
             sheet.write(row, 0, data[0])  # S/N
@@ -122,7 +121,7 @@ class NhisDeductionWizard(models.TransientModel):
             sheet.write(row, 2, data[2])  # FIRST NAME
             sheet.write(row, 3, data[3])  # Other names
             sheet.write(row, 4, data[4], money_format)  # Gross Wage
-            sheet.write(row, 5, data[5], money_format)  # NHIS
+            sheet.write(row, 5, data[5], money_format)  # NSITF
 
         row += 1
         sheet.write(row, 0, "Total", money_format)  # Blank Column
@@ -137,9 +136,9 @@ class NhisDeductionWizard(models.TransientModel):
         output.seek(0)
         attachment = self.env["ir.attachment"].create(
             {
-                "name": "NHIS DEDUCTION REPORT.xlsx",
+                "name": "NSITF Deduction Report.xlsx",
                 "datas": base64.b64encode(output.read()),
-                "res_model": "nhis.deduction.wizard",
+                "res_model": "nsitf.deduction.wizard",
                 "res_id": self.id,
                 "type": "binary",
             }

@@ -1,0 +1,6 @@
+<odoo>
+    <menuitem id="menu_nsitf_deduction_root" name="NSITF Deductions"
+        action="action_nsitf_wizard"
+        parent="hr_payroll.menu_hr_payroll_report" />
+
+</odoo>
