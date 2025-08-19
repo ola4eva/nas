@@ -8,7 +8,7 @@ from odoo import models, fields
 
 REPORT_HEADERS = [
     "SNO",
-    "Staff",
+    "Staff ID",
     "First Name",
     "Other Names",
     "Gross Pay",
@@ -106,7 +106,7 @@ class NhisDeductionWizard(models.TransientModel):
         static_data = [
             (
                 index,
-                record.employee_id.staff_id or "",
+                record.employee_id.employee_no or "",
                 record.employee_id.name.split(" ")[0],
                 record.employee_id.name.split(" ")[-1],
                 record.gross_wage,
