@@ -1,5 +1,5 @@
 <odoo>
-    <menuitem id="menu_nhis_deduction_root" name="NHIS Report"
+    <menuitem id="menu_nhis_deduction_root" name="NHIS Reports"
         action="action_nhis_wizard"
         parent="hr_payroll.menu_hr_payroll_report" />
 
