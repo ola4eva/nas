@@ -1,0 +1,6 @@
+<odoo>
+    <menuitem id="menu_nhis_deduction_root" name="NHIS Deductions"
+        action="action_nhis_wizard"
+        parent="hr_payroll.menu_hr_payroll_report" />
+
+</odoo>

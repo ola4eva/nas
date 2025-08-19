@@ -4,6 +4,7 @@ import xlsxwriter
 import calendar
 import datetime
 from odoo import models, fields
+from ..constants import REPORT_HEADERS, TEXT, get_element_value, NUM
 
 
 class PayrollAdvice(models.Model):
@@ -45,261 +46,40 @@ class PayrollAdvice(models.Model):
             ("employee_id", "in", self.employee_ids.ids),
             ("state", "in", ["done", "draft", "verify", "paid"]),
         ]
-        payroll_records = self.env["hr.payslip"].search(domain)
+        payslips = self.env["hr.payslip"].search(domain)
 
         PAYROLL_DATA = []
 
-        for index, rec in enumerate(payroll_records, start=1):
-            # Input types
-            SWIS_MPCS_PEEMADI = 0.0
-            AL_HUDA_MPCS = 0.0
-            CTSS_NASENI = 0.0
-            CTSS_PEEMADI = 0.0
-            FMBN_RENOVATION = 0.0
-            NASENI_CSL = 0.0
-            FIDELITY_DEBT_RECOVERY = 0.0
-            CHILD_SUPPORT_DED = 0.0
-            CTLS_ELDI_AKWA = 0.0
-            CTLS_JFS = 0.0
-            CTLS_PEDI = 0.0
-            CTLS_PRODA_ENUGU = 0.0
-            CTLS_SEDI_ENUGU = 0.0
-            CTLS_SEDI_MINNA = 0.0
-            CTLS_SEP_SEDI = 0.0
-            CTSS_AMTDI = 0.0
-            CTSS_ELDI_AKWA = 0.0
-            CTSS_ELDI_WALFARE = 0.0
-            CTSS_EMDI = 0.0
-            CTSS_HEDI_KANO = 0.0
-            CTSS_NEDDI = 0.0
-            CTSS_NEDDI_NNEWI = 0.0
-            CTSS_PEDI = 0.0
-            CTSS_PRODA_ENUGU = 0.0
-            CTSS_SEDI_DUKIYA = 0.0
-            CTSS_SEDI_ENUGU = 0.0
-            CTSS_SEDI_MINNA = 0.0
-            CTSS_SEP_SEDI = 0.0
-            CTSS_SSW_SEDI = 0.0
-            ERURU_MUSLIM = 0.0
-            FGSHLB = 0.0
-            HICY = 0.0
-            NASENI_MUSLIM = 0.0
-            SEDI_MINNA_UMMA_FUND = 0.0
-            SEDI_MINNA_WELFARE = 0.0
-
-            # Salary rules
-            basic = 0.0
-            gross = 0.0
-            NHF = 0.0
-            TSAN = 0.0
-            NASU = 0.0
-            SSAUTHRIAI = 0.0
-            PAYE = 0.0
-            ARREARS = 0.0
-            JAN_ARREARS = 0.0
-            FEB_ARREARS = 0.0
-            MAR_ARREARS = 0.0
-            APR_ARREARS = 0.0
-            MAY_ARREARS = 0.0
-            JUN_ARREARS = 0.0
-            JULY_ARREARS = 0.0
-            AUG_ARREARS = 0.0
-            SEP_ARREARS = 0.0
-            OCT_ARREARS = 0.0
-            NOV_ARREARS = 0.0
-            DEC_ARREARS = 0.0
-
-            for input_line in rec.input_line_ids:
-                if input_line.code == "SWIS_MPCS_PEEMADI":
-                    SWIS_MPCS_PEEMADI = input_line.amount
-                elif input_line.code == "AL_HUDA_MPCS":
-                    AL_HUDA_MPCS = input_line.amount
-                elif input_line.code == "CTSS_NASENI":
-                    CTSS_NASENI = input_line.amount
-                elif input_line.code == "CTSS_PEEMADI":
-                    CTSS_PEEMADI = input_line.amount
-                elif input_line.code == "FMBN_RENOVATION":
-                    FMBN_RENOVATION = input_line.amount
-                elif input_line.code == "NASENI_CSL":
-                    NASENI_CSL = input_line.amount
-                elif input_line.code == "FIDELITY_DEBT_RECOVERY":
-                    FIDELITY_DEBT_RECOVERY = input_line.amount
-                elif input_line.code == "CHILD_SUPPORT_DED":
-                    CHILD_SUPPORT_DED = input_line.amount
-                elif input_line.code == "CTLS_ELDI_AKWA":
-                    CTLS_ELDI_AKWA = input_line.amount
-                elif input_line.code == "CTLS_JFS":
-                    CTLS_JFS = input_line.amount
-                elif input_line.code == "CTLS_PEDI":
-                    CTLS_PEDI = input_line.amount
-                elif input_line.code == "CTLS_PRODA_ENUGU":
-                    CTLS_PRODA_ENUGU = input_line.amount
-                elif input_line.code == "CTLS_SEDI_ENUGU":
-                    CTLS_SEDI_ENUGU = input_line.amount
-                elif input_line.code == "CTLS_SEDI_MINNA":
-                    CTLS_SEDI_MINNA = input_line.amount
-                elif input_line.code == "CTLS_SEP_SEDI":
-                    CTLS_SEP_SEDI = input_line.amount
-                elif input_line.code == "CTSS_AMTDI":
-                    CTSS_AMTDI = input_line.amount
-                elif input_line.code == "CTSS_ELDI_AKWA":
-                    CTSS_ELDI_AKWA = input_line.amount
-                elif input_line.code == "CTSS_ELDI_WALFARE":
-                    CTSS_ELDI_WALFARE = input_line.amount
-                elif input_line.code == "CTSS_EMDI":
-                    CTSS_EMDI = input_line.amount
-                elif input_line.code == "CTSS_HEDI_KANO":
-                    CTSS_HEDI_KANO = input_line.amount
-                elif input_line.code == "CTSS_NEDDI":
-                    CTSS_NEDDI = input_line.amount
-                elif input_line.code == "CTSS_NEDDI_NNEWI":
-                    CTSS_NEDDI_NNEWI = input_line.amount
-                elif input_line.code == "CTSS_PEDI":
-                    CTSS_PEDI = input_line.amount
-                elif input_line.code == "CTSS_PRODA_ENUGU":
-                    CTSS_PRODA_ENUGU = input_line.amount
-                elif input_line.code == "CTSS_SEDI_DUKIYA":
-                    CTSS_SEDI_DUKIYA = input_line.amount
-                elif input_line.code == "CTSS_SEDI_ENUGU":
-                    CTSS_SEDI_ENUGU = input_line.amount
-                elif input_line.code == "CTSS_SEDI_MINNA":
-                    CTSS_SEDI_MINNA = input_line.amount
-                elif input_line.code == "CTSS_SEP_SEDI":
-                    CTSS_SEP_SEDI = input_line.amount
-                elif input_line.code == "CTSS_SSW_SEDI":
-                    CTSS_SSW_SEDI = input_line.amount
-                elif input_line.code == "ERURU_MUSLIM":
-                    ERURU_MUSLIM = input_line.amount
-                elif input_line.code == "FGSHLB":
-                    FGSHLB = input_line.amount
-                elif input_line.code == "HICY":
-                    HICY = input_line.amount
-                elif input_line.code == "NASENI_MUSLIM":
-                    NASENI_MUSLIM = input_line.amount
-                elif input_line.code == "SEDI_MINNA_UMMA_FUND":
-                    SEDI_MINNA_UMMA_FUND = input_line.amount
-                elif input_line.code == "SEDI_MINNA_WELFARE":
-                    SEDI_MINNA_WELFARE = input_line.amount
-                elif input_line.code == "ARREARS":
-                    ARREARS = input_line.amount
-                elif input_line.code == "JAN_ARREARS":
-                    JAN_ARREARS = input_line.amount
-                elif input_line.code == "FEB_ARREARS":
-                    FEB_ARREARS = input_line.amount
-                elif input_line.code == "MAR_ARREARS":
-                    MAR_ARREARS = input_line.amount
-                elif input_line.code == "APR_ARREARS":
-                    APR_ARREARS = input_line.amount
-                elif input_line.code == "MAY_ARREARS":
-                    MAY_ARREARS = input_line.amount
-                elif input_line.code == "JUN_ARREARS":
-                    JUN_ARREARS = input_line.amount
-                elif input_line.code == "JULY_ARREARS":
-                    JULY_ARREARS = input_line.amount
-                elif input_line.code == "AUG_ARREARS":
-                    AUG_ARREARS = input_line.amount
-                elif input_line.code == "SEP_ARREARS":
-                    SEP_ARREARS = input_line.amount
-                elif input_line.code == "OCT_ARREARS":
-                    OCT_ARREARS = input_line.amount
-                elif input_line.code == "NOV_ARREARS":
-                    NOV_ARREARS = input_line.amount
-                elif input_line.code == "DEC_ARREARS":
-                    DEC_ARREARS = input_line.amount
-
-            for line in rec.line_ids:
-                if line.code == "BASIC":
-                    basic = line.total
-                elif line.code == "GROSS":
-                    gross = line.total
-                elif line.code == "NHF":
-                    NHF = line.total
-                elif line.code == "TSAN":
-                    TSAN = line.total
-                elif line.code == "NASU":
-                    NASU = line.total
-                elif line.code == "SSAUTHRIAI":
-                    SSAUTHRIAI = line.total
-                elif line.code == "PAYE":
-                    PAYE = line.total
-
+        for index, rec in enumerate(payslips, start=1):
             PAYROLL_DATA.append(
                 (
-                    index,
-                    rec.employee_id.employee_no or "N/A",
-                    rec.employee_id.name,
+                    (index, TEXT),
+                    (rec.employee_id.employee_no or "N/A", TEXT),
+                    (rec.employee_id.name, TEXT),
                     (
-                        rec.employee_id.grade_id.name
+                        (rec.employee_id.grade_id.name, TEXT)
                         if rec.employee_id.grade_id
-                        else "N/A"
-                    ),
-                    rec.department_id.name if rec.department_id else "N/A",
-                    (
-                        rec.employee_id.bank_account_id.bank_id.name
-                        if rec.employee_id.bank_account_id
-                        else "N/A"
+                        else ("N/A", TEXT)
                     ),
                     (
-                        rec.employee_id.bank_account_id.acc_number
-                        if rec.employee_id.bank_account_id
-                        else "N/A"
+                        (rec.employee_id.institute_id.name, TEXT)
+                        if rec.employee_id.institute_id
+                        else ("N/A", TEXT)
                     ),
-                    basic,
-                    ARREARS,
-                    JAN_ARREARS,
-                    FEB_ARREARS,
-                    MAR_ARREARS,
-                    APR_ARREARS,
-                    MAY_ARREARS,
-                    JUN_ARREARS,
-                    JULY_ARREARS,
-                    AUG_ARREARS,
-                    SEP_ARREARS,
-                    OCT_ARREARS,
-                    NOV_ARREARS,
-                    DEC_ARREARS,
-                    gross,
-                    PAYE,
-                    SWIS_MPCS_PEEMADI,
-                    AL_HUDA_MPCS,
-                    CTSS_NASENI,
-                    CTSS_PEEMADI,
-                    FMBN_RENOVATION,
-                    NASENI_CSL,
-                    NHF,
-                    TSAN,
-                    NASU,
-                    SSAUTHRIAI,
-                    FIDELITY_DEBT_RECOVERY,
-                    CHILD_SUPPORT_DED,
-                    CTLS_ELDI_AKWA,
-                    CTLS_JFS,
-                    CTLS_PEDI,
-                    CTLS_PRODA_ENUGU,
-                    CTLS_SEDI_ENUGU,
-                    CTLS_SEDI_MINNA,
-                    CTLS_SEP_SEDI,
-                    CTSS_AMTDI,
-                    CTSS_ELDI_AKWA,
-                    CTSS_ELDI_WALFARE,
-                    CTSS_EMDI,
-                    CTSS_HEDI_KANO,
-                    CTSS_NEDDI,
-                    CTSS_NEDDI_NNEWI,
-                    CTSS_PEDI,
-                    CTSS_PRODA_ENUGU,
-                    CTSS_SEDI_DUKIYA,
-                    CTSS_SEDI_ENUGU,
-                    CTSS_SEDI_MINNA,
-                    CTSS_SEP_SEDI,
-                    CTSS_SSW_SEDI,
-                    ERURU_MUSLIM,
-                    FGSHLB,
-                    HICY,
-                    NASENI_MUSLIM,
-                    SEDI_MINNA_UMMA_FUND,
-                    SEDI_MINNA_WELFARE,
-                    rec.net_wage,
+                    (
+                        (rec.employee_id.bank_account_id.bank_id.name, TEXT)
+                        if rec.employee_id.bank_account_id
+                        else ("N/A", TEXT)
+                    ),
+                    (
+                        (rec.employee_id.bank_account_id.acc_number, TEXT)
+                        if rec.employee_id.bank_account_id
+                        else ("N/A", TEXT)
+                    ),
+                    *[
+                        (get_element_value(rec, header[0]), header[2])
+                        for header in REPORT_HEADERS[7:]
+                    ],
                 )
             )
 
@@ -307,100 +87,49 @@ class PayrollAdvice(models.Model):
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output)
         sheet = workbook.add_worksheet("Payroll Advice")
-
         # Formats
-        money_format = workbook.add_format({'num_format': '#,##0.00', 'align': 'left'})
-        text_format = workbook.add_format({'align': 'left'})
-        header_format = workbook.add_format({'bold': True, 'align': 'left'})
+        text_format = workbook.add_format({"align": "left"})
+        number_format = workbook.add_format({"num_format": "#,##0.00", "align": "right"})
+        header_format = workbook.add_format({"bold": True, "align": "left"})
 
-        # Headers
-        sheet.merge_range("A1:H1", "NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE", header_format)
-        sheet.merge_range("A2:H2", "IDU INDUSTRIAL LAYOUT, ABUJA", header_format)
-        sheet.merge_range("A3:H3", f"PAYROLL DETAIL REPORT FOR {calendar.month_name[selected_month]} {selected_year}", header_format)
+        def get_format(type=""):
+            formats = {
+                "number": number_format,
+                "text": text_format,
+                "header": header_format,
+            }
+            return formats.get(type, text_format)
 
-        headers = [
-            "SNO",
-            "STAFF ID",
-            "STAFF NAME",
-            "GRADELEVEL",
-            "CENTRE",
-            "BANK",
-            "ACC NO",
-            "BASIC",
-            "ARREARS",
-            "JAN_ARREARS",
-            "FEB_ARREARS",
-            "MAR_ARREARS",
-            "APR_ARREARS",
-            "MAY_ARREARS",
-            "JUN_ARREARS",
-            "JULY_ARREARS",
-            "AUG_ARREARS",
-            "SEP_ARREARS",
-            "OCT_ARREARS",
-            "NOV_ARREARS",
-            "DEC_ARREARS",
-            "GROSS PAY",
-            "TAX",
-            "SWIS_MPCS_PEEMADI",
-            "AL_HUDA_MPCS",
-            "CTSS_NASENI",
-            "CTSS_PEEMADI",
-            "FMBN_RENOVATION",
-            "NASENI_CSL",
-            "NHF",
-            "TSAN",
-            "NASU",
-            "SSAUTHRIAI",
-            "FIDELITY_DEBT_RECOVERY",
-            "CHILD_SUPPORT_DED",
-            "CTLS_ELDI_AKWA",
-            "CTLS_JFS",
-            "CTLS_PEDI",
-            "CTLS_PRODA_ENUGU",
-            "CTLS_SEDI_ENUGU",
-            "CTLS_SEDI_MINNA",
-            "CTLS_SEP_SEDI",
-            "CTSS_AMTDI",
-            "CTSS_ELDI_AKWA",
-            "CTSS_ELDI_WALFARE",
-            "CTSS_EMDI",
-            "CTSS_HEDI_KANO",
-            "CTSS_NEDDI",
-            "CTSS_NEDDI_NNEWI",
-            "CTSS_PEDI",
-            "CTSS_PRODA_ENUGU",
-            "CTSS_SEDI_DUKIYA",
-            "CTSS_SEDI_ENUGU",
-            "CTSS_SEDI_MINNA",
-            "CTSS_SEP_SEDI",
-            "CTSS_SSW_SEDI",
-            "ERURU_MUSLIM",
-            "FGSHLB",
-            "HICY",
-            "NASENI_MUSLIM",
-            "SEDI_MINNA_UMMA_FUND",
-            "SEDI_MINNA_WELFARE",
-            "Net Pay",
-        ]
+        sheet.merge_range(
+            "A1:H1",
+            "NATIONAL AGENCY FOR SCIENCE AND ENGINEERING INFRASTRUCTURE",
+            get_format("header_format"),
+        )
+        sheet.merge_range(
+            "A2:H2", "IDU INDUSTRIAL LAYOUT, ABUJA", get_format("header_format")
+        )
+        sheet.merge_range(
+            "A3:H3",
+            f"PAYROLL DETAIL REPORT FOR {calendar.month_name[selected_month]} {selected_year}",
+            get_format("header_format"),
+        )
 
-        for col, header in enumerate(headers):
-            sheet.write(5, col, header, header_format)
+        for col, header in enumerate(REPORT_HEADERS):
+            sheet.write(5, col, header[1], get_format("header"))
 
         # Write data
         for row, data in enumerate(PAYROLL_DATA, start=6):
             for col, value in enumerate(data):
-                if col in range(6, 61):  # Amount columns (BASIC to FIDELITY_DEBT)
-                    sheet.write(row, col, value, money_format)
-                else:
-                    sheet.write(row, col, value, text_format)
+                sheet.write(row, col, value[0], get_format(value[1]))
 
         workbook.close()
 
         file_data = base64.b64encode(output.getvalue()).decode("utf-8")
         output.close()
 
-        filename = f"Payroll Advice {calendar.month_name[selected_month]} {selected_year}"
+        filename = (
+            f"Payroll Advice {calendar.month_name[selected_month]} {selected_year}"
+        )
         self.write({"file_name": f"{filename}.xlsx", "file_data": file_data})
 
         return {

@@ -24,7 +24,8 @@ class GifmisReportWizard(models.TransientModel):
 
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output)
-        bold_format = workbook.add_format({'bold': True})
+        bold_format = workbook.add_format({"bold": True})
+        num_format = workbook.add_format({"num_format": "#,##0.00"})
 
         headers = [
             "Employee",
@@ -46,26 +47,22 @@ class GifmisReportWizard(models.TransientModel):
 
         for institute, slips in payslips_by_institute.items():
             sheet_name = institute.name if institute else "No Institute"
-            worksheet = workbook.add_worksheet(sheet_name[:31])  # Excel sheet name max length is 31
+            worksheet = workbook.add_worksheet(sheet_name[:31])
             for col, header in enumerate(headers):
                 worksheet.write(0, col, header, bold_format)
 
             for idx, slip in enumerate(slips, start=1):
                 emp = slip.employee_id
-                worksheet.write_row(
-                    idx,
-                    0,
-                    [
-                        emp.employee_no or "",
-                        emp.bank_account_id.acc_number or "",
-                        self.name or "",
-                        slip.net_wage or 0.0,
-                        "NGN",
-                        self.budget_line or "",
-                        0,
-                        "",
-                    ],
+                worksheet.write(idx, 0, emp.employee_no or "")
+                worksheet.write(
+                    idx, 1, emp.bank_account_id.acc_number or "", num_format
                 )
+                worksheet.write(idx, 2, self.name or "")
+                worksheet.write(idx, 3, slip.net_wage or 0.0, num_format)
+                worksheet.write(idx, 4, "NGN")
+                worksheet.write(idx, 5, self.budget_line or "")
+                worksheet.write(idx, 6, 0)
+                worksheet.write(idx, 7, "")
 
         workbook.close()
         output.seek(0)
