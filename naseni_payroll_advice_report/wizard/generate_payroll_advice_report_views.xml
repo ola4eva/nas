@@ -8,11 +8,11 @@
                 <group>
                     <field name="year" />
                     <field name="month" />
-                    <field name="employee_ids" widget="many2many_tags" />
                 </group>
                 <group>
                     <field name="file_name" readonly="0" />
                     <field name="file_data" filename="file_name" widget="binary" invisible="1" />
+                    <field name="employee_ids" widget="many2many_tags" />
                 </group>
                 <footer>
                     <button name="generate_payroll_advice" string="Generate Excel" type="object"
