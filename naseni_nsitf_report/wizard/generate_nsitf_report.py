@@ -8,7 +8,7 @@ from odoo import models, fields
 
 REPORT_HEADERS = [
     "SNO",
-    "Staff",
+    "Staff ID",
     "First Name",
     "Other Names",
     "Gross Pay",
