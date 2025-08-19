@@ -1,0 +1,8 @@
+<odoo>
+    <record id="action_nsitf_wizard" model="ir.actions.act_window">
+        <field name="name">Generate NSITF Deductions</field>
+        <field name="res_model">nsitf.deduction.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
