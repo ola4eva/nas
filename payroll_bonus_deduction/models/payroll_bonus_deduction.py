@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import date
 from odoo import models, fields, api
 
 
@@ -52,6 +51,18 @@ class PayrollBonusDeduction(models.Model):
             existing = self._import_find_existing_record(vals)
             if existing:
                 print(f"Found existing record: {existing.id} for vals: {vals}")
+                if "employee_id" not in vals and "staff_id" in vals:
+                    staff_id = vals.get("staff_id")
+                    employee = self.env["hr.employee"].search(
+                        [
+                            "|",
+                            ("employee_no", "=", staff_id),
+                            ("staff_id", "=", staff_id),
+                        ],
+                        limit=1,
+                    )
+                    if employee:
+                        vals["employee_id"] = employee.id
                 # Update the existing record with new values
                 existing.write(vals)
                 updated_records |= existing
