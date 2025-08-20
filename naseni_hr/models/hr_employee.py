@@ -19,13 +19,11 @@ class HrEmployeeBase(models.AbstractModel):
     def _valid_field_parameter(self, field, name):
         return name == "tracking" or super()._valid_field_parameter(field, name)
 
-    institute_id = fields.Many2one(
-        comodel_name="naseni_hr.institute", string="Center"
+    institute_id = fields.Many2one(comodel_name="naseni_hr.institute", string="Center")
+    tax_state_id = fields.Many2one(comodel_name="naseni_hr.tax", string="Tax State")
+    pfa_id = fields.Many2one(
+        comodel_name="naseni_hr.pfa", string="PFA(*)", required=True
     )
-    tax_state_id = fields.Many2one(
-        comodel_name="naseni_hr.tax", string="Tax State"
-    )
-    pfa_id = fields.Many2one(comodel_name="naseni_hr.pfa", string="PFA(*)", required=True)
     pension_pin = fields.Char("Pension PIN(*)", required=True)
     date_appointment = fields.Date("Date of First Appointment")
     date_confirm = fields.Date("Date of Confirmation")
@@ -58,17 +56,22 @@ class HrEmployeeBase(models.AbstractModel):
     nhf = fields.Char("National Housing Fund")
     nin = fields.Char("National ID No.")
     title_id = fields.Many2one(comodel_name="res.partner.title", string="Title")
-    next_of_kin_ids = fields.One2many('naseni_hr.next_of_kin', 'employee_id', string='Next of Kin')
+    next_of_kin_ids = fields.One2many(
+        "naseni_hr.next_of_kin", "employee_id", string="Next of Kin"
+    )
     trade_union = fields.Selection(
         selection=[
-            ('nasu', 'NASU'),
-            ('tsan', 'TSAN'),
-            ('ssauthriai', 'SSAUTHRIAI'),
+            ("nasu", "NASU"),
+            ("tsan", "TSAN"),
+            ("ssauthriai", "SSAUTHRIAI"),
         ],
-        string='Trade Union',
-        default='nasu',
+        string="Trade Union",
+        default="nasu",
     )
-    
+    display_name = fields.Char(
+        compute="_compute_display_name", store=True, string="Display Name"
+    )
+
     @api.model
     def process_retirment_notification(self):
         retiring_employees = self.search([]).filtered(
@@ -153,3 +156,8 @@ class HrEmployeeBase(models.AbstractModel):
         except Exception as e:
             _logger.error(e)
         return True
+
+    @api.depends("name", "employee_no")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = f"{record.name} ({record.employee_no})"
