@@ -168,7 +168,7 @@
                         <strong>GROSS SALARY: </strong>
                         <strong>
                             <t t-set="earnings"
-                                t-value="o.line_ids.filtered(lambda l: l.code in ['GROSS_ARREARS', 'GROSS'] and l.total > 0)"></t>
+                                t-value="o.line_ids.filtered(lambda l: l.code in ['GROSS'] and l.total > 0)"></t>
                             <t t-esc="'{:,.2f}'.format(sum(earnings.mapped('total')))" />
                         </strong>
                     </div>
