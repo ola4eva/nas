@@ -8,6 +8,7 @@ from odoo import models, fields
 
 SHEET_ONE_HEADERS = [
     "S/N",
+    "PFA",
     "Pension Number",
     "Staff No",
     "Surname",
@@ -21,7 +22,11 @@ SHEET_ONE_HEADERS = [
 
 SHEET_TWO_HEADERS = [
     "S/N",
-    "PFA Name",
+    "PFA",
+    "Pension Number",
+    "Staff No",
+    "Surname",
+    "Other Names",
     "Gross Pay",
     "Voluntary Contribution",
     "Employee Contribution",
@@ -132,6 +137,7 @@ class PayrollAdviceWizard(models.TransientModel):
         static_data = [
             (
                 index,
+                record.employee_id.pfa_id.name or "",
                 record.employee_id.pension_pin or "",
                 record.employee_id.employee_no or "",
                 record.employee_id.name.split(" ")[0],
@@ -142,22 +148,22 @@ class PayrollAdviceWizard(models.TransientModel):
                 self.get_rule_amount(record, "PEN_EMPLOYER"),
                 self.get_rule_amount(record, "PENSION_EMPLOYEE")
                 + self.get_rule_amount(record, "PEN_EMPLOYER"),
-                record.employee_id.pfa_id.name or "",
             )
             for index, record in enumerate(payroll_records, start=1)
         ]
 
         for row, data in enumerate(static_data, start=5):
             sheet1.write(row, 0, data[0])  # S/N
-            sheet1.write(row, 1, data[1])  # Pension No
-            sheet1.write(row, 2, data[2])  # Staff No
-            sheet1.write(row, 3, data[3])  # Surname
-            sheet1.write(row, 4, data[4], money_format)  # Other names
-            sheet1.write(row, 5, data[5], money_format)  # Gross Pay
-            sheet1.write(row, 6, data[6], money_format)  # Voluntary Contribution
-            sheet1.write(row, 7, data[7], money_format)  # Employee Contribution
-            sheet1.write(row, 8, data[8], money_format)  # Employer Contribution
-            sheet1.write(row, 9, data[9], money_format)  # Total
+            sheet1.write(row, 1, data[1])  # PFA
+            sheet1.write(row, 2, data[2])  # PFA NO
+            sheet1.write(row, 3, data[3])  # IPPIS
+            sheet1.write(row, 4, data[4], money_format)  # Surname
+            sheet1.write(row, 5, data[5], money_format)  # Other Names
+            sheet1.write(row, 6, data[6], money_format)  # Gross Pay
+            sheet1.write(row, 7, data[7], money_format)  # Voluntary Contribution
+            sheet1.write(row, 8, data[8], money_format)  # Employee Contribution
+            sheet1.write(row, 9, data[9], money_format)  # Employer Contribution
+            sheet1.write(row, 10, data[10], money_format)  # Total
 
         # Sheet2 - Summary Report
         sheet2 = workbook.add_worksheet("Sheet2")
